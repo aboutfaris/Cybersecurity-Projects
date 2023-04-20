@@ -17,8 +17,6 @@ Azure Active Directory Overview (Users, Groups, and Access Management)
 
 ## Resources & SQL Server Vulnerabilties
 
-Faris
-
 <details close>
 
 <div>
@@ -156,7 +154,6 @@ Password: ```LabTest12345```` (This is what we used, you can set any password bu
 
 ## Precursor to Security Operations (Failed Authentication and Log Observation)
 
-Vanessa
 
 <details close>
 
@@ -206,7 +203,6 @@ The ultimate goal of this lab is to differentiate between false negatives, false
 <div>
 
 <h3>Azure Active Directory Overview (Users, Groups, and Access Management)<h3>
-Faris
 
 <details close>
 
