@@ -56,7 +56,9 @@ The KQL code we used shows us the Linux VM Authentication SSH Failures.
 
 ![heatmap](https://user-images.githubusercontent.com/109401839/235281773-e002056e-9f07-4082-9721-59c3f002f74f.PNG)
 
-- Save Workbooks
+- Here you can customise the map and the details even further to your desire. I will keep it default. 
+
+- Save Workbooks & Let us repeat the steps for the other maps. 
 
 ![vivaldi_YBA2LIqUJg](https://user-images.githubusercontent.com/109401839/235284830-a5b1ff91-cfd5-4381-a459-e6315be8f22d.png)
 
