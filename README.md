@@ -185,8 +185,5 @@ On the bottom left, we can click "Investigation"  and it will show us a nice inf
 - Now download the query rule list to make life easier ! 
 
 ---
-``` 
 [Sentinel Analytics Rules](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Analytics-Rules/Sentinel-Analytics-Rules(KQL%20Alert%20Queries).json)
-
-```
 ---
