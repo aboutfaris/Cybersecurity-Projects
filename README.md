@@ -115,4 +115,7 @@ First, generate traffic on your own to see if any logs show up
 
 In this lab we will be working on Analytics, Alerting, and Incident Generation.
 
+- We are going to manually going to add the rules, and then trigger the alerts. We will dissect the alert and really understand what is happening. 
+
+![image](https://user-images.githubusercontent.com/109401839/235291419-36c75299-c9a9-4b64-a51c-f4b10ce43164.png)
 
