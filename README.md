@@ -21,6 +21,8 @@
 
 - VM Windows 10 PRO (21H2)
 - VM Linux Ubuntu 20.12
+
+World Attach Maps Constructions
 <details close>
 
 <div>
@@ -85,7 +87,7 @@ The KQL code we used shows us the Linux VM Authentication SSH Failures.
 ![vivaldi_Ay5xt00GJN](https://user-images.githubusercontent.com/109401839/235287326-0fbd8e95-6d31-4032-bed2-112d4b8daac1.png)
 
 In subsequent labs, we will create our own attacks at add to these maps. For example, say I create a VM in Malaysia and attack the homebase VM, a dot should be added to our graphs depending on our attack method. 
-——————————————————————————————————————
+<div>
 
 Troubleshooting: 
 
@@ -101,6 +103,16 @@ First, generate traffic on your own to see if any logs show up
 - If NSG FLow Logs are empty, ensure they are configured correctly (from section: Logging and Monitoring: Enable MDC and Configure Log Collection for Virtual Machines)
 
 - Alternatively, you can skip ahead to the “Azure Sentinel: Attack Traffic Generation” section to generate some traffic, but we need to make sure logging is configured correctly and showing up before that will work.
-——————————————————————————————————————
+
+<div> 
+
+Analytics, Alerting, and Incident Generation
+<details close>
+
+---
+
+</summary>
+
+In this lab we will be working on Analytics, Alerting, and Incident Generation.
 
 
