@@ -184,8 +184,8 @@ On the bottom left, we can click "Investigation"  and it will show us a nice inf
 
 - Now download the query rule list to make life easier ! 
 
+---
 ``` 
-
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
@@ -994,3 +994,4 @@ On the bottom left, we can click "Investigation"  and it will show us a nice inf
 }
 
 ```
+---
