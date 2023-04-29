@@ -52,6 +52,25 @@ After running your query , your graph should populate!
 
 The KQL code we used shows us the Linux VM Authentication SSH Failures. 
 
+- Edit > Settings > Map Settings > 
+
+![heatmap](https://user-images.githubusercontent.com/109401839/235281773-e002056e-9f07-4082-9721-59c3f002f74f.PNG)
+
+- Save Workbooks
+
+![vivaldi_YBA2LIqUJg](https://user-images.githubusercontent.com/109401839/235284830-a5b1ff91-cfd5-4381-a459-e6315be8f22d.png)
+
+- Next we will create a graph for (MS SQL Authentication Fail)[https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/mssql-auth-fail.json]
+
+![vivaldi_laXpbNeo86](https://user-images.githubusercontent.com/109401839/235286153-e23a0f2e-3b96-498b-a557-6d70f82e31c6.png)
+
+- Now we will repeat it for the subsequent maps by entering the KQL code. 
+
+- [NSG Malicious Allowed Firewall In](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/nsg-malicious-allowed-in.json)
+
+![vivaldi_No4emgWydH](https://user-images.githubusercontent.com/109401839/235286714-73d14971-e942-479b-aa36-04c083dc86d5.png)
+
+
 Ref: JSON Files - Remember, Sentinel uses our Log Analytics Workspace where we ingested the logs
 
 Within Azure Sentinel, first observe the Data Connectors, then do the following:
