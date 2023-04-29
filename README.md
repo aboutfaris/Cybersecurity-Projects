@@ -147,3 +147,14 @@ Enter it in and run it again:
 
 ![mqFhzU2BOQ](https://user-images.githubusercontent.com/109401839/235292423-4695e167-f043-4680-af60-02da62454464.png)
 
+- In Alert enrichment > Entity Mapping 
+
+Set up IP Entity | Address | AttackerIP
+
+- Add new entity:
+
+Set up Host | Hostname | DestinationHostName 
+
+![vivaldi_G4GbbxRRLc](https://user-images.githubusercontent.com/109401839/235292538-96a1b891-dbf7-4466-8234-bf9eb3aa1dfb.png)
+
+> So say that an attacker with an IP address 1.1.1.1 attacks our network, we will get an alert.. however Sentinel will track that IP Address and correlate that addresses further action and map it to other alerts. 
