@@ -129,6 +129,21 @@ SecurityEvent
 | where FailureCount >= 10
 ```
 
-> So we enter this Query under our Log Analytic workspace. Run it. It will show the EventID of 4625 in the given timeframe you selected. In this case, 60 minutes. Then the next like will be our categories and show us the Failure count. 
+> So we enter this Query under our Log Analytic workspace. Run it. It will show the EventID of 4625 in the given timeframe you selected. In this case, 60 minutes. Then the next like will be our categories and show us the Failure count. Was it all the same attacks or 10 instances of the same IP, EventID and Activity trying to attack. Thats what the failure count does. 
 
+> So we do not want to create an alert based on a user making a mistake a few times, but over ten times is a little suspicious and we can create an alert based on that. 
+
+![vivaldi_hQThPXrMWs](https://user-images.githubusercontent.com/109401839/235291881-b7fe654d-cdeb-4cc3-91c5-95119ab87169.png)
+
+> Feel free to use ChatGPT to have a more in depth explanation if the one above was insufficient. 
+
+![analytics query](https://user-images.githubusercontent.com/109401839/235292182-1ddd325e-a980-4422-99e5-02b6f35a3985.PNG)
+
+We will add a query rule now, that is the same as the previous KQL query. 
+
+Tactics and Techniques:
+Credential Access > Brute Force
+Enter it in and run it again: 
+
+![mqFhzU2BOQ](https://user-images.githubusercontent.com/109401839/235292423-4695e167-f043-4680-af60-02da62454464.png)
 
