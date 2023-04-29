@@ -22,7 +22,7 @@
 - VM Windows 10 PRO (21H2)
 - VM Linux Ubuntu 20.12
 
-World Attach Maps Constructions
+#### World Attach Maps Constructions
 <details close>
 
 <div>
@@ -106,7 +106,7 @@ First, generate traffic on your own to see if any logs show up
 
 <div> 
 
-Analytics, Alerting, and Incident Generation
+#### Analytics, Alerting, and Incident Generation
 <details close>
 
 ---
