@@ -44,7 +44,13 @@ In Microsoft Sintinel | Workbooks , we will add a new workbook in order to creat
 - Add Query
 - Advanced Editor > Paste the [KQL .JSON Information](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/linux-ssh-auth-fail.json)
 
+After running your query , your graph should populate! 
 
+![vivaldi_1SnjH3R8Ip](https://user-images.githubusercontent.com/109401839/235279945-1eef8a2b-e778-4811-be63-3c9bf4c1e619.png)
+ 
+> Note that each graph everyone makes will be different since this is based on the attacks I recieved in a certain timeframe! 
+
+The KQL code we used shows us the Linux VM Authentication SSH Failures. 
 
 Ref: JSON Files - Remember, Sentinel uses our Log Analytics Workspace where we ingested the logs
 
