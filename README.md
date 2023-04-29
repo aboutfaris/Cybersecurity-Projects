@@ -149,12 +149,35 @@ Enter it in and run it again:
 
 - In Alert enrichment > Entity Mapping 
 
-Set up IP Entity | Address | AttackerIP
+> Set up IP Entity | Address | AttackerIP
 
 - Add new entity:
 
-Set up Host | Hostname | DestinationHostName 
+> Set up Host | Hostname | DestinationHostName 
 
 ![vivaldi_G4GbbxRRLc](https://user-images.githubusercontent.com/109401839/235292538-96a1b891-dbf7-4466-8234-bf9eb3aa1dfb.png)
 
 > So say that an attacker with an IP address 1.1.1.1 attacks our network, we will get an alert.. however Sentinel will track that IP Address and correlate that addresses further action and map it to other alerts. 
+
+![vivaldi_qZYMU18mjY](https://user-images.githubusercontent.com/109401839/235292695-ed06b0e7-18c4-4dd4-8f33-44199cee9674.png)
+
+ ![vivaldi_5FJZt75Ouo](https://user-images.githubusercontent.com/109401839/235292727-848a05fb-234b-4a61-9d11-9ce4b35af5c6.png)
+
+Our rule is ready to roll ~ validate & create. 
+
+We should see any incidents that it creates.
+
+And almost immediately we got an incident! 
+
+![vivaldi_NgGrQCTZd8](https://user-images.githubusercontent.com/109401839/235292787-85b9164a-c584-4e35-b013-527551daae27.png)
+
+![4MDWsCNOfs](https://user-images.githubusercontent.com/109401839/235292805-0fac1e01-6461-471b-98e6-c98ead18fdbe.png)
+
+
+On the bottom left, we can click "Investigation"  and it will show us a nice infographic of the attack to the host. 
+
+![FZIXPOncAT](https://user-images.githubusercontent.com/109401839/235293224-ad6cf8a4-3069-42b0-b83b-a20adf271e6d.png)
+
+- Now, we can delete that test incident alert and the test alert, we are going to import a bunch of the real queries.  
+
+> If this portion did not work for you, as in the query did not result in any incidents. You can remote into your VM and purposely fail the login attempt 10x in order to generate the incident ! 
