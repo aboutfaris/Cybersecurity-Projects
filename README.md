@@ -31,7 +31,7 @@
 
 Reminder: Check your Subscription’s Cost Analysis
 
-#### Actions and Observations<b>
+### Actions and Observations<b>
 
 - We are going to create 4 different workbooks in Sentinel that show different types of malicious traffic from around the world, targeting our resources.
 - We will use pre-built JSON maps to reduce the number of errors/questions, but will explain the process.
@@ -106,7 +106,7 @@ First, generate traffic on your own to see if any logs show up
 
 <div> 
 
-#### Analytics, Alerting, and Incident Generation
+### Analytics, Alerting, and Incident Generation
 <details close>
 
 ---
