@@ -119,3 +119,16 @@ In this lab we will be working on Analytics, Alerting, and Incident Generation.
 
 ![image](https://user-images.githubusercontent.com/109401839/235291419-36c75299-c9a9-4b64-a51c-f4b10ce43164.png)
 
+- First will be a brute force attempt by windows machine. 
+
+``` 
+SecurityEvent
+| where EventID == 4625
+| where TimeGenerated > ago(60m)
+| summarize FailureCount = count() by SourceIP = IpAddress, EventID, Activity
+| where FailureCount >= 10
+```
+
+> So we enter this Query under our Log Analytic workspace. Run it. It will show the EventID of 4625 in the given timeframe you selected. In this case, 60 minutes. Then the next like will be our categories and show us the Failure count. 
+
+
