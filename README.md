@@ -36,7 +36,7 @@ Reminder: Check your Subscription’s Cost Analysis
 
 --- 
 
-In Microsoft Sintinel | Workbooks , we will add a new workbook in order to create our map. 
+In Microsoft Sintinel | Workbooks , we will add a new workbook in order to create our map. JSON Files - Remember, Sentinel uses our Log Analytics Workspace where we ingested the logs.
 
 ![vivaldi_kLOHZRFPhj](https://user-images.githubusercontent.com/109401839/235279747-01e3bf0c-428d-4b71-b6f8-9e9dc99bae8d.png)
 
@@ -62,7 +62,7 @@ The KQL code we used shows us the Linux VM Authentication SSH Failures.
 
 ![vivaldi_YBA2LIqUJg](https://user-images.githubusercontent.com/109401839/235284830-a5b1ff91-cfd5-4381-a459-e6315be8f22d.png)
 
-- Next we will create a graph for (MS SQL Authentication Fail)[https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/mssql-auth-fail.json]
+- Next we will create a graph for [MS SQL Authentication Fail](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/mssql-auth-fail.json)
 
 ![vivaldi_laXpbNeo86](https://user-images.githubusercontent.com/109401839/235286153-e23a0f2e-3b96-498b-a557-6d70f82e31c6.png)
 
@@ -72,24 +72,35 @@ The KQL code we used shows us the Linux VM Authentication SSH Failures.
 
 ![vivaldi_No4emgWydH](https://user-images.githubusercontent.com/109401839/235286714-73d14971-e942-479b-aa36-04c083dc86d5.png)
 
+- [Windows RDP & SMB Authentication Failures](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Maps(JSON)/windows-rdp-auth-fail.json)
 
-Ref: JSON Files - Remember, Sentinel uses our Log Analytics Workspace where we ingested the logs
+![vivaldi_hMnU9a0ydS](https://user-images.githubusercontent.com/109401839/235286919-0ae35ece-b7c4-436b-a581-71c92169fb6b.png)
 
-Within Azure Sentinel, first observe the Data Connectors, then do the following:
-Use windows-rdp-auth-fail.json to create the “Windows RDP/SMB Authentication Failures” map
-Use linux-ssh-auth-fail.json to create the “Linux SSH Authentication Failures” map
-Use mssql-auth-fail.json to create the “MS SQL Server Authentication Failures” map
-Use nsg-malicious-allowed-in.json to create the “NSG Allowed Malicious Inbound Flows” map
+> We can edit and change the timeframe to see where and what attacks happened at a certain time. I will do 30 minutes as an example: 
 
-Observe any pre-existing malicious attack traffic on these maps from the Internet
-Ensure an appropriate time-frame is being selected (30 days)
+![vivaldi_OyzflFZq3q](https://user-images.githubusercontent.com/109401839/235287139-9b47bb91-4efe-4b37-a498-6fd9d3fadd99.png)
+
+- You should have 4 custom made workbooks like this:
+
+![vivaldi_Ay5xt00GJN](https://user-images.githubusercontent.com/109401839/235287326-0fbd8e95-6d31-4032-bed2-112d4b8daac1.png)
+
+In subsequent labs, we will create our own attacks at add to these maps. For example, say I create a VM in Malaysia and attack the homebase VM, a dot should be added to our graphs depending on our attack method. 
 ——————————————————————————————————————
 
-If it’s been 24 hours since you created the resources being tracked on this map and you don’t see traffic to them, make sure of the following:
+Troubleshooting: 
+
+- If it’s been 24 hours since you created the resources being tracked on this map and you don’t see traffic to them, make sure of the following:
 First, generate traffic on your own to see if any logs show up
-Ensure both VMs are on
-Ensure Microsoft Defender for Cloud and the Data Collection Rules are configured correct to collect logs from the VMs (from section: Logging and Monitoring: Enable MDC and Configure Log Collection for Virtual Machines)
-Ensure Logging is correctly configured for MS SQL Server (from section: Azure Intro: Creating our Subscription and First Resources)
-If NSG FLow Logs are empty, ensure they are configured correctly (from section: Logging and Monitoring: Enable MDC and Configure Log Collection for Virtual Machines)
-Alternatively, you can skip ahead to the “Azure Sentinel: Attack Traffic Generation” section to generate some traffic, but we need to make sure logging is configured correctly and showing up before that will work.
+
+- Ensure both VMs are on
+
+- Ensure Microsoft Defender for Cloud and the Data Collection Rules are configured correct to collect logs from the VMs (from section: Logging and Monitoring: Enable MDC and Configure Log Collection for Virtual Machines)
+
+- Ensure Logging is correctly configured for MS SQL Server (from section: Azure Intro: Creating our Subscription and First Resources)
+
+- If NSG FLow Logs are empty, ensure they are configured correctly (from section: Logging and Monitoring: Enable MDC and Configure Log Collection for Virtual Machines)
+
+- Alternatively, you can skip ahead to the “Azure Sentinel: Attack Traffic Generation” section to generate some traffic, but we need to make sure logging is configured correctly and showing up before that will work.
+——————————————————————————————————————
+
 
