@@ -185,5 +185,77 @@ On the bottom left, we can click "Investigation"  and it will show us a nice inf
 - Now download the query rule list to make life easier ! 
 
 ---
+
 [Sentinel Analytics Rules](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/Sentinel-Analytics-Rules/Sentinel-Analytics-Rules(KQL%20Alert%20Queries).json)
+
 ---
+
+> After importing the rules, we already have 4 incidents generated. Nothing like work. 
+
+![vivaldi_AhVZHFFOyF](https://user-images.githubusercontent.com/109401839/235294286-eead3162-d19f-475f-a07b-aedd23433dec.png)
+
+Here is the active rules imported: 
+
+![vivaldi_0qjWA3CiOA](https://user-images.githubusercontent.com/109401839/235294313-140f164c-e698-4425-9925-b238cf73b4ca.png)
+
+- Play around and learn each part.
+
+For example: CUSTOM: Possible Privilege Escalation (Global Admin Role Assignment)
+
+Under Set Rule Logic we can see the Rule Query. 
+
+We can break down this query: 
+
+```
+AuditLogs
+| where OperationName == "Add member to role" and Result == "success"
+| where TargetResources[0].modifiedProperties[1].newValue == '"Company Administrator"' and TargetResources[0].type == "User"
+| project TimeGenerated, OperationName, AssignedRole = TargetResources[0].modifiedProperties[1].newValue, InitiatorId = InitiatedBy.user.id, InitiatorUpn = InitiatedBy.user.userPrincipalName, TargetAccountId = TargetResources[0].id, TargetAccountUpn = TargetResources[0].userPrincipalName, InitiatorIpAddress = InitiatedBy.user.ipAddress, Status = Result
+```
+---
+
+Here is a breakdown of each line:
+
+AuditLogs: This is the name of the table being queried. It likely contains logs of actions taken within a Microsoft Azure environment.
+
+| where OperationName == "Add member to role" and Result == "success": This line filters the results to only show entries where the operation name is "Add member to role" and the result was "success". This is likely used to narrow down the results to only show successful attempts to add a user to a role.
+
+| where TargetResources[0].modifiedProperties[1].newValue == '"Company Administrator"' and TargetResources[0].type == "User": This line further filters the results to only show entries where the modified property at index 1 of the first TargetResource (a resource involved in the operation) is equal to the string "Company Administrator" and the type of the first TargetResource is "User". This is likely used to only show successful attempts to add a user to the "Company Administrator" role.
+
+| project TimeGenerated, OperationName, AssignedRole = TargetResources[0].modifiedProperties[1].newValue, InitiatorId = InitiatedBy.user.id, InitiatorUpn = InitiatedBy.user.userPrincipalName, TargetAccountId = TargetResources[0].id, TargetAccountUpn = TargetResources[0].userPrincipalName, InitiatorIpAddress = InitiatedBy.user.ipAddress, Status = Result: This line projects (i.e., selects) specific columns from the filtered results and renames them for readability. 
+
+The selected columns include the time the log was generated (TimeGenerated), the operation name (OperationName), the assigned role (AssignedRole, which is the value of the modified property at index 1 of the first TargetResource), the ID of the user who initiated the operation (InitiatorId), the user principal name of the user who initiated the operation (InitiatorUpn), the ID of the target account (TargetAccountId, which is the ID of the first TargetResource), the user principal name of the target account (TargetAccountUpn, which is the user principal name of the first TargetResource), the IP address of the user who initiated the operation (InitiatorIpAddress, which is the IP address of the user who initiated the operation), and the status of the operation (Status, which is the result of the operation).
+
+
+- Lets see what happened while you was reading this and I was typing this out. 
+
+![Frq11TIXzC](https://user-images.githubusercontent.com/109401839/235294920-a287141b-00b4-4005-9c3d-4be26dffd13d.png)
+
+We got a brute force attempt on MS SQL Server.
+
+Similar incidents are notified at the bottom. 
+
+Lets investigate:
+
+![vivaldi_K8gJz7V9DX](https://user-images.githubusercontent.com/109401839/235294982-8e539741-227f-469d-b3c1-d31454a8d533.png)
+
+This is the spiral of despair..
+
+Lets revist the workbooks since these are relatively new and should reflect on the geolocation map within the timeframe of the attacks. 
+
+![vivaldi_sbJlTVzF7M](https://user-images.githubusercontent.com/109401839/235295157-7cba01ca-2c81-4c49-b03d-7cab1c81fb77.png)
+
+In the last 30 minutes, 
+
+![image](https://user-images.githubusercontent.com/109401839/235295217-06574230-fcb2-408e-b415-428896d83fe9.png)
+
+The entities show us the IP Address information. 
+
+![image](https://user-images.githubusercontent.com/109401839/235295223-7def214c-7d75-449d-a687-4591c8b20803.png)
+
+### Attack Traffic Generation Lab
+<details close>
+
+<div>
+
+</summary>
