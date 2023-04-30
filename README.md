@@ -495,6 +495,8 @@ NSG Inbound Malicious Flows Blocked	"AzureNetworkAnalytics_CL
 
 | Check your Subscription’s Cost Analysis
 
+As you work an incident, I would recommend taking notes between each step.
+
  - Work the incidents being generated within Azure Sentinel, in accordance with the NIST 800-61 Incident Management Lifecycle. Make use of the provided Pl.
 
 - Step 1: Preparation
@@ -522,6 +524,60 @@ Incident 1 - Brute Force Success (Windows) - Working Incidents and Incident Resp
 
 </summary>
 
+- Set Severity, Status, Owner
+
+![vivaldi_cuZM38TCe3](https://user-images.githubusercontent.com/109401839/235336573-c38e5325-e4df-4aad-93f8-b04487099a32.png)
+
+- View Full Details (New Experience)
+
+![c5qFJgKgq8](https://user-images.githubusercontent.com/109401839/235336592-2ec5579f-aa33-42f3-9e80-ce549f1b5da6.png)
+
+- Observe the Activity Log (for history of incident)
+
+![vivaldi_8f1Oj6rUd5](https://user-images.githubusercontent.com/109401839/235336637-50bf9a05-b3a5-4266-b009-866991f902de.png)
+
+- Observe Entities and Incident Timelines
+
+![vivaldi_OEaYg3xMGs](https://user-images.githubusercontent.com/109401839/235336701-eca2ef8d-4302-45df-952d-c92d167f082c.png)
+
+If we click this IP Address, we can see their Geo Data. 
+
+![vivaldi_iL5aNXLtVZ](https://user-images.githubusercontent.com/109401839/235336728-c55a52dc-df04-43ac-ab5f-e22bf65265d8.png)
+
+- Investigate & Determine The Scope
+
+![vivaldi_KhX7Mked3T](https://user-images.githubusercontent.com/109401839/235336764-4da5f6ad-5274-4c32-978d-ca5697cb52b2.png)
+
+If we see related alerts based on this attacker we can see what else they have done in correlation to their IP Address. They are related to 41 other events. 
+
+This attacker is related to +26 attempted Brute Force Attacks and over 14 successful Brute Force Attacks. 
+
+![vivaldi_R4miIRFQH2](https://user-images.githubusercontent.com/109401839/235336831-6618b357-320c-4702-918a-7c9f4bbe5ad0.png)
+
+![vivaldi_jzhkTzBq9b](https://user-images.githubusercontent.com/109401839/235336876-f16e6504-adf3-4360-8689-7babb4df3b5e.png)
+
+We can see mroe data if view "All Aggregated Nodes" in KQL
+
+![vivaldi_V7drXD6QZu](https://user-images.githubusercontent.com/109401839/235336905-1323b6df-4223-4b45-a59b-755220a9de9e.png)
+
+We can see this information in KQL. 
+
+```
+let GetIPRelatedAlerts = (v_IP_Address: string) {
+    SecurityAlert
+    | summarize arg_max(TimeGenerated, *) by SystemAlertId
+    | extend entities = todynamic(Entities)
+    | mv-expand entities
+    | project-rename entity=entities
+    | where entity['Type'] == 'ip' and entity['Address'] =~ v_IP_Address
+    | project-away entity
+};
+GetIPRelatedAlerts(@'110.167.169.106')
+```
+
+- Now Determine the legitimacy of the incident, True Postive or False Positive, etc. 
+
+
 ### Incident 2 - Possible Privilege Escalation - Working Incidents and Incident Response
 <details close>
 
@@ -529,28 +585,8 @@ Incident 1 - Brute Force Success (Windows) - Working Incidents and Incident Resp
 
 </summary>
 
-Check your Subscription’s Cost Analysis
 
-Work the incidents being generated within Azure Sentinel, in accordance with the
-NIST 800-61 Incident Management Lifecycle. Make use of the provided Pl
 
-Step 1: Preparation
-(We initiated this already by ingesting all of the logs into Log Analytics Workspace and Sentinel and configuring alert rules)
-
-Step 2: Detection & Analysis (You may have different alerts/incidents)
-Set Severity, Status, Owner
-View Full Details (New Experience)
-Observe the Activity Log (for history of incident)
-Observe Entities and Incident Timelines (are they doing anything else?)
-“Investigate” the incident and continue trying to determine the scope
-Inspect the entities and see if there are any related events
-Determine legitimacy of the incident (True Positive, False Positive, etc.)
-If True Positive, continue, if False positive, close it out
-
-Step 3: Containment, Eradication, and Recovery
-Use the simple Incident Response PlayBook
-
-Step 4: Document Findings/Info and Clouse out the Incident in Sentinel
 
 ### Incident 3 - Brute Force Success (Linux) - Microsoft Sentinel Working Incidents and Incident Response
 <details close>
@@ -558,28 +594,9 @@ Step 4: Document Findings/Info and Clouse out the Incident in Sentinel
 <div>
 
 </summary>
-Check your Subscription’s Cost Analysis
 
-Work the incidents being generated within Azure Sentinel, in accordance with the
-NIST 800-61 Incident Management Lifecycle. Make use of the provided Pl
 
-Step 1: Preparation
-(We initiated this already by ingesting all of the logs into Log Analytics Workspace and Sentinel and configuring alert rules)
 
-Step 2: Detection & Analysis (You may have different alerts/incidents)
-Set Severity, Status, Owner
-View Full Details (New Experience)
-Observe the Activity Log (for history of incident)
-Observe Entities and Incident Timelines (are they doing anything else?)
-“Investigate” the incident and continue trying to determine the scope
-Inspect the entities and see if there are any related events
-Determine legitimacy of the incident (True Positive, False Positive, etc.)
-If True Positive, continue, if False positive, close it out
-
-Step 3: Containment, Eradication, and Recovery
-Use the simple Incident Response PlayBook
-
-Step 4: Document Findings/Info and Clouse out the Incident in Sentinel
 
 ### Incident 4 - Possible Malware Outbreak - Working Incidents and Incident Response
 <details close>
