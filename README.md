@@ -352,15 +352,18 @@ This will show us the script attempts. It make take a moment to update, but this
 ![mstsc_GVrwLTrcuz](https://user-images.githubusercontent.com/109401839/235331078-43392219-7009-49dc-8051-e1754fe3b8c4.png)
 
 > This may disconnect you in Azure. This is the Admin attempt. 
-
+ If you are having issues, be sure in line 6 & 7 to add 
+```
+Disconnect-AzAccount
+Connect-AzAccount
+``` 
+That solved the issue for me there 
 
 - SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
 
 - Malware-Generator-EICAR.ps1
 (this can be done manually by creating a text file with the EICAR string in it)
-
-
 
 - Admin Mode (Pretend You Are Normal Admin):
 Attempt to Trigger the rest of the custom rules to make sure they work
