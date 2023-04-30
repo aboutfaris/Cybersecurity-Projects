@@ -624,7 +624,57 @@ It is because even after these "successful" attempts, we can see they kept tryin
 
 -   If true positive, continue. If false-positive, close. 
 
-Since it is a false positive, but the network security is bad. We will continue. This sort of traffic should not be reaching the VM in the first place.  
+Since it is a false positive, but the network security is bad. We will close this out but continue this by hardening our systems so this sort of incident is reduced greatly. 
+
+Next:  Containment, Eradication, and Recovery.
+
+Let us refer to the Incident Response Playbook. 
+
+" 
+### Incident Description
+<div>
+This incident involves observation of potential brute force attempts against a Windows VM.
+
+### Initial Response Actions
+<div>
+
+- Verify the authenticity of the alert or report
+
+- Immediately isolate the machine and change the password of the affected user.
+
+- Identify the origin of the attacks and determine if they are attacking or involved with anything else.
+
+- Determine how and when the attack occurred
+Are the NSGs not being locked down? If so, check other NSGs
+
+- Assess the potential impact of the incident.
+
+- What type of account was it? Permissions?
+
+### Containment and Recovery
+<div>
+
+- Lock down the NSG assigned to that VM/Subnet, either entirely, or to allow only necessary traffic
+
+- Reset the affected user’s password
+
+- Enable MFA
+
+### Document Findings and Close out Incident
+"
+
+ ![hardening ip](https://user-images.githubusercontent.com/109401839/235338083-2806e873-8855-464d-8ec0-fb7706bd1508.PNG)
+
+So we will make the only IP address that can access this VM is our own + /32 <- which means only the specified IP Address.
+
+![vivaldi_CoLvEd6nF3](https://user-images.githubusercontent.com/109401839/235338143-bf9b40b1-79ee-460a-94a7-bc177e2d48d2.png)
+
+We can delete this RDP rule from earlier labs. 
+
+So now there is not a chance they can brute force.
+
+We will do this for all out VM. 
+
 
 ### Incident 2 - Possible Privilege Escalation - Working Incidents and Incident Response
 <details close>
