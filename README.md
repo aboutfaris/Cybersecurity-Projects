@@ -415,11 +415,11 @@ Before 24 Hours:
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
+| SecurityEvent            | 39046
+| Syslog                   | 782
 | SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+| SecurityIncident         | 222
+| AzureNetworkAnalytics_CL | 1350
 
 ![Windows RDP   SMB Authentication Failure(Before)](https://user-images.githubusercontent.com/109401839/235335964-ef063912-f0b7-4761-a95b-911c21f240b7.png)
 
@@ -428,17 +428,6 @@ Before 24 Hours:
 ![MySQL Authentication Failures(Before)](https://user-images.githubusercontent.com/109401839/235335966-25b63a64-750c-4275-9f54-a5ec72bd0a7c.png)
 
 ![nsg-malicious-allowed-in (before)](https://user-images.githubusercontent.com/109401839/235335967-faab4541-ea6c-4276-8b17-1b446613ff9f.png)
-
-After 24 Hours: 
-<div>
-
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
-| SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
 
 HELPER QUERIES	
 		
