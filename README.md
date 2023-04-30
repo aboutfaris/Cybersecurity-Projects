@@ -433,6 +433,33 @@ After 24 Hours:
 | SecurityIncident         | 0
 | AzureNetworkAnalytics_CL | 0
 
+HELPER QUERIES			
+	Helper KQL Queries		
+Start Time	"range x from 1 to 1 step 1
+| project StartTime = ago(24h), StopTime = now()"		
+Stop Time			
+Security Events (Windows VMs)	"SecurityEvent
+| where TimeGenerated >= ago(24h)
+| count"		
+Syslog (Linux VMs)	"Syslog
+| where TimeGenerated >= ago(24h)
+| count"		
+SecurityAlert (Microsoft Defender for Cloud)	"SecurityAlert
+| where DisplayName !startswith ""CUSTOM"" and DisplayName !startswith ""TEST""
+| where TimeGenerated >= ago(24h)
+| count"		
+Security Incident (Sentinel Incidents)	"SecurityIncident
+| where TimeGenerated >= ago(24h)
+| count"		
+NSG Inbound Malicious Flows Allowed	"AzureNetworkAnalytics_CL 
+| where FlowType_s == ""MaliciousFlow"" and AllowedInFlows_d > 0
+| where TimeGenerated >= ago(24h)
+| count"		
+NSG Inbound Malicious Flows Blocked	"AzureNetworkAnalytics_CL 
+| where FlowType_s == ""MaliciousFlow"" and DeniedInFlows_d > 0
+| where TimeGenerated >= ago(24h)
+| count"		
+
 ### 
 <details close>
 
