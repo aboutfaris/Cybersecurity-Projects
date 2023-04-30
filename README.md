@@ -275,9 +275,21 @@ The entities show us the IP Address information.
 
 - Download Visual Studio Code (Mandatory)
 
+- Run PS Command ```Install-Module Az```
+
+> "Yes to All "
+
+![mstsc_au4u5GMQEb](https://user-images.githubusercontent.com/109401839/235329774-464dbb88-f6f9-4e2c-bd1e-a058f73a8fa1.png)
+
 - Download the “Attack-Scripts” PowerShell Scripts and put the folder on your desktop
 
+![mstsc_sDIJGG4fvK](https://user-images.githubusercontent.com/109401839/235329916-3f6f7f56-ba74-4fb1-bad9-af575f687056.png)
+
 - Open the folder in VS Code
+
+![mstsc_9oaG0rg5iC](https://user-images.githubusercontent.com/109401839/235329942-9306092d-fd87-4d5b-ab5d-0a21c03fa9a9.png)
+
+ > Trust the authors, you are the author. Maybe.. 
 
 - Run each of the following scripts, observing the results in Log Analytics Workspace AND Sentinel Incident Creation:
 
@@ -299,4 +311,6 @@ Attempt to Trigger the rest of the custom rules to make sure they work
 ``` Note: It does take a bit of time for the logs to show up in Log Analytics Workspace! "Patience is beautiful." ```
 
 - If you want to trigger Brute Force attempts for Linux and RDP, simply fail logging into these several times (10+), but I assume the internet is doing a good job of that already based on our previous lab, haha. 
+
+
 
