@@ -251,15 +251,6 @@ In the last 30 minutes,
 
 The entities show us the IP Address information. 
 
-![image](https://user-images.githubusercontent.com/109401839/235295223-7def214c-7d75-449d-a687-4591c8b20803.png)
-
-- 
-
-- 
-
--
-
--
 
 ### Attack Traffic Generation Lab
 <details close>
@@ -268,4 +259,44 @@ The entities show us the IP Address information.
 
 </summary>
 
+#### Attacker Mode (pretend you are an attacker), perhaps a world renown Blackhat Hacker, lets cosplay this lab:
+
+- First, lets generate some attack traffic to trigger alerts & incident generation, which the Internet (Thank you) have already done since the writing of the last lab. 
+
+![vivaldi_BAtjUMJqrd](https://user-images.githubusercontent.com/109401839/235329080-bd59d747-8ef9-4947-8d91-5bf6d80dbf79.png)
+
+> 73 Open Incidents. 2 High Alerts, oh boy. Lets make it 74.
+
+- Log into “attack-vm” from our previous labs. 
+
+- Open PowerShell as an Admin and install the Az Module if you haven’t already
+
+- Download SSMS, Previous Lab (Optional)
+
+- Download Visual Studio Code (Mandatory)
+
+- Download the “Attack-Scripts” PowerShell Scripts and put the folder on your desktop
+
+- Open the folder in VS Code
+
+- Run each of the following scripts, observing the results in Log Analytics Workspace AND Sentinel Incident Creation:
+
+> SQL-Brute-Force-Simulator.ps1
+(this can be done manually with SSMS by attempting to login with bad credentials)
+
+>AAD-Brute-Force-Success-Simulator.ps1
+(this can be done manually by trying to log into the portal)
+
+> Malware-Generator-EICAR.ps1
+(this can be done manually by creating a text file with the EICAR string in it)
+
+> Key-Vault-Secret-Reader.ps1
+(this can be done manually by observing Key Vault Secrets in Azure Portal)
+
+> Admin Mode (Pretend You Are Normal Admin):
+Attempt to Trigger the rest of the custom rules to make sure they work
+
+``` Note: It does take a bit of time for the logs to show up in Log Analytics Workspace! "Patience is beautiful." ```
+
+- If you want to trigger Brute Force attempts for Linux and RDP, simply fail logging into these several times (10+), but I assume the internet is doing a good job of that already based on our previous lab, haha. 
 
