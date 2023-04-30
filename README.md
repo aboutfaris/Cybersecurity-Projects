@@ -357,7 +357,11 @@ This will show us the script attempts. It make take a moment to update, but this
 Disconnect-AzAccount
 Connect-AzAccount
 ``` 
-That solved the issue for me there 
+That solved the issue for me there. Now sign in, remember that the attacker roles set in previous labs do not have read rights for Azure Key vault.. 
+
+- Next is to stop the VM in Azure, this may or may not sign you out, then run it again so everything cna marinate perfectly in our pot. Run the .PS1 Key Vault attack again and voila. 
+
+![mstsc_j9qsWIkbGY](https://user-images.githubusercontent.com/109401839/235331907-8028047d-c4f6-4c2f-9a76-0299cd2e1189.png)
 
 - SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
