@@ -577,6 +577,47 @@ GetIPRelatedAlerts(@'110.167.169.106')
 
 - Now Determine the legitimacy of the incident, True Postive or False Positive, etc. 
 
+```
+
+// Brute Force Success Windows
+let FailedLogons = SecurityEvent
+| where EventID == 4625 and LogonType == 3
+| where TimeGenerated > ago(60m)
+| summarize FailureCount = count() by AttackerIP = IpAddress, EventID, Activity, LogonType, DestinationHostName = Computer
+| where FailureCount >= 5;
+let SuccessfulLogons = SecurityEvent
+| where EventID == 4624 and LogonType == 3
+| where TimeGenerated > ago(60m)
+| summarize SuccessfulCount = count() by AttackerIP = IpAddress, LogonType, DestinationHostName = Computer, AuthenticationSuccessTime = TimeGenerated;
+SuccessfulLogons
+| join kind = leftouter FailedLogons on DestinationHostName, AttackerIP, LogonType
+| project AuthenticationSuccessTime, AttackerIP, DestinationHostName, FailureCount, SuccessfulCount
+
+```
+Via [Cheat Sheet](https://github.com/fnabeel/Cloud-SOC-Project-Directory/blob/main/KQL-Query-Cheat-Sheet%20(1).md) 
+
+> We will add a clause to see entities that have had successful log ons in the last 24 hours. 
+
+```
+SecurityEvent
+| where EventID == 4625
+| distinct Account
+``` 
+![vivaldi_dnJSoEyZme](https://user-images.githubusercontent.com/109401839/235337183-cde0f5f1-eec4-4631-b597-6970c06b9a25.png)
+
+We can further specify by using the IP Address of the attacker. 
+
+```
+| where ipaddress == "110.167.169.106"
+```
+
+and remove: 
+
+``` | distinct Account ```
+
+![vivaldi_JRZZok9EsC](https://user-images.githubusercontent.com/109401839/235337271-a832ca24-7dbd-443c-a2f6-70df71664de2.png)
+
+Based on the results, I willl conclude this to be a True Positive. 
 
 ### Incident 2 - Possible Privilege Escalation - Working Incidents and Incident Response
 <details close>
