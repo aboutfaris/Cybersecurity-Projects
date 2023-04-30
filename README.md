@@ -732,6 +732,8 @@ We can reset the passwords.
 
 > They are, we remediated this by reseting password of compromsied user viritual machine and locked down NSG. 
 
+Now we can close it as a Benign- True Positive. Closed.
+
 - Impact of Incident
 
 > Account was a non admin account on a linux virtual machine, possibly low impact, however attacker is invovled in many other incidents. These wil be remediated by NSG hardening. 
@@ -742,6 +744,7 @@ We can reset the passwords.
 <div>
 
 </summary>
+
 
 
 
