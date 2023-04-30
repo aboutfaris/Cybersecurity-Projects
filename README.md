@@ -389,7 +389,7 @@ That solved the issue for me there. Now sign in, remember that the attacker role
 
 ![vivaldi_c6nIFdtzdJ](https://user-images.githubusercontent.com/109401839/235333107-b844ca39-112e-4f29-87cd-f470b3cf1ce0.png)
 
-> We should see this generated in 365 For Cloud and Sentinel. In Sentinel, it will only show if Windows Security took action! So, depending on the setting. You have to manually take action if it is quarantined. After that is fixed, take a moment andwait for the incident or KQL query to view the incident. 
+> We should see this generated in 365 For Cloud and Sentinel. In Sentinel, it will only show if Windows Security took action! So, depending on the setting. You have to manually take action if it is quarantined. After that is fixed, take a moment (For me a very long time) and wait for the incident or KQL query to view the incident. 
 
 - SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
