@@ -745,6 +745,44 @@ Now we can close it as a Benign- True Positive. Closed.
 
 </summary>
 
+![vivaldi_cmkHl8ibDk](https://user-images.githubusercontent.com/109401839/235339661-ed54b589-0d13-440e-9f8d-d1901c8076dd.png)
 
+![vivaldi_iK4n16GqXA](https://user-images.githubusercontent.com/109401839/235339714-28549a49-b758-40a7-badf-cb90fcd73602.png)
 
+![vivaldi_2ggFSrbzOX](https://user-images.githubusercontent.com/109401839/235339755-a413874f-da99-4781-a076-3cc49bb7a7d8.png)
 
+Here do not know if the extended alerts are actually related to the incident. In thsi case malware, but it can be as typically with a breach, threat actors drop malware in as well. 
+
+> Note: Several other alerts raised. 
+
+We can examine the query that generated this alert. 
+
+![vivaldi_ulG9cGZsXz](https://user-images.githubusercontent.com/109401839/235339859-2eb3d7c1-55a5-4a16-b396-1f1a0d405e3e.png)
+
+This can be filtered by comprised entity category in KQL. 
+
+![vivaldi_7ytY4TuYHb](https://user-images.githubusercontent.com/109401839/235339840-376912f2-8e7f-4cf3-a4ee-8bd6ba4fb9a7.png)
+
+We can add another query to see if there is no action necessary and if the malware was remediated. 
+
+![vivaldi_7aC88zFKiR](https://user-images.githubusercontent.com/109401839/235339918-c3fdaba0-4dc6-427a-a342-dd469a384561.png)
+
+Which looks like it was automatically remidiated. 
+
+We can do our due diligence and make sure by viewing the the file path. 
+
+![vivaldi_8tIZy1xL5Q](https://user-images.githubusercontent.com/109401839/235339965-2fd9de11-2b8e-4011-8a8b-47ccd9708971.png)
+
+It is benign true positive. 
+
+![vivaldi_EPWAjpIU5D](https://user-images.githubusercontent.com/109401839/235340033-f65d3618-a31a-4d8f-810a-3bf5f076cffc.png)
+
+That is it for the SIEM labs, I will mass close the tickets as Benign Positive - Suspicious but expected. 
+
+![vivaldi_pL3PCdQkUO](https://user-images.githubusercontent.com/109401839/235340122-ae0340b3-58bb-482b-9871-0afb6e7cc5af.png)
+
+Next part, we will harden the environment after 24 hours and document it. 
+
+Now lets wait 24 hours. 
+
+![vivaldi_Vbe3M5A01o](https://user-images.githubusercontent.com/109401839/235340150-0b193cd6-dbb7-4c01-b256-e5fc26c0e267.png)
