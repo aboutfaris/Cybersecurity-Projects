@@ -297,28 +297,72 @@ The entities show us the IP Address information.
 
 - Run each of the following scripts, observing the results in Log Analytics Workspace AND Sentinel Incident Creation:
 
-> AAD-Brute-Force-Success-Simulator.ps1
+- AAD-Brute-Force-Success-Simulator.ps1
 (this can be done manually by trying to log into the portal)
 
 Lets break down the main function for this on: 
 
-``` $tenantId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Your Tenant ID, you can find on the AAD Blade in the Azure Portal
-$username = "attacker@joshmadakorgmail.onmicrosoft.com" # Some Username that exists in your AAD Tenant
-$correct_password = "Cyberlab123!" # Enter the correct password for the above user
-$wrong_password = "___WRONG PASSWORD___" # This is used to generate auth failures
-$max_attempts = 11 # This is the number of times to fail the login before succeeding ```
+``` 
+Line 1: $tenantId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" 
+
+# Your Tenant ID, you can find on the AAD Blade in the Azure Portal..
+
+Line 2: $username = "attacker@[your user name].onmicrosoft.com"
+
+# Some Username that exists in your AAD Tenant.. in my case that is "attacker@fnabeelpm.onmicrosoft.com"
+
+Line 3: $correct_password = "LabTest12345" 
+
+# Enter the correct password for the above user.. If you can nto remember your password, you can reset it in  your broswer incognito mode and sign-on into Azure AD.
+
+Line 4: $wrong_password = "___WRONG PASSWORD___"
+
+# This is used to generate auth failures..
+
+Line 5: $max_attempts = 11 
+
+# This is the number of times to fail the login before succeeding. 
+
+```
+
+> So, we will let this run and it will create a loop for 11x failed login attempts, and then 1 successful login attempts, which will create an incident alert. 
+
+![mstsc_O5tMxYk2aJ](https://user-images.githubusercontent.com/109401839/235330515-667d07f2-929d-48d7-9aa5-314e9a491d13.png)
+
+> We can now go to out Log Analytics and view logs. 
+Enter the Query 
+```
+SigninLogs
+| order by TimeGenerated desc
+```
+
+This will show us the script attempts. It make take a moment to update, but this is what it will look like ! 
+
+![vivaldi_vGrHhhyVGj](https://user-images.githubusercontent.com/109401839/235330674-81586064-bce1-494a-907f-61e8721ace29.png)
+
+![lgo](https://user-images.githubusercontent.com/109401839/235330713-a8f42e91-8aef-43d2-a987-0539c660ef3c.PNG)
+
+- Key-Vault-Secret-Reader.ps1
+(this can be done manually by observing Key Vault Secrets in Azure Portal)
+ 
+> Replace the name for each part of the script to your corresponding information. Run it and see the alert generate ! Now you have an idea, I will just show you the results for the next two.  
+
+![mstsc_X219qf3iEc](https://user-images.githubusercontent.com/109401839/235331049-2d9d46c5-47fa-4c5d-b88e-8723a75573db.png)
+
+![mstsc_GVrwLTrcuz](https://user-images.githubusercontent.com/109401839/235331078-43392219-7009-49dc-8051-e1754fe3b8c4.png)
+
+> This may disconnect you in Azure. This is the Admin attempt. 
 
 
-> SQL-Brute-Force-Simulator.ps1
+- SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
 
-> Malware-Generator-EICAR.ps1
+- Malware-Generator-EICAR.ps1
 (this can be done manually by creating a text file with the EICAR string in it)
 
-> Key-Vault-Secret-Reader.ps1
-(this can be done manually by observing Key Vault Secrets in Azure Portal)
 
-> Admin Mode (Pretend You Are Normal Admin):
+
+- Admin Mode (Pretend You Are Normal Admin):
 Attempt to Trigger the rest of the custom rules to make sure they work
 
 ``` Note: It does take a bit of time for the logs to show up in Log Analytics Workspace! "Patience is beautiful." ```
