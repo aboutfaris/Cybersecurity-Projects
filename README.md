@@ -291,13 +291,26 @@ The entities show us the IP Address information.
 
  > Trust the authors, you are the author. Maybe.. 
 
+| Notice: You can do what these scripts do manually, however it is good to get some experience using scripts to be more efficient with time and versatile. If you are unsure what each line in the script does, feel free to copy and paste into ChatGPT. Then, request it to explain each line at XYZ age group so you can dissect, marinate that knowledge and then be able to comprehend further. All in due time, right? 
+
+> VSC may ask you to install an extension for powershell, go ahead and install it. Now...
+
 - Run each of the following scripts, observing the results in Log Analytics Workspace AND Sentinel Incident Creation:
+
+> AAD-Brute-Force-Success-Simulator.ps1
+(this can be done manually by trying to log into the portal)
+
+Lets break down the main function for this on: 
+
+``` $tenantId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Your Tenant ID, you can find on the AAD Blade in the Azure Portal
+$username = "attacker@joshmadakorgmail.onmicrosoft.com" # Some Username that exists in your AAD Tenant
+$correct_password = "Cyberlab123!" # Enter the correct password for the above user
+$wrong_password = "___WRONG PASSWORD___" # This is used to generate auth failures
+$max_attempts = 11 # This is the number of times to fail the login before succeeding ```
+
 
 > SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
-
->AAD-Brute-Force-Success-Simulator.ps1
-(this can be done manually by trying to log into the portal)
 
 > Malware-Generator-EICAR.ps1
 (this can be done manually by creating a text file with the EICAR string in it)
