@@ -359,15 +359,28 @@ Connect-AzAccount
 ``` 
 That solved the issue for me there. Now sign in, remember that the attacker roles set in previous labs do not have read rights for Azure Key vault.. 
 
-- Next is to stop the VM in Azure, this may or may not sign you out, then run it again so everything cna marinate perfectly in our pot. Run the .PS1 Key Vault attack again and voila. 
+> Next is to stop the VM in Azure, this may or may not sign you out, then run it again so everything cna marinate perfectly in our pot. Run the .PS1 Key Vault attack again and voila. 
 
-![mstsc_j9qsWIkbGY](https://user-images.githubusercontent.com/109401839/235331907-8028047d-c4f6-4c2f-9a76-0299cd2e1189.png)
+![mstsc_j9qsWIkbGY](https://user-images.githubusercontent.com/109401839/235331907-8028047d-c4
+
+![keyvauilt log](https://user-images.githubusercontent.com/109401839/235332071-a6d51d5f-f62a-4022-8f26-a5b408fa6b26.PNG)
+f6-4c2f-9a76-0299cd2e1189.png)
+
+> Above we can see that our attempt is successful, and we know it is us by the same IP Address of the VM. For my instance, I was the only one who got into the Key Vault, maybe an outside threat got into yours. You can check the logs and verify, however we should have an incident alert for all these attempts I did. 
+ 
+![vivaldi_VozPgPs7jQ](https://user-images.githubusercontent.com/109401839/235332143-d88c13a6-97d9-4461-bbed-0fd14fb19aa9.png)
+
+> Here is the alert. 
+
+![vivaldi_msbQ1nQ0D3](https://user-images.githubusercontent.com/109401839/235332230-ad1f9593-4753-4640-bdf7-da33b76f7978.png)
+
+- Malware-Generator-EICAR.ps1
+(this can be done manually by creating a text file with the EICAR string in it)
 
 - SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
 
-- Malware-Generator-EICAR.ps1
-(this can be done manually by creating a text file with the EICAR string in it)
+
 
 - Admin Mode (Pretend You Are Normal Admin):
 Attempt to Trigger the rest of the custom rules to make sure they work
