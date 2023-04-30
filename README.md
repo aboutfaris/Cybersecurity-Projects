@@ -446,8 +446,10 @@ HELPER QUERIES
 		
 Start Time	
 
-``` "range x from 1 to 1 step 1
-| project StartTime = ago(24h), StopTime = now()" ``` 
+``` 
+"range x from 1 to 1 step 1
+| project StartTime = ago(24h), StopTime = now()"
+ ``` 
 	
 ![vivaldi_TqMaMGLc0s](https://user-images.githubusercontent.com/109401839/235334642-729e7798-48b3-43ea-870b-85ed6425f3c1.png)
 	
@@ -482,6 +484,8 @@ NSG Inbound Malicious Flows Blocked	"AzureNetworkAnalytics_CL
 | where FlowType_s == ""MaliciousFlow"" and DeniedInFlows_d > 0
 | where TimeGenerated >= ago(24h)
 | count"		
+
+![image](https://user-images.githubusercontent.com/109401839/235336299-df51515e-aea1-424d-a880-572722e5627b.png)
 
 ### Incident 1 - Brute Force Success (Windows) - Working Incidents and Incident Response
 <details close>
