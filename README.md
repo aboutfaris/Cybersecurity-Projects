@@ -421,6 +421,13 @@ Before 24 Hours:
 | SecurityIncident         | 0
 | AzureNetworkAnalytics_CL | 0
 
+![Windows RDP   SMB Authentication Failure(Before)](https://user-images.githubusercontent.com/109401839/235335964-ef063912-f0b7-4761-a95b-911c21f240b7.png)
+
+![Linux SSH Auth Failure (Before)](https://user-images.githubusercontent.com/109401839/235335965-63e57ce1-2d54-4256-a86c-4e7962eda71e.png)
+
+![MySQL Authentication Failures(Before)](https://user-images.githubusercontent.com/109401839/235335966-25b63a64-750c-4275-9f54-a5ec72bd0a7c.png)
+
+![nsg-malicious-allowed-in (before)](https://user-images.githubusercontent.com/109401839/235335967-faab4541-ea6c-4276-8b17-1b446613ff9f.png)
 
 After 24 Hours: 
 <div>
@@ -437,9 +444,13 @@ HELPER QUERIES
 		
 	Helper KQL Queries
 		
-Start Time	"range x from 1 to 1 step 1
-| project StartTime = ago(24h), StopTime = now()"
-		
+Start Time	
+
+``` "range x from 1 to 1 step 1
+| project StartTime = ago(24h), StopTime = now()" ``` 
+	
+![vivaldi_TqMaMGLc0s](https://user-images.githubusercontent.com/109401839/235334642-729e7798-48b3-43ea-870b-85ed6425f3c1.png)
+	
 Stop Time			
 Security Events (Windows VMs)	"SecurityEvent
 | where TimeGenerated >= ago(24h)
