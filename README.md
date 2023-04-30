@@ -617,7 +617,14 @@ and remove:
 
 ![vivaldi_JRZZok9EsC](https://user-images.githubusercontent.com/109401839/235337271-a832ca24-7dbd-443c-a2f6-70df71664de2.png)
 
-Based on the results, I willl conclude this to be a True Positive. 
+Based on the results, I willl conclude this to be a False Positive. 
+
+You maybe wondering why? 
+It is because even after these "successful" attempts, we can see they kept trying to bruteforce in. In addition, if we filter the activity, there is not any actual successful login attempts. We inspected the action from this IP Address, and the main issue is the persistence of this Threat Actor. With enough time, they could breach into the system.
+
+-   If true positive, continue. If false-positive, close. 
+
+Since it is a false positive, but the network security is bad. We will continue. This sort of traffic should not be reaching the VM in the first place.  
 
 ### Incident 2 - Possible Privilege Escalation - Working Incidents and Incident Response
 <details close>
