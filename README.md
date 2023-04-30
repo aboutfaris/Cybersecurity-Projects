@@ -693,7 +693,7 @@ This was from our Powershell script I left running. We know it is a false positi
 
 ![vivaldi_H4U6CQUlEx](https://user-images.githubusercontent.com/109401839/235338626-7d6c3450-24c8-4821-90e3-5b2e2dbefc27.png)
 
-Since this is within the organisation, I would just call the user and confirm the details with them. Lets pretend the user was just doing normal duties is a pentester, and corobrated with their manager to conduct this. Then we can just close it. 
+Since this is within the organisation, I would just call the user and confirm the details with them. Lets pretend the user was just doing normal duties is a pentester, and corobrated with their manager to conduct this. Then we can just close it. False Positive - Inaccurate Data. 
 
 ### Incident 3 - Brute Force Success (Linux) - Microsoft Sentinel Working Incidents and Incident Response
 <details close>
