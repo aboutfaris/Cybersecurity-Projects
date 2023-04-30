@@ -38,6 +38,33 @@ Reminder: Check your Subscription’s Cost Analysis
 
 ![vivaldi_ILnTZamtya](https://user-images.githubusercontent.com/109401839/235340696-8d247dcd-e45f-4e6c-ba90-a6f1d4257766.png)
 
+### Azure Private Link & Firewall for Resources
+<details close>
+
+<div>
+
+</summary>
+
+
+### Run SECURE Environment for 24 Hours and Capture Analytics
+<details close>
+
+<div>
+
+</summary>
 
 
 
+After 24 Hours: 
+<div>
+
+| Metric                   | Count
+| ------------------------ | -----
+| SecurityEvent            | 0
+| Syslog                   | 0
+| SecurityAlert            | 0
+| SecurityIncident         | 0
+| AzureNetworkAnalytics_CL | 0
+
+
+Well, this series of projects in Microsoft Azure is finally at its conclusion. Over time there will be updates and cleaning up. However, whoever is viewing this. I hope  you learned a lot because I have learned a lot. Thank you.
