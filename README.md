@@ -695,6 +695,12 @@ This was from our Powershell script I left running. We know it is a false positi
 
 Since this is within the organisation, I would just call the user and confirm the details with them. Lets pretend the user was just doing normal duties is a pentester, and corobrated with their manager to conduct this. Then we can just close it. False Positive - Inaccurate Data. 
 
+![vivaldi_FTRBwqoRdM](https://user-images.githubusercontent.com/109401839/235338746-d2c7a33f-d1ac-4cd0-ac3d-6b032e2445cc.png)
+
+So far I closed 3 Incidents, 1 Brute Force, 1 Permission Escalating , 1 Duplicate of the Brute force. 
+
+![vivaldi_MjJTET0DBT](https://user-images.githubusercontent.com/109401839/235338870-1c478632-83f8-4777-b593-cb21196276b6.png)
+
 ### Incident 3 - Brute Force Success (Linux) - Microsoft Sentinel Working Incidents and Incident Response
 <details close>
 
@@ -702,8 +708,33 @@ Since this is within the organisation, I would just call the user and confirm th
 
 </summary>
 
+In my lab, I did not have any successful Linux brute force, but we do have attempts. 
 
+![vivaldi_mEYswyeMRa](https://user-images.githubusercontent.com/109401839/235338903-0c6a9c81-82ea-4838-96d3-f6dfb699aa1f.png)
 
+![vivaldi_aRwcdARuEr](https://user-images.githubusercontent.com/109401839/235338914-a1daed59-f86f-4106-882e-fd8d22626e16.png)
+
+![vivaldi_eKo6RDjcN3](https://user-images.githubusercontent.com/109401839/235338939-aabf588d-120c-410e-b21d-eba1e47ad97b.png)
+
+We can use this KQL query to confirm if they actually Brute Force in or not to do our due diligence. 
+
+![vivaldi_oWXidzLFP1](https://user-images.githubusercontent.com/109401839/235338986-b81f3604-1aaf-4534-aaf6-357e6b638bb8.png)
+
+We did not, we can close this as a Benign- True Positive because there was an attempt, no successful brute forces. We can specify further by grabbing each IP Address and customising the query. First lets get more info. 
+
+This would be good for example, 10,000 IP Addresses in an organisation was attempting to brute force and we wanted to narrow it down to just 1 IP. 
+
+We can reset the passwords. 
+
+![vivaldi_tQnuejPL1A](https://user-images.githubusercontent.com/109401839/235339178-8710f60a-838c-4773-b271-49038fb9bae3.png)
+
+- Refering to the playbook, lets see if they are related to any other event. 
+
+> They are, we remediated this by reseting password of compromsied user viritual machine and locked down NSG. 
+
+- Impact of Incident
+
+> Account was a non admin account on a linux virtual machine, possibly low impact, however attacker is invovled in many other incidents. These wil be remediated by NSG hardening. 
 
 ### Incident 4 - Possible Malware Outbreak - Working Incidents and Incident Response
 <details close>
