@@ -683,8 +683,17 @@ We will do this for all out VM.
 
 </summary>
 
+We will do the samething again. 
 
+![possible esdc](https://user-images.githubusercontent.com/109401839/235338529-973af8de-1de3-4dec-b6db-ca0c81d30ce0.PNG)
 
+This has 525 Events and 25 alerts.
+
+This was from our Powershell script I left running. We know it is a false positive since it came from my virtual machine by the matching IP address. However, if this is a real incident. We have to investigate something that is generating so many alerts. 
+
+![vivaldi_H4U6CQUlEx](https://user-images.githubusercontent.com/109401839/235338626-7d6c3450-24c8-4821-90e3-5b2e2dbefc27.png)
+
+Since this is within the organisation, I would just call the user and confirm the details with them. Lets pretend the user was just doing normal duties is a pentester, and corobrated with their manager to conduct this. Then we can just close it. 
 
 ### Incident 3 - Brute Force Success (Linux) - Microsoft Sentinel Working Incidents and Incident Response
 <details close>
