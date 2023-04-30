@@ -361,10 +361,10 @@ That solved the issue for me there. Now sign in, remember that the attacker role
 
 > Next is to stop the VM in Azure, this may or may not sign you out, then run it again so everything cna marinate perfectly in our pot. Run the .PS1 Key Vault attack again and voila. 
 
-![mstsc_j9qsWIkbGY](https://user-images.githubusercontent.com/109401839/235331907-8028047d-c4
+![mstsc_j9qsWIkbGY](https://user-images.githubusercontent.com/109401839/235331907-8028047d-c4f6-4c2f-9a76-0299cd2e1189.png)
 
 ![keyvauilt log](https://user-images.githubusercontent.com/109401839/235332071-a6d51d5f-f62a-4022-8f26-a5b408fa6b26.PNG)
-f6-4c2f-9a76-0299cd2e1189.png)
+
 
 > Above we can see that our attempt is successful, and we know it is us by the same IP Address of the VM. For my instance, I was the only one who got into the Key Vault, maybe an outside threat got into yours. You can check the logs and verify, however we should have an incident alert for all these attempts I did. 
  
@@ -377,13 +377,23 @@ f6-4c2f-9a76-0299cd2e1189.png)
 - Malware-Generator-EICAR.ps1
 (this can be done manually by creating a text file with the EICAR string in it)
 
+> Run this in powershell and it will create a Windows Security Alert. Alernatively, you can make a .txt file and combine the two parts of the script and save it to trigger the alert. 
+
+![mstsc_UnFJHU7CGl](https://user-images.githubusercontent.com/109401839/235332812-697bc84c-5e57-4992-b362-d5a4ddfba704.png)
+
+> The script essentially just combines it for us but we can do this manually 
+
+![mstsc_2zVfAJvwpd](https://user-images.githubusercontent.com/109401839/235332785-38c9111b-b35e-4d8f-afe6-567261c2b45b.png)
+
+> For this part, we will use Powershell ISE (Admin) and enter the .ps1 code. Windows security should catch these. 
+
+![vivaldi_c6nIFdtzdJ](https://user-images.githubusercontent.com/109401839/235333107-b844ca39-112e-4f29-87cd-f470b3cf1ce0.png)
+
+> We should see this generated in 365 For Cloud and Sentinel. In Sentinel, it will only show if Windows Security took action! So, depending on the setting. You have to manually take action if it is quarantined. After that is fixed, take a moment andwait for the incident or KQL query to view the incident. 
+
 - SQL-Brute-Force-Simulator.ps1
 (this can be done manually with SSMS by attempting to login with bad credentials)
 
-
-
-- Admin Mode (Pretend You Are Normal Admin):
-Attempt to Trigger the rest of the custom rules to make sure they work
 
 ``` Note: It does take a bit of time for the logs to show up in Log Analytics Workspace! "Patience is beautiful." ```
 
