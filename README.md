@@ -38,12 +38,28 @@ Reminder: Check your Subscription’s Cost Analysis
 
 ![vivaldi_ILnTZamtya](https://user-images.githubusercontent.com/109401839/235340696-8d247dcd-e45f-4e6c-ba90-a6f1d4257766.png)
 
+Click on Recommendations. 
+Ideally we want to get to 100%. 
+
+![vivaldi_sKRdqBEO7l](https://user-images.githubusercontent.com/109401839/235340928-3ad8b009-b1e7-46cd-920c-1b168c094904.png)
+
+Currently, I am at 54%. So go through each, apply each remediation steps according to Azure and get your score up. 
+
+I will start with the DDos Protection and I wont show everything. However, take your time with this and Azure redirects you to everything. 
+
+![vivaldi_GYcRzsJZK3](https://user-images.githubusercontent.com/109401839/235341029-feb752ee-2793-4a72-b2d0-99c710a27413.png)
+
+![vivaldi_bLyC34Yftz](https://user-images.githubusercontent.com/109401839/235341064-6f41ab48-2787-4e66-8cdf-c00ad7941996.png)
+
+
 ### Azure Private Link & Firewall for Resources
 <details close>
 
 <div>
 
 </summary>
+
+
 
 
 ### Run SECURE Environment for 24 Hours and Capture Analytics
