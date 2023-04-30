@@ -410,5 +410,32 @@ Connect-AzAccount
 
 ### Dataset 
 
-<!-- Upload this dataset excel file after finishing accurate documentation. 
+Before 24 Hours: 
+<div>
 
+| Metric                   | Count
+| ------------------------ | -----
+| SecurityEvent            | 0
+| Syslog                   | 0
+| SecurityAlert            | 0
+| SecurityIncident         | 0
+| AzureNetworkAnalytics_CL | 0
+
+
+After 24 Hours: 
+<div>
+
+| Metric                   | Count
+| ------------------------ | -----
+| SecurityEvent            | 0
+| Syslog                   | 0
+| SecurityAlert            | 0
+| SecurityIncident         | 0
+| AzureNetworkAnalytics_CL | 0
+
+### 
+<details close>
+
+<div>
+
+</summary>
