@@ -145,6 +145,10 @@ Lets try this on our non-azure computer:
 
 ![image](https://user-images.githubusercontent.com/109401839/235414638-2113a6d0-5bdf-476d-997f-430a5c876b21.png)
 
+Now lets see if the Endpoint work by running this in the Azure computer: 
+
+![image](https://user-images.githubusercontent.com/109401839/235414965-914e2cb5-1859-43ff-99f9-2ea46832f3ff.png)
+
 
 ![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
 
