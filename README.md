@@ -208,11 +208,13 @@ After 24 Hours of Locking - Down Environment:
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
-| SecurityAlert            | 0 
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+| SecurityEvent            | 676 (-98.27%)
+| Syslog                   | 0 (-100%)
+| SecurityAlert            | 0 (-100%)
+| SecurityIncident         | 0 (-100%)
+| AzureNetworkAnalytics_CL | 0 (-100%)
+
+![vivaldi_2ebSstcfdc](https://user-images.githubusercontent.com/109401839/235537587-a0c39f9c-3bea-4859-a736-80899a8ae56c.png)
 
 <div>
 
