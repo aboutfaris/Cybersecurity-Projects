@@ -139,7 +139,12 @@ We can resolve it and it shows a public IP address but we do not have access to 
 
 This is an important distinction because my home computer is not on the VNET that the keyvault is located on. 
 
-5b. Storage account address, ```
+5b. Storage account address, ```https://sacyberlab05.blob.core.windows.net/``` <- This comes from the Blob service. If you remember moments ago, this was turned off to disconnect access from the public web to our services. 
+
+Lets try this on our non-azure computer:
+
+![image](https://user-images.githubusercontent.com/109401839/235414638-2113a6d0-5bdf-476d-997f-430a5c876b21.png)
+
 
 ![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
 
