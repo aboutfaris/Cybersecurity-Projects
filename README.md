@@ -133,7 +133,7 @@ If it was not working, we would have to troubleshoot.
 
 Now, lets try this but on our own computers, not the virtual machines. 
 
-![image](https://user-images.githubusercontent.com/109401839/235413824-d7090c63-2c09-49a3-9e0b-8ce55ec0052f.png)
+![image](https://user-images.githubusercontent.com/109401839/235414783-fb98d0c3-2339-4f25-a017-7f6f53f927a1.png)
 
 We can resolve it and it shows a public IP address but we do not have access to it. 
 
