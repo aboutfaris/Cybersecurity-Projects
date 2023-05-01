@@ -26,13 +26,7 @@
 After 24 Hours of Configuring NSG: 
 <div>
 
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 2401 (-93.85%)
-| Syslog                   | 730 (-6.65%)
-| SecurityAlert            | 0 (-100.00%)
-| SecurityIncident         | 185 (-16.67%)
-| AzureNetworkAnalytics_CL | 68 (-94.96%)
+Previous lab, we did some basic lockdowns and have a secure score of 54% and here are the results 24 hours later. 
 
 ![Linux SSH Auth](https://user-images.githubusercontent.com/109401839/235417071-d99a0c53-6d99-47f9-8203-e3a1bdd427f8.png)
 
@@ -42,6 +36,15 @@ After 24 Hours of Configuring NSG:
 
 ![windows and smb auth fail](https://user-images.githubusercontent.com/109401839/235417075-4478e72e-1768-4b61-9e98-ab6317f5dec8.png)
 
+| Metric                   | Count
+| ------------------------ | -----
+| SecurityEvent            | 2401 (-93.85%)
+| Syslog                   | 730 (-6.65%)
+| SecurityAlert            | 0 (-100.00%)
+| SecurityIncident         | 185 (-16.67%)
+| AzureNetworkAnalytics_CL | 68 (-94.96%)
+
+We still have a major problem with  Malicious NSG Inbound Flow. Now we will increase our hardening methodology and observe the changes in 24 hours. 
 
 #### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations 
 <details close>
