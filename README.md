@@ -34,6 +34,15 @@ After 24 Hours of Configuring NSG:
 | SecurityIncident         | 185 (-16.67%)
 | AzureNetworkAnalytics_CL | 68 (-94.96%)
 
+![Linux SSH Auth](https://user-images.githubusercontent.com/109401839/235417071-d99a0c53-6d99-47f9-8203-e3a1bdd427f8.png)
+
+![MYSQL AUTH FAIL](https://user-images.githubusercontent.com/109401839/235417072-245f83dc-53cd-455c-ab54-169674b0ab18.png)
+
+![nsg malicious in flow](https://user-images.githubusercontent.com/109401839/235417074-0e59086f-2ad0-496d-bb43-5941d476b351.png)
+
+![windows and smb auth fail](https://user-images.githubusercontent.com/109401839/235417075-4478e72e-1768-4b61-9e98-ab6317f5dec8.png)
+
+
 #### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations 
 <details close>
 
