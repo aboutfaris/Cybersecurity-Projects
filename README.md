@@ -124,15 +124,37 @@ Now, let enter the final phase of the Cloud SOC Projects.
 
 5. Login to “windows-vm” and check the IP addresses of your Key Vault and Storage Account instances.
 
-> They should be private addresses, indicating the resources have been probably integrated into private VNet:
+5a. My keyvault address, ```https://akv-cyber-lab5.vault.azure.net/``` 
 
-> If you see a public IP address, either it’s not done propagating yet, or it’s not configured correctly:
+![mstsc_fxQfHckld4](https://user-images.githubusercontent.com/109401839/235413357-0963704d-9468-49ca-a17c-b45c80d13314.png)
 
-> Possible causes for this are your resources and VM are actually in different Virtual Networks, or something is just not setup right
+We can see it is resolving to a private IP address which means out Endpoint is working! Not solely because of the IP address, but because it is resolving to a private IP address within out subnet range. 
+If it was not working, we would have to troubleshoot.
+
+Now, lets try this but on our own computers, not the virtual machines. 
+
+![image](https://user-images.githubusercontent.com/109401839/235413824-d7090c63-2c09-49a3-9e0b-8ce55ec0052f.png)
+
+We can resolve it and it shows a public IP address but we do not have access to it. 
+
+This is an important distinction because my home computer is not on the VNET that the keyvault is located on. 
+
+5b. Storage account address, ```
+
+![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
+
+
+### Troubleshooting Methods:
+
+> They should be private addresses, indicating the resources have been probably integrated into private VNet.
+
+> If you see a public IP address, either it’s not done propagating yet, or it’s not configured correctly.
+
+> Possible causes for this are your resources and VM are actually in different Virtual Networks, or something is just not setup right.
 
 > The good news is, you don’t need to fix this for the rest of the lab, we are just trying to lock down the environment. 
 
-> However, if you want to fix it, you can try deleting the Private Endpoints/config and trying again
+> However, if you want to fix it, you can try deleting the Private Endpoints/config and trying again.
 
 ### Run SECURE Environment for 24 Hours and Capture Analytics
 <details close>
@@ -162,5 +184,11 @@ Over time there will be updates and cleaning up.
 However, whoever is viewing this. 
 
 I hope  you learned a lot because I have learned a lot. 
+
+I started this project April 9th, 2023 and completed it May 1st, 2023.
+Overall it took roughly two weeks to complete everything. 
+Handling personal matters, took time away from this project.
+
+Next project, which is optional, will be a Business Data Analysis project of project. 
 
 Thank you.
