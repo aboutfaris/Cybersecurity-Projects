@@ -34,8 +34,6 @@ After 24 Hours of Configuring NSG:
 | SecurityIncident         | 185 (-16.67%)
 | AzureNetworkAnalytics_CL | 68 (-94.96%)
 
-![vivaldi_naqKr3ZM8e](https://user-images.githubusercontent.com/109401839/235409014-801f77ab-ec76-46fe-bb14-48d4927341d4.png)
-
 #### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations 
 <details close>
 
