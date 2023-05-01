@@ -64,18 +64,54 @@ Now, let enter the final phase of the Cloud SOC Projects.
 
 ![image](https://user-images.githubusercontent.com/109401839/235408787-7acc45e8-904f-4bfb-b4ec-7c6668f4453f.png)
 
-Inspect MDC Regulatory Compliance (Available and Implemented)
-NIST 800-53 (Ref)
-We will Implement SC-7
+### Goals for this lab:
 
-Configure Azure Private Link and Firewall for your Azure Key Vault instance
-Ensure you use the same region and VNet the rest of your VMs are in
+- Inspect MDC Regulatory Compliance (Available and Implemented)
+- NIST 800-53 (Ref)
+- We will Implement SC-7
+
+1. Configure Azure Private Link and Firewall for your Azure Key Vault Instance.
+> Ensure you use the same region and VNet the rest of your VMs are located. 
+
+![vivaldi_9kA8hVnhML](https://user-images.githubusercontent.com/109401839/235410803-679cf671-0110-41fd-b8be-973f7ccfd1ef.png)
+
+1a. In the Firewalls, we will disable public access. 
+> Allow trusted Miscrosoft services to bypass this firewall. 
+
+``` When you enable the Key Vault Firewall, you'll be given an option to 'Allow Trusted Microsoft Services to bypass this firewall.' The trusted services list does not cover every single Azure service. For example, Azure DevOps isn't on the trusted services list. This does not imply that services that do not appear on the trusted services list are not trusted or are insecure. The trusted services list encompasses services where Microsoft controls all of the code that runs on the service. Since users can write custom code in Azure services such as Azure DevOps, Microsoft does not provide the option to create a blanket approval for the service. Furthermore, just because a service appears on the trusted service list, doesn't mean it is allowed for all scenarios.```
+
+1b. Configure Private EndPoint Connections
+
+![vivaldi_llF7NrXeNU](https://user-images.githubusercontent.com/109401839/235411138-05197fc9-624a-468a-ab20-ad808c69a5ef.png)
+
+![vivaldi_IrwcXIE1uZ](https://user-images.githubusercontent.com/109401839/235411183-457d39ff-35f8-4e5e-baab-49a837b68374.png)
+
+![vivaldi_cJOoHn4kRF](https://user-images.githubusercontent.com/109401839/235411232-1548ec0e-7b55-45f7-9a47-b06e61d0faa8.png)
+
+![vivaldi_Cn9neeLZKd](https://user-images.githubusercontent.com/109401839/235411264-b876bf35-6a51-42e7-886b-c13b8c518e10.png)
+
+![vivaldi_vDj1nUhARA](https://user-images.githubusercontent.com/109401839/235411275-0b16cd2a-b161-4fd2-b1df-683bfbfae3cf.png)
+
 	
-Configure Azure Private Link and Firewall for your Azure Storage Account instance
-Disable Public Access (you can only access from within your VMs now.)
-This is done on the network tab as well as the Settings -> configuration “Allow Blob public access → Disabled” as well
+2. Configure Azure Private Link and Firewall for your Azure Storage Account instance
 
-Observe Network Watcher Topology for the region and resource group all of your stuff is in.
+2a. Disable Public Access and configure EndPoint, repeat the steps above. 
+
+![vivaldi_PjlZ3MgRi4](https://user-images.githubusercontent.com/109401839/235411592-2bd15e1a-7cbc-4686-8953-9c54c496ea27.png)
+
+2b. This is done on the network tab as well as the Settings -> configuration “Allow Blob public access → Disabled” as well
+
+![image](https://user-images.githubusercontent.com/109401839/235411467-3ed9c0d9-5e93-4800-bcc5-2d38bbcbcc89.png)
+
+> The DNS will assign a private IP Address and resources will resolve to this IP.
+
+3. Observe Network Watcher Topology
+
+![vivaldi_fQ3YVFUNu1](https://user-images.githubusercontent.com/109401839/235411888-fadc37ab-db2b-4d4c-bc26-80bc95713900.png)
+
+
+
+
 Observe the Key Vault and Storage Account Private Endpoints are there
 
 Wait 5 minutes (get coffee, etc)
