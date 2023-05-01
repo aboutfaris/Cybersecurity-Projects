@@ -59,8 +59,7 @@ I will start with the DDos Protection and I wont show everything. However, take 
 
 </summary>
 
-
-
+![image](https://user-images.githubusercontent.com/109401839/235408787-7acc45e8-904f-4bfb-b4ec-7c6668f4453f.png)
 
 ### Run SECURE Environment for 24 Hours and Capture Analytics
 <details close>
@@ -70,17 +69,17 @@ I will start with the DDos Protection and I wont show everything. However, take 
 </summary>
 
 
-
 After 24 Hours: 
 <div>
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
-| SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+| SecurityEvent            | 2401 (-93.85%)
+| Syslog                   | 730 (-6.65%)
+| SecurityAlert            | 0 (-100.00%)
+| SecurityIncident         | 185 (-16.67%)
+| AzureNetworkAnalytics_CL | 68 (-94.96%)
 
+![vivaldi_naqKr3ZM8e](https://user-images.githubusercontent.com/109401839/235409014-801f77ab-ec76-46fe-bb14-48d4927341d4.png)
 
 Well, this series of projects in Microsoft Azure is finally at its conclusion. Over time there will be updates and cleaning up. However, whoever is viewing this. I hope  you learned a lot because I have learned a lot. Thank you.
