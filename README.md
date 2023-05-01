@@ -216,6 +216,16 @@ After 24 Hours of Locking - Down Environment:
 
 ![vivaldi_2ebSstcfdc](https://user-images.githubusercontent.com/109401839/235537587-a0c39f9c-3bea-4859-a736-80899a8ae56c.png)
 
+![Linux SSH Auth Failure](https://user-images.githubusercontent.com/109401839/235539282-d6f0bfa4-0514-4288-b358-7ffa241b8f04.png)
+
+![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235539283-b15bec27-f34e-405a-83f6-e4fa3ca38fd9.png)
+
+![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235539286-316d79df-2a15-4711-b0c3-157d78175097.png)
+
+![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235539287-8d7d8428-1d08-4ea4-8da0-fa8770a54aa3.png)
+
+![vivaldi_IrVtpebi10](https://user-images.githubusercontent.com/109401839/235539351-10369664-4b30-4b7a-a220-00bdb7f83596.png)
+
 <div>
 
 Well, this series of projects in Microsoft Azure is finally at its conclusion.
