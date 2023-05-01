@@ -82,4 +82,12 @@ After 24 Hours:
 
 ![vivaldi_naqKr3ZM8e](https://user-images.githubusercontent.com/109401839/235409014-801f77ab-ec76-46fe-bb14-48d4927341d4.png)
 
-Well, this series of projects in Microsoft Azure is finally at its conclusion. Over time there will be updates and cleaning up. However, whoever is viewing this. I hope  you learned a lot because I have learned a lot. Thank you.
+Well, this series of projects in Microsoft Azure is finally at its conclusion.
+
+Over time there will be updates and cleaning up. 
+
+However, whoever is viewing this. 
+
+I hope  you learned a lot because I have learned a lot. 
+
+Thank you.
