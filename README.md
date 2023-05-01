@@ -23,6 +23,19 @@
 - VM Windows 10 PRO (21H2)
 - VM Linux Ubuntu 20.12
 
+After 24 Hours of Configuring NSG: 
+<div>
+
+| Metric                   | Count
+| ------------------------ | -----
+| SecurityEvent            | 2401 (-93.85%)
+| Syslog                   | 730 (-6.65%)
+| SecurityAlert            | 0 (-100.00%)
+| SecurityIncident         | 185 (-16.67%)
+| AzureNetworkAnalytics_CL | 68 (-94.96%)
+
+![vivaldi_naqKr3ZM8e](https://user-images.githubusercontent.com/109401839/235409014-801f77ab-ec76-46fe-bb14-48d4927341d4.png)
+
 #### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations 
 <details close>
 
@@ -109,22 +122,19 @@ Now, let enter the final phase of the Cloud SOC Projects.
 
 ![vivaldi_fQ3YVFUNu1](https://user-images.githubusercontent.com/109401839/235411888-fadc37ab-db2b-4d4c-bc26-80bc95713900.png)
 
+4. Observe the Key Vault and Storage Account Private Endpoints
 
+5. Login to “windows-vm” and check the IP addresses of your Key Vault and Storage Account instances.
 
+> They should be private addresses, indicating the resources have been probably integrated into private VNet:
 
-Observe the Key Vault and Storage Account Private Endpoints are there
+> If you see a public IP address, either it’s not done propagating yet, or it’s not configured correctly:
 
-Wait 5 minutes (get coffee, etc)
+> Possible causes for this are your resources and VM are actually in different Virtual Networks, or something is just not setup right
 
-Login to “windows-vm” and check the IP addresses of your Key Vault and Storage Account instances.
-They should be private addresses, indicating the resources have been probably integrated into private VNet:
+> The good news is, you don’t need to fix this for the rest of the lab, we are just trying to lock down the environment. 
 
-If you see a public IP address, either it’s not done propagating yet, or it’s not configured correctly:
-
-Possible causes for this are your resources and VM are actually in different Virtual Networks, or something is just not setup right
-
-The good news is, you don’t need to fix this for the rest of the lab, we are just trying to lock down the environment. However, if you want to fix it, you can try deleting the Private Endpoints/config and trying again
-
+> However, if you want to fix it, you can try deleting the Private Endpoints/config and trying again
 
 ### Run SECURE Environment for 24 Hours and Capture Analytics
 <details close>
@@ -133,19 +143,7 @@ The good news is, you don’t need to fix this for the rest of the lab, we are j
 
 </summary>
 
-
-After 24 Hours of Configuring NSG: 
 <div>
-
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 2401 (-93.85%)
-| Syslog                   | 730 (-6.65%)
-| SecurityAlert            | 0 (-100.00%)
-| SecurityIncident         | 185 (-16.67%)
-| AzureNetworkAnalytics_CL | 68 (-94.96%)
-
-![vivaldi_naqKr3ZM8e](https://user-images.githubusercontent.com/109401839/235409014-801f77ab-ec76-46fe-bb14-48d4927341d4.png)
 
 After 24 Hours of Locking - Down Environment: 
 
