@@ -141,6 +141,8 @@ This is an important distinction because my home computer is not on the VNET tha
 
 5b. Storage account address, ```https://sacyberlab05.blob.core.windows.net/``` <- This comes from the Blob service. If you remember moments ago, this was turned off to disconnect access from the public web to our services. 
 
+![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
+
 Lets try this on our non-azure computer:
 
 ![image](https://user-images.githubusercontent.com/109401839/235414638-2113a6d0-5bdf-476d-997f-430a5c876b21.png)
@@ -149,9 +151,25 @@ Now lets see if the Endpoint work by running this in the Azure computer:
 
 ![image](https://user-images.githubusercontent.com/109401839/235414965-914e2cb5-1859-43ff-99f9-2ea46832f3ff.png)
 
+6. Create NSG & Attach to subnet
 
-![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
+> Once created (I named mine NSG-Subnet) , head to Virtual Networks -> Enter the VNet -> Subnets -> Select default -> Add NSG-Subnet to NSG. -> Save. 
 
+6a. Network Watcher Topology
+
+![vivaldi_JWUR0sOCLh](https://user-images.githubusercontent.com/109401839/235415688-c1a3b912-8271-4e87-8ffe-5b7c0c26002a.png)
+
+7. We satisfied most of NIST 800-53: SC-7 [Boundary Protection] 
+
+- Just from doing the steps above we increased out Secure Score from 54% to 75% ! 
+
+![vivaldi_kFYxmPzqwK](https://user-images.githubusercontent.com/109401839/235415879-fe17a567-1987-4afa-ad16-b4da996d0303.png)
+
+- Somethings does take a few moments in Azure to update. Check the Regulatory Compliance section of Defender for Cloud, here we can see the status of everything. 
+
+![vivaldi_gPgHNLFsaR](https://user-images.githubusercontent.com/109401839/235416092-7e1021be-6600-4fa7-8b6f-b6fc62b36858.png)
+
+- We know everything is working properly, so I would not worry too much for this. It will take a moment to update.  Now lets wait 24 hours to capture our statisitcs. 
 
 ### Troubleshooting Methods:
 
