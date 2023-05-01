@@ -242,4 +242,6 @@ Handling personal matters, took time away from this project.
 
 Next project, which is optional, will be a Business Data Analysis project of project. 
 
+![vivaldi_ZZiizg1fZY](https://user-images.githubusercontent.com/109401839/235540432-04a309b3-70db-4885-a61f-f7a14a2f16b2.png)
+
 Thank you.
