@@ -29,7 +29,25 @@ The architecture of the mini honeynet in Azure consists of the following compone
 
 For the "BEFORE" metrics, all resources were originally deployed, exposed to the internet. The Virtual Machines had both their Network Security Groups and built-in firewalls wide open, and all other resources are deployed with public endpoints visible to the Internet; aka, no use for Private Endpoints.
 
+![Linux SSH Auth Failure (Before)](https://user-images.githubusercontent.com/109401839/235729193-7b789d7e-2b2e-4f70-ba19-c9f7cfb6f369.png)
+
+![MySQL Authentication Failures(Before)](https://user-images.githubusercontent.com/109401839/235729194-cf4c4918-2953-447c-a945-406b358c5a00.png)
+
+![nsg-malicious-allowed-in (before)](https://user-images.githubusercontent.com/109401839/235729209-c4b5216c-9d0c-43e1-b270-1f6da8ca2845.png)
+
+![Windows RDP   SMB Authentication Failure(Before)](https://user-images.githubusercontent.com/109401839/235729210-0c0f6c47-6db7-41a7-9c12-a41861b00f9e.png)
+
+
 For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL traffic with the exception of my admin workstation, and all other resources were protected by their built-in firewalls as well as Private Endpoint
+
+![Linux SSH Auth Failure](https://user-images.githubusercontent.com/109401839/235729264-56cdce9b-5c9a-46ee-bd76-d291faa7fbf8.png)
+
+![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235729270-99323804-9328-41c9-b25b-59e63e7a101c.png)
+
+![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235729275-dfa0f88b-49ac-4fd2-9842-89396d8a67fb.png)
+
+![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235729282-8afeb409-fd5c-4fa9-8ac7-cf311a711807.png)
+
 
 ## Attack Maps Before Hardening / Security Controls
 ![NSG Allowed Inbound Malicious Flows](Insert ref Image
