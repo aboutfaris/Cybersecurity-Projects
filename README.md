@@ -208,7 +208,7 @@ After 24 Hours of Locking - Down Environment:
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 676 (-98.27%)
+| SecurityEvent            | 0 (-100%)
 | Syslog                   | 0 (-100%)
 | SecurityAlert            | 0 (-100%)
 | SecurityIncident         | 0 (-100%)
@@ -220,7 +220,7 @@ After 24 Hours of Locking - Down Environment:
 
 ![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235539283-b15bec27-f34e-405a-83f6-e4fa3ca38fd9.png)
 
-![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235539286-316d79df-2a15-4711-b0c3-157d78175097.png)
+![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235552956-1a1f4144-27a7-426a-bc1a-2970a6852d36.png)
 
 ![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235539287-8d7d8428-1d08-4ea4-8da0-fa8770a54aa3.png)
 
