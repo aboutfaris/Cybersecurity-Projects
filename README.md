@@ -43,11 +43,11 @@ The following table shows the metrics we measured in our insecure environment fo
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
-| SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+| SecurityEvent            | 39046
+| Syslog                   | 782
+| SecurityAlert            | 1
+| SecurityIncident         | 222
+| AzureNetworkAnalytics_CL | 1350
 
 ## Attack Maps Before Hardening / Security Controls
 
@@ -61,11 +61,11 @@ Stop Time	2023-03-19 15:37
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 0
-| Syslog                   | 0
-| SecurityAlert            | 0
-| SecurityIncident         | 0
-| AzureNetworkAnalytics_CL | 0
+| SecurityEvent            | 0 (-100%)
+| Syslog                   | 0 (-100%)
+| SecurityAlert            | 0 (-100%) 
+| SecurityIncident         | 0 (-100%)
+| AzureNetworkAnalytics_CL | 0 (-100%)
 
 ## Conclusion
 
