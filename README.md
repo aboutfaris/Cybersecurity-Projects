@@ -27,34 +27,32 @@ The architecture of the mini honeynet in Azure consists of the following compone
 - Azure Storage Account
 - Microsoft Sentinel
 
+## Attack Maps Before Hardening / Security Controls
+
 For the "BEFORE" metrics, all resources were originally deployed, and exposed to the internet. The Virtual Machines had both their Network Security Groups and built-in firewalls wide open, and all other resources are deployed with public endpoints visible to the Internet; aka, no use for Private Endpoints.
 
-![Linux SSH Auth Failure (Before)](https://user-images.githubusercontent.com/109401839/235729193-7b789d7e-2b2e-4f70-ba19-c9f7cfb6f369.png)
+![Linux SSH Auth Failure (Before)](https://user-images.githubusercontent.com/109401839/235823253-36926afe-3fbb-4292-a47b-69b3224f48fb.png)
 
-![MySQL Authentication Failures(Before)](https://user-images.githubusercontent.com/109401839/235729194-cf4c4918-2953-447c-a945-406b358c5a00.png)
+![MySQL Authentication Failures(Before)](https://user-images.githubusercontent.com/109401839/235823254-a3fb0c78-d5b0-4bf2-81b1-6ed1b85dead3.png)
 
-![nsg-malicious-allowed-in (before)](https://user-images.githubusercontent.com/109401839/235729209-c4b5216c-9d0c-43e1-b270-1f6da8ca2845.png)
+![nsg-malicious-allowed-in (before)](https://user-images.githubusercontent.com/109401839/235823255-188f63c4-9d83-445b-9400-ca44041e7f2c.png)
 
-![Windows RDP   SMB Authentication Failure(Before)](https://user-images.githubusercontent.com/109401839/235729210-0c0f6c47-6db7-41a7-9c12-a41861b00f9e.png)
+![Windows RDP   SMB Authentication Failure(Before)](https://user-images.githubusercontent.com/109401839/235823259-ba8c71e4-3a75-4120-849e-7d9292b410a7.png)
 
+
+## Metrics Before Hardening / Security Controls
 
 For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL traffic except for my admin workstation, and all other resources were protected by their built-in firewalls as well as Private Endpoint
 
-![Linux SSH Auth Failure](https://user-images.githubusercontent.com/109401839/235729264-56cdce9b-5c9a-46ee-bd76-d291faa7fbf8.png)
 
-![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235729270-99323804-9328-41c9-b25b-59e63e7a101c.png)
+![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235823321-8e9e3872-e7e7-4522-a35f-575f6e1ff0de.png)
 
-![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235729275-dfa0f88b-49ac-4fd2-9842-89396d8a67fb.png)
+![Linux SSH Auth Failure](https://user-images.githubusercontent.com/109401839/235823323-235a76cb-f94d-4855-adcf-edeb181a0982.png)
 
-![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235729282-8afeb409-fd5c-4fa9-8ac7-cf311a711807.png)
+![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235823324-ef77ef97-c763-4f3b-a17c-9847d9504c51.png)
 
+![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235823325-6efbd17d-06e1-4003-957c-a9fbed4570bd.png)
 
-## Attack Maps Before Hardening / Security Controls
-![NSG Allowed Inbound Malicious Flows](Insert ref Image
-![Linux Syslog Auth Failures]Insert ref Image
-![Windows RDP/SMB Auth Failures] Insert ref Image
-
-## Metrics Before Hardening / Security Controls
 
 The following table shows the metrics we measured in our insecure environment for 24 hours:
 <div>
