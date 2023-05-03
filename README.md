@@ -53,6 +53,7 @@ For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL t
 
 ![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235823325-6efbd17d-06e1-4003-957c-a9fbed4570bd.png)
 
+```All map queries returned no results due to no instances of malicious activity for the 24-hour period after hardening.```
 
 The following table shows the metrics we measured in our insecure environment for 24 hours:
 <div>
@@ -65,9 +66,6 @@ The following table shows the metrics we measured in our insecure environment fo
 | SecurityIncident         | 222
 | AzureNetworkAnalytics_CL | 1350
 
-## Attack Maps Before Hardening / Security Controls
-
-```All map queries returned no results due to no instances of malicious activity for the 24-hour period after hardening.```
 
 ## Metrics After Hardening / Security Controls
 
