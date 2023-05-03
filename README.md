@@ -1,6 +1,4 @@
-![main picture](https://user-images.githubusercontent.com/109401839/230750863-8bee1f2d-e761-49a4-a25e-a9eba07b95b0.png)
-
-
+![68747470733a2f2f692e696d6775722e636f6d2f5a5778653033652e6a7067](https://user-images.githubusercontent.com/109401839/236074279-96ae8c16-e42d-43bf-9e33-2b2b3d4b5cde.jpg)
 
 <h1>Information Security Analyst Projects</h1>
 
