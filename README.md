@@ -311,7 +311,7 @@ Line 1: ```$tenantId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" ```
 
 Line 2: ``` $username = "attacker@[your user name].onmicrosoft.com" ```
 
-> # Some Username that exists in your AAD Tenant.. in my case that is "attacker@fnabeelpm.onmicrosoft.com"
+> # Some Username that exists in your AAD Tenant.. in my case that is "attacker@farisdou.onmicrosoft.com"
 
 Line 3: ``` $correct_password = "LabTest12345" ``` 
 
