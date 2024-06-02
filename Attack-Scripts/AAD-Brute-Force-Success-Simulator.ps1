@@ -2,8 +2,8 @@
 
 # Authenticate user against Azure AD
 $tenantId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # Your Tenant ID, you can find on the AAD Blade in the Azure Portal
-$username = "attacker@joshmadakorgmail.onmicrosoft.com" # Some Username that exists in your AAD Tenant
-$correct_password = "Cyberlab123!" # Enter the correct password for the above user
+$username = "attacker@attacker.onmicrosoft.com" # Some Username that exists in your AAD Tenant
+$correct_password = "AttackerPassword" # Enter the correct password for the above user
 $wrong_password = "___WRONG PASSWORD___" # This is used to generate auth failures
 $max_attempts = 11 # This is the number of times to fail the login before succeeding
 
