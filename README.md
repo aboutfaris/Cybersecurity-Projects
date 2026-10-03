@@ -1,232 +1,133 @@
 # Securing the Cloud Configuration
 
-We reduce risk by working through the following sections.
+Lock down the Cloud SOC lab and measure the result. You work through Microsoft Defender for Cloud recommendations, put Azure Key Vault and the storage account behind Private Link with public access disabled, attach an NSG to the subnet to satisfy NIST 800-53 SC-7 (Boundary Protection), and then compare 24 hours of attack data before and after.
 
-### Objectives
+Private Link gives a PaaS service a private IP inside your own virtual network, so traffic to it never crosses the public internet.
 
-- Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations
+## What you'll use
 
-- Azure Private Link & Firewall for Resources
+- Microsoft Azure: Microsoft Defender for Cloud (secure score, recommendations, regulatory compliance), Private Link and private endpoints, private DNS zones, Network Security Groups, Network Watcher, Cost Management
+- Azure Key Vault and an Azure Storage account
+- Microsoft Sentinel workbooks backed by the Log Analytics workspace `law-cyber-lab-05`
+- VMs: `windows-vm` (Windows 10 Pro 21H2) and `linux-vm` (Ubuntu Server 20.04) on `Lab-VNet`
 
-- Run SECURE Environment for 24 Hours and Capture Analytics
+## Prerequisites
 
-### Environments and Technologies Used:
+- The Cloud SOC lab from the earlier projects: `RG-Cyber-Lab` with `Lab-VNet`, both VMs, the Key Vault, the storage account, Sentinel with the GeoIP watchlists, and the four attack-map workbooks.
+- The previous lab's basic NSG lockdown already in place (secure score 54%).
 
-- Microsoft Azure
-- Microsoft Sentinel
-- Microsoft Cloud Defender
+## Steps
 
-### Operating Systems Used:
+### Part 1: Check the baseline after the NSG lockdown
 
-- VM Windows 10 PRO (21H2)
-- VM Linux Ubuntu 20.12
+1. Open each Sentinel workbook with Time Range set to Last 24 hours.
+   Expected result: Linux SSH Auth Failure, MySQL Authentication Failures, and Windows RDP & SMB Authentication Failure all return "The query returned no results." The nsg-malicious-allowed-in map is still busy, with malicious inbound flows from North America, Europe, and East Asia (top sources included London, China, and several US cities).
+2. Note the 24-hour counts for the five tables. After the basic NSG lockdown they were:
 
-### After 24 Hours of Configuring NSG
+   | Metric | Count (change) |
+   | --- | --- |
+   | SecurityEvent | 2401 (-93.85%) |
+   | Syslog | 730 (-6.65%) |
+   | SecurityAlert | 0 (-100.00%) |
+   | SecurityIncident | 185 (-16.67%) |
+   | AzureNetworkAnalytics_CL | 68 (-94.96%) |
 
-In the previous lab, we did some basic lockdowns and reached a secure score of 54%. Here are the results 24 hours later.
+   Malicious inbound NSG flows are still the main problem, which the rest of this lab addresses.
 
-![Linux SSH Auth](https://user-images.githubusercontent.com/109401839/235417071-d99a0c53-6d99-47f9-8203-e3a1bdd427f8.png)
+### Part 2: Work through Defender for Cloud recommendations
 
-![MYSQL AUTH FAIL](https://user-images.githubusercontent.com/109401839/235417072-245f83dc-53cd-455c-ab54-169674b0ab18.png)
+Check your subscription's Cost analysis before and after this part. Some remediations, such as DDoS Protection, are expensive.
 
-![nsg malicious in flow](https://user-images.githubusercontent.com/109401839/235417074-0e59086f-2ad0-496d-bb43-5941d476b351.png)
+3. Open Microsoft Defender for Cloud > Overview.
+   Expected result: secure score 54%, 40 active recommendations, and regulatory compliance of 48 of 62 Microsoft cloud security benchmark controls, Azure CIS 1.4.0 91/109, NIST SP 800-53 R5 301/333, and R4 391/424.
+4. Open Recommendations. Sort by Potential score increase. The largest gains are Secure management ports (+14%), Remediate vulnerabilities (+11%), Enable encryption at rest (+7%), and Restrict unauthorized network access (+7%).
+5. Open a recommendation and follow its Remediation steps. Azure links you to the right blade for each one. For example, Azure DDoS Protection Standard should be enabled:
+   1. Select a virtual network (`Lab-VNet` or `Lab-VNet-Attacker`).
+   2. Under DDoS protection, select Enable. If "No DDoS protection plan was found" appears, click Create a DDoS protection plan first.
+   3. Click Save.
+6. Repeat for the other recommendations you want to address. Score updates can take a while to appear.
 
-![windows and smb auth fail](https://user-images.githubusercontent.com/109401839/235417075-4478e72e-1768-4b61-9e98-ab6317f5dec8.png)
+A later project asks whether a 100% secure score is really the best security measure. Here the goal is the network-boundary work in Part 3.
 
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 2401 (-93.85%)
-| Syslog                   | 730 (-6.65%)
-| SecurityAlert            | 0 (-100.00%)
-| SecurityIncident         | 185 (-16.67%)
-| AzureNetworkAnalytics_CL | 68 (-94.96%)
+### Part 3: Private Link and firewall for Key Vault and Storage (NIST SC-7)
 
-We still have a major problem with malicious NSG inbound flow. Now we will increase our hardening methodology and observe the changes over the next 24 hours.
+Defender for Cloud > Regulatory compliance lets you inspect each NIST 800-53 control. This part implements SC-7 Boundary Protection. Use the same region (East US 2) and virtual network (`Lab-VNet`) as the VMs.
 
-### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations
+7. Open your Key Vault (`<your-key-vault>`) > Networking > Firewalls and virtual networks. Select Disable public access, check Allow trusted Microsoft services to bypass this firewall, and save the change.
+   The trusted services list only covers services where Microsoft controls all of the code. Services that run customer code, such as Azure DevOps, are not on it. That does not make them insecure; it just means they are not given a blanket bypass.
+8. Switch to Private endpoint connections > + Private endpoint. On Basics, set Resource group `RG-Cyber-Lab`, Name `PE-AKV`, Network Interface Name `PE-AKV-nic`, and Region East US 2.
+9. On Resource, choose Connect to an Azure resource in my directory, Resource type `Microsoft.KeyVault/vaults`, your Key Vault, and Target sub-resource `vault`.
+10. On Virtual Network, choose `Lab-VNet (RG-Cyber-Lab)`, subnet `default`, and Dynamically allocate IP address.
+11. On DNS, set Integrate with private DNS zone to Yes in `RG-Cyber-Lab`. Click Review + create, then Create.
+    Expected result: validation passes and the summary shows private DNS zone `privatelink.vaultcore.azure.net`.
+12. Open your storage account (`<your-storage-account>`) > Networking. Disable public access and create a private endpoint the same way: Name `EP-SA`, Network Interface Name `EP-SA-nic`, East US 2, `Lab-VNet`/`default`, private DNS integration Yes, Target sub-resource `blob`.
+13. In the storage account, go to Settings > Configuration, set Allow Blob public access to Disabled, and click Save.
+14. Open Network Watcher > Topology for `RG-Cyber-Lab`.
+    Expected result: under `Lab-VNet` > `default`, the topology shows `EP-SA-nic` and `PE-AKV-nic` next to the `linux-vm` and `windows-vm` network interfaces. The private DNS zone now maps each service name to a private IP in the subnet.
 
-Reminder: check your subscription's cost analysis.
+### Part 4: Verify the private endpoints
 
-#### Actions and Observations
+15. RDP into `windows-vm`, open PowerShell, and look up the Key Vault. Use the host name only; `nslookup` fails with "Non-existent domain" if you include `https://`.
 
-- Overview, currently:
+    ```powershell
+    nslookup <your-key-vault>.vault.azure.net
+    ```
 
-![vivaldi_ILnTZamtya](https://user-images.githubusercontent.com/109401839/235340696-8d247dcd-e45f-4e6c-ba90-a6f1d4257766.png)
+    Expected result: the answer is `<your-key-vault>.privatelink.vaultcore.azure.net` with a private address in the subnet (10.0.0.5 in my lab). A private IP inside your own subnet range is what proves the endpoint works.
+16. Run the same lookup on your own computer, outside Azure.
+    Expected result: it resolves to a public Azure IP (the alias still mentions `privatelink.vaultcore.azure.net`), but you cannot reach the vault, because your computer is not on `Lab-VNet` and public access is disabled.
+17. In the storage account, open Endpoints and copy the Blob service URL, `https://<your-storage-account>.blob.core.windows.net/`.
+18. On your own computer, look up the blob host name:
 
-Click on Recommendations. Ideally, we want to get to 100%.
+    ```powershell
+    nslookup <your-storage-account>.blob.core.windows.net
+    ```
 
-![vivaldi_sKRdqBEO7l](https://user-images.githubusercontent.com/109401839/235340928-3ad8b009-b1e7-46cd-920c-1b168c094904.png)
+    Expected result: a public IP with the alias `<your-storage-account>.privatelink.blob.core.windows.net`, and no access because public blob access is off.
+19. Run the same lookup inside `windows-vm`.
+    Expected result: `<your-storage-account>.privatelink.blob.core.windows.net` at a private address in the subnet (10.0.0.7 in my lab).
 
-Currently, I am at 54%. Apply each remediation step according to Azure and get your score up.
+If the VM lookup returns a public IP instead:
 
-I'll start with DDoS Protection, and I won't show every step. Take your time with this; Azure redirects you to each remediation.
+- DNS may still be propagating. Wait a few minutes and try again.
+- The private endpoint and the VM may be in different virtual networks, or the private DNS zone is not linked to `Lab-VNet`.
+- You can delete the private endpoint and its DNS configuration and recreate it. This is optional; the rest of the lab still works because public access is already disabled.
 
-![vivaldi_GYcRzsJZK3](https://user-images.githubusercontent.com/109401839/235341029-feb752ee-2793-4a72-b2d0-99c710a27413.png)
+### Part 5: Attach an NSG to the subnet
 
-![vivaldi_bLyC34Yftz](https://user-images.githubusercontent.com/109401839/235341064-6f41ab48-2787-4e66-8cdf-c00ad7941996.png)
+20. Create a network security group named `NSG-Subnet` in `RG-Cyber-Lab`, East US 2.
+21. Go to Virtual networks > `Lab-VNet` > Subnets > `default`, set Network security group to `NSG-Subnet`, and click Save.
+    Expected result: Network Watcher topology now shows `NSG-SUBNET` attached to the `default` subnet.
+22. Return to Defender for Cloud > Overview.
+    Expected result: the secure score rises from 54% to 75% (24 assessed resources, 37 active recommendations, Microsoft cloud security benchmark 50 of 62 controls, NIST SP 800-53 R5 305/333).
+23. Open Regulatory compliance > NIST SP 800-53 > SC-7 Boundary Protection. Most of SC-7 is now satisfied. Some assessments, such as "Subnets should be associated with a network security group", can still show as failed for a while because compliance data refreshes on a delay.
 
-In the next lab, we will go over the important recommendations to secure our environment. A later project will show how to get the score closer to 100%. The question I will pose for that project is: "Is a 100% secure score the best security measure?"
+### Part 6: Run the secured environment for 24 hours
 
-Now let's move into the final phase of the Cloud SOC projects.
+24. Leave the environment running for 24 hours, then open each workbook with Last 24 hours.
+    Expected result: Linux SSH Auth Failure, MySQL Authentication Failures, nsg-malicious-allowed-in, and Windows RDP & SMB Authentication Failure all return "The query returned no results."
+25. Record the 24-hour counts and compare them with the 24 hours before hardening:
 
-### Azure Private Link and Firewall for Resources
+    | Metric | Before securing | After securing | Change |
+    | --- | --- | --- | --- |
+    | Security Events (Windows VMs) | 39046 | 676 | -98.27% |
+    | Syslog (Linux VMs) | 782 | 0 | -100.00% |
+    | SecurityAlert (Defender for Cloud) | 1 | 0 | -100.00% |
+    | SecurityIncident (Sentinel incidents) | 222 | 0 | -100.00% |
+    | NSG inbound malicious flows allowed | 1350 | 0 | -100.00% |
 
-![image](https://user-images.githubusercontent.com/109401839/235408787-7acc45e8-904f-4bfb-b4ec-7c6668f4453f.png)
+26. Check Defender for Cloud > Overview one last time.
+    Expected result: the secure score is 77% with 34 active recommendations and 52 of 62 Microsoft cloud security benchmark controls passing.
 
-#### Goals for this lab
+## What I learned
 
-- Inspect MDC Regulatory Compliance (available and implemented)
-- NIST 800-53 (reference)
-- Implement SC-7
+- Private endpoints plus private DNS make a PaaS service resolve to a private IP inside the VNet, while outside clients still resolve a public name they can no longer use.
+- Disabling public access on Key Vault and Storage, and putting an NSG on the subnet, satisfied most of NIST 800-53 SC-7 and lifted the secure score from 54% to 75%.
+- After hardening, 24 hours of data showed malicious inbound flows, Syslog failures, alerts, and incidents all dropping to zero, and Windows security events dropping by 98%.
+- Secure score and compliance views lag behind changes, so verify with real tests like `nslookup` instead of waiting on the dashboard.
 
-1. Configure Azure Private Link and Firewall for your Azure Key Vault instance.
-   Ensure you use the same region and VNet as the rest of your VMs.
+## Next steps / cleanup
 
-   ![vivaldi_9kA8hVnhML](https://user-images.githubusercontent.com/109401839/235410803-679cf671-0110-41fd-b8be-973f7ccfd1ef.png)
-
-1a. In the firewall settings, disable public access and allow trusted Microsoft services to bypass this firewall.
-
-> When you enable the Key Vault firewall, you'll be given an option to "Allow Trusted Microsoft Services to bypass this firewall." The trusted services list does not cover every Azure service; for example, Azure DevOps is not on the list. This does not mean services outside the list are untrusted or insecure. The trusted services list covers services where Microsoft controls all of the code that runs on the service. Since users can write custom code in services such as Azure DevOps, Microsoft does not provide a blanket approval for them. Appearing on the trusted services list also does not mean a service is allowed for every scenario.
-
-1b. Configure Private EndPoint Connections
-
-![vivaldi_llF7NrXeNU](https://user-images.githubusercontent.com/109401839/235411138-05197fc9-624a-468a-ab20-ad808c69a5ef.png)
-
-![vivaldi_IrwcXIE1uZ](https://user-images.githubusercontent.com/109401839/235411183-457d39ff-35f8-4e5e-baab-49a837b68374.png)
-
-![vivaldi_cJOoHn4kRF](https://user-images.githubusercontent.com/109401839/235411232-1548ec0e-7b55-45f7-9a47-b06e61d0faa8.png)
-
-![vivaldi_Cn9neeLZKd](https://user-images.githubusercontent.com/109401839/235411264-b876bf35-6a51-42e7-886b-c13b8c518e10.png)
-
-![vivaldi_vDj1nUhARA](https://user-images.githubusercontent.com/109401839/235411275-0b16cd2a-b161-4fd2-b1df-683bfbfae3cf.png)
-
-	
-2. Configure Azure Private Link and Firewall for your Azure Storage Account instance
-
-2a. Disable Public Access and configure EndPoint, repeat the steps above. 
-
-![vivaldi_PjlZ3MgRi4](https://user-images.githubusercontent.com/109401839/235411592-2bd15e1a-7cbc-4686-8953-9c54c496ea27.png)
-
-2b. This is done on the network tab as well as the Settings -> configuration “Allow Blob public access → Disabled” as well
-
-![image](https://user-images.githubusercontent.com/109401839/235411467-3ed9c0d9-5e93-4800-bcc5-2d38bbcbcc89.png)
-
-> The DNS will assign a private IP Address and resources will resolve to this IP.
-
-3. Observe Network Watcher Topology
-
-![vivaldi_fQ3YVFUNu1](https://user-images.githubusercontent.com/109401839/235411888-fadc37ab-db2b-4d4c-bc26-80bc95713900.png)
-
-4. Observe the Key Vault and Storage Account Private Endpoints
-
-5. Login to “windows-vm” and check the IP addresses of your Key Vault and Storage Account instances.
-
-5a. My keyvault address, ```https://akv-cyber-lab5.vault.azure.net/``` 
-
-![mstsc_fxQfHckld4](https://user-images.githubusercontent.com/109401839/235413357-0963704d-9468-49ca-a17c-b45c80d13314.png)
-
-We can see it is resolving to a private IP address which means out Endpoint is working! Not solely because of the IP address, but because it is resolving to a private IP address within out subnet range. 
-If it was not working, we would have to troubleshoot.
-
-Now, lets try this but on our own computers, not the virtual machines. 
-
-![image](https://user-images.githubusercontent.com/109401839/235414783-fb98d0c3-2339-4f25-a017-7f6f53f927a1.png)
-
-We can resolve it and it shows a public IP address but we do not have access to it. 
-
-This is an important distinction because my home computer is not on the VNET that the keyvault is located on. 
-
-5b. Storage account address, ```https://sacyberlab05.blob.core.windows.net/``` <- This comes from the Blob service. If you remember moments ago, this was turned off to disconnect access from the public web to our services. 
-
-![Discord_Q2mMinCHmZ](https://user-images.githubusercontent.com/109401839/235414029-26c69c5d-3bfb-44e8-8c43-45e24714370d.png)
-
-Lets try this on our non-azure computer:
-
-![image](https://user-images.githubusercontent.com/109401839/235414638-2113a6d0-5bdf-476d-997f-430a5c876b21.png)
-
-Now lets see if the Endpoint work by running this in the Azure computer: 
-
-![image](https://user-images.githubusercontent.com/109401839/235414965-914e2cb5-1859-43ff-99f9-2ea46832f3ff.png)
-
-6. Create NSG & Attach to subnet
-
-> Once created (I named mine NSG-Subnet) , head to Virtual Networks -> Enter the VNet -> Subnets -> Select default -> Add NSG-Subnet to NSG. -> Save. 
-
-6a. Network Watcher Topology
-
-![vivaldi_JWUR0sOCLh](https://user-images.githubusercontent.com/109401839/235415688-c1a3b912-8271-4e87-8ffe-5b7c0c26002a.png)
-
-7. We satisfied most of NIST 800-53: SC-7 [Boundary Protection] 
-
-- Just from doing the steps above we increased out Secure Score from 54% to 75% ! 
-
-![vivaldi_kFYxmPzqwK](https://user-images.githubusercontent.com/109401839/235415879-fe17a567-1987-4afa-ad16-b4da996d0303.png)
-
-- Somethings does take a few moments in Azure to update. Check the Regulatory Compliance section of Defender for Cloud, here we can see the status of everything. 
-
-![vivaldi_gPgHNLFsaR](https://user-images.githubusercontent.com/109401839/235416092-7e1021be-6600-4fa7-8b6f-b6fc62b36858.png)
-
-- We know everything is working properly, so I would not worry too much for this. It will take a moment to update.  Now lets wait 24 hours to capture our statisitcs. 
-
-### Troubleshooting Methods:
-
-> They should be private addresses, indicating the resources have been probably integrated into private VNet.
-
-> If you see a public IP address, either it’s not done propagating yet, or it’s not configured correctly.
-
-> Possible causes for this are your resources and VM are actually in different Virtual Networks, or something is just not setup right.
-
-> The good news is, you don’t need to fix this for the rest of the lab, we are just trying to lock down the environment. 
-
-> However, if you want to fix it, you can try deleting the Private Endpoints/config and trying again.
-
-### Run SECURE Environment for 24 Hours and Capture Analytics
-<details close>
-
-<div>
-
-</summary>
-
-<div>
-
-After 24 Hours of Locking - Down Environment: 
-
-| Metric                   | Count
-| ------------------------ | -----
-| SecurityEvent            | 0 (-100%)
-| Syslog                   | 0 (-100%)
-| SecurityAlert            | 0 (-100%)
-| SecurityIncident         | 0 (-100%)
-| AzureNetworkAnalytics_CL | 0 (-100%)
-
-![vivaldi_2ebSstcfdc](https://user-images.githubusercontent.com/109401839/235537587-a0c39f9c-3bea-4859-a736-80899a8ae56c.png)
-
-![Linux SSH Auth Failure](https://user-images.githubusercontent.com/109401839/235539282-d6f0bfa4-0514-4288-b358-7ffa241b8f04.png)
-
-![MySQL Authentication Failures](https://user-images.githubusercontent.com/109401839/235539283-b15bec27-f34e-405a-83f6-e4fa3ca38fd9.png)
-
-![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235552956-1a1f4144-27a7-426a-bc1a-2970a6852d36.png)
-
-![Windows RDP   SMB Authentication Failure](https://user-images.githubusercontent.com/109401839/235539287-8d7d8428-1d08-4ea4-8da0-fa8770a54aa3.png)
-
-![vivaldi_IrVtpebi10](https://user-images.githubusercontent.com/109401839/235539351-10369664-4b30-4b7a-a220-00bdb7f83596.png)
-
-<div>
-
-Well, this series of projects in Microsoft Azure is finally at its conclusion.
-
-Over time there will be updates and cleaning up. 
-
-However, whoever is viewing this. 
-
-I hope  you learned a lot because I have learned a lot. 
-
-I started this project April 9th, 2023 and completed it May 1st, 2023.
-Overall it took roughly two weeks to complete everything. 
-Handling personal matters, took time away from this project.
-
-Next project, which is optional, will be a Business Data Analysis project of project. 
-
-![vivaldi_ZZiizg1fZY](https://user-images.githubusercontent.com/109401839/235540432-04a309b3-70db-4885-a61f-f7a14a2f16b2.png)
-
-Thank you.
+- Check Cost Management > Cost analysis. In my run the subscription reached about $136 for April 2023, and Azure DDoS Protection was the largest single line (about $63), ahead of Storage and Virtual Machines. Disable DDoS Protection and remove its plan when you finish.
+- Delete `RG-Cyber-Lab` and `RG-Cyber-Lab-Attacker` when you no longer need the lab.
+- For a recap of the whole series, see [Cloud SOC Final](https://github.com/aboutfaris/Cloud-SOC-Final).
