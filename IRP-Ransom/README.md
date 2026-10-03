@@ -1,24 +1,29 @@
 # Ransom Playbook
 
-[[_TOC_]]
+## Contents
+
+- [Scope](#scope)
+- [1. Preparation](#1-preparation)
+- [2. Detect](#2-detect)
+- [3. Analyze](#3-analyze)
+- [4. Contain / Eradicate](#4-contain--eradicate)
+- [5. Recover](#5-recover)
+- [6. Post Incident](#6-post-incident)
 
 ## Scope
-This Playbook covers various type of Ransom we could be faced with. The most common being Ransomware but we try to also account for other types.  
+This Playbook covers various type of Ransom we could be faced with. The most common being Ransomware but we try to also account for other types.
 It was built to be run in parallele with the [Malware Playbook](../IRP-Malware/) and possibly the [Critical Playbook](../IRP-Critical/)
 
 ## 1. Preparation
 
-<details>
-<summary>Expand/Colapse</summary>
-
-- Create and maintain a list of 
+- Create and maintain a list of
     - all domains owned by Company.
         - This can prevent you from taking actions against our own domains
-    - all people of can register domains
-- Create email template 
-    - to notify all employees of ongoing phishing campaing against the organization 
+    - all people who can register domains
+- Create email template
+    - to notify all employees of ongoing phishing campaign against the organization
     - to contact hosting companies for domain take down
-    - to inform 3rd party to take actions against phishing on there infra (Microsoft, Fedex, Apple, etc.)
+    - to inform 3rd party to take actions against phishing on their infrastructure (Microsoft, Fedex, Apple, etc.)
 - Ensure that:
     - Mail anti-malware/anti-spam/anti-phish solutions are in place.
     - Users know how to report phish
@@ -28,19 +33,26 @@ It was built to be run in parallele with the [Malware Playbook](../IRP-Malware/)
         - WMI
         - MSHTA
         - Etc.
-- Perform Firedrill to ensure all aspects of the Playbook are working
+- Perform fire drill to ensure all aspects of the Playbook are working
     - After publication
     - At least once a year
-    - Test/Validate: 
+    - Test/Validate:
         - [Customer's Cards](Customers)
         - Internal Contact and Escalation Paths
-- Review threat intelligence for 
-    - threats to the organisation, 
-    - brands and the sector, 
-    - common patterns 
+- Review threat intelligence for
+    - threats to the organization,
+    - brands and the sector,
+    - common patterns
     - newly developing risks and vulnerabilities
-- Ensure  appropriate  access  to  any  necessary  documentation  and  information, including out-of-hours access, for the following
-    - IR Playbgns to highlight information security risks faced by employees, including: 
+- Ensure appropriate access to all necessary documentation and information, including out-of-hours access, for the following
+    - IR Playbooks
+    - Network Architecture Diagram
+    - Dataflow
+- Identify and obtain the services of a third-party cyber forensics provider.
+- Define threat and risk indicators and alerting patterns in the organization's SIEM.
+
+### Train Employees
+- Run regular awareness campaigns to highlight the information security risks employees face, including:
     - Phishing attacks and malicious emails;
     - Ransomware;
     - Reporting a suspected cyber incident.
@@ -48,26 +60,26 @@ It was built to be run in parallele with the [Malware Playbook](../IRP-Malware/)
 ### Tool Access and Provisioning
 
 #### Tool1
-Please referer to [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](../Products/TOOL.md)
 
 #### Tool2
-Please referer to [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](../Products/TOOL.md)
 
 ### Assets List
-- A list of assets and owner should exists and be available for the following
+- A list of assets and owners should exist and be available for the following
     - Customers Assets
         - Owners
         - Contacts
-        - Pre authorized actions
-    - Company Assets (Including all filiale and business units)
+        - Preauthorized actions
+    - Company Assets (including all subsidiaries and business units)
         - Owners
         - Contacts
         - Administrators
-        - Pre autorized actions
+        - Preauthorized actions
 - Type of assets inventory needed
     - Endpoints
     - Servers
-    - Network Equipements
+    - Network Equipment
     - Security Appliances
     - Network Ranges
         - Public
@@ -77,26 +89,34 @@ Please referer to [Tool2 Documentation](../Products/TOOL.md)
             - Partners
             - Clients
 
-</details>
-
 ## 2. Detect
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Detect
 
-![Ransom Workflow](Workflows/Ransom-Workflow-Detect.png)
-
-</details>
+1. RD1. Identify threat indicators from two kinds of input:
+   - Alerts: tickets, SIEM, AV/EDR alerts, reports (DNS, web proxy).
+   - Notifications: users, recipients, third parties, the ISP, the mail provider, or a computer that is slow or crashes unexpectedly.
+2. RD2. Identify risk factors:
+   - Common: credential theft, malware delivery, criminal activity (financial losses, blackmail or ransom).
+   - Company specific: reputation damage, financial losses (lost contract or renewal, lower bids to our clients, regulatory fines).
+3. RD3. Data collection. Record:
+   - Threat: Bitcoin address, email.
+   - File: hash, reputation, extension type, behavior.
+   - Domain: reputation, registrar, owner, IP, multi-stage or redirect, technologies (WordPress, Joomla, custom).
+   - IP: reputation, other domains hosted on it (vhosts).
+4. RD4. Triage:
+   - Determine impact: is the malware destroying things, is it spreading to other hosts, financial impact, BSoD, and so on.
+   - Determine scope: number of hosts that received the files (hash, name), tried to connect to the URLs, or have the registry keys, plus any other IOCs found.
+   - Send a communication.
+   - Determine whether it is a false positive.
+5. RD5. Is it a false positive?
+   - If yes: stop.
+   - Otherwise: go to Analyze.
 
 ### RD1. Identify Threat Indicators
-<details open>
-<summary>Expand/Colapse</summary>
 
 #### Alerts
-Alerts are be generated by differents systems owned by the Security/SOC team. The main sources for alerts are  
+Alerts are generated by different systems owned by the Security/SOC team. The main sources for alerts are
 - Tickets
 - SIEM
 - Anti-Virus / EDR
@@ -106,42 +126,34 @@ Alerts are be generated by differents systems owned by the Security/SOC team. Th
 - Errors from mail servers
 
 #### Notifications
-Notifications are comming from external sources usually via email, Teams or phone. The main sources for notifications are  
+Notifications come from external sources, usually by email, Teams or phone. The main sources for notifications are
 - Users (internal)
-- Recipents of emails (external)
+- Recipients of emails (external)
 - Third Parties
 - ISP
 - Mail Providers
 
-</details>
-
-### RD2. Indentify Risks Factors
-<details open>
-<summary>Expand/Colapse</summary>
+### RD2. Identify Risk Factors
 
 #### Common
 - Credential Theft
 - Malware Delivery
-- Criminal Activites
+- Criminal Activities
     - Blackmail / Ransom
 
 #### Company Specific
 - Financial Losses
-    - Lost of conctrat
+    - Lost contract
     - Contract not renewed
     - Lower bid to our clients
     - Fines
         - Regulation
 
-</details>
+### RD3. Data Collection
+This section describes the information that should be collected and documented about the incident
+There are a lot of resources to help you with that phase [here](../Tools/README.md)
 
-### RD3. Data Colletion
-This section describe the information that should be collected and documented about the incident  
-There is a lot of ressources to help you with that phase [here](../Tools/README.md)
-<details open>
-<summary>Expand/Colapse</summary>
-
-Domains  
+Domains
 - Reputation
 - Registrar
 - Owner
@@ -152,112 +164,100 @@ Domains
     - Joomla
     - Custom Page (credential phish)
 
-IP  
+IP
 - Reputation
 - Owner
-- Geo Localisation
+- Geo Location
 - Other domains on that IP
 
-</detials>
-
 ### Categorize
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine type of 
+Determine type of
 
-
-</details>
-
-### RD4. Triage 
-<details open>
-<summary>Expand/Colapse</summary>
+### RD4. Triage
 
 Determine
 - Impact
-    - Of 
+    - Of
     - Financial
     - Data loss
 - Scope (Nb of people)
 
-</details>
-</details>
-</details>
-
 ## 3. Analyze
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Analyze
 
-![Ransom Workflow](Workflows/Ransom-Workflow-Analyze.png)
-
-</details>
+1. RA1. Verify: double-check the data from Detect and rule out a false positive.
+2. RA2. Is this something other than ransomware?
+   - If yes: RA3. Is it a DDoS? If yes, switch to a DDoS playbook (this repository does not have one yet; create it from [IRP-TEMPLATE.md](../IRP-TEMPLATE.md)). Otherwise, run the [Critical playbook](../IRP-Critical/README.md), then continue at RA4.
+   - Otherwise: go to RA4.
+3. RA4. Is there a live threat actor?
+   - If yes: RA5. Contain and eradicate the IOCs and IOAs you have found. With a live actor, contain and eradicate as soon as each new IOC or IOA is discovered. Then go to RA6.
+   - Otherwise: go to RA6.
+4. RA6. Do we have backups?
+   - If yes: RA7. Make sure the backups are protected: disable future backups (disable the backup interface, stop backup scheduling) and make an offline copy. Then go to RA8.
+   - Otherwise: go to RA8.
+5. RA8. Is the infected Active Directory domain trusted by other domains?
+   - If yes: RA9. Disable trust with the infected domain. The infected domain must be cut off from every other environment. Then go to RA10.
+   - Otherwise: go to RA10.
+6. RA10. Identify the threat actor and ransomware family: their usual TTPs, the effects of a reboot, whether decryption is possible, the ransomware file extension, and which operating systems it affects.
+7. RA11. Identify the types of affected systems: servers, workstations, databases, shared drives, SAN, backups.
+8. RA12. Do we pay the ransom?
+   - If yes: RA13. Make payment arrangements: ask the insurer whether they will reimburse, negotiate the price with the threat actor, and get Bitcoin. Then go to RA14.
+   - Otherwise: go to RA14.
+9. RA14. Was data exfiltrated?
+   - If yes: run the [Data Loss playbook](../IRP-DataLoss/README.md), then continue at RA15.
+   - Otherwise: go to RA15.
+10. RA15. Have all affected endpoints and data been identified?
+    - If no: RA16. Update the lists of affected data, endpoints, company entities and clients. Then RA17. Scope validation: look for new signs of encrypted data, search the customers' environments, search endpoints for IOCs with EDR, and search firewall, proxy and DNS logs for IOCs. Go back to RA1.
+    - Otherwise: go to RA18.
+11. RA18. Do we need external help?
+    - If yes: RA19. Do we need technical help? If yes, RA20. Contact IR professional services. Then RA21. Do we need legal help? If yes, RA22. Contact the breach coach. Then go to RA23.
+    - Otherwise: go to RA23.
+12. RA23. Root cause analysis: phishing, vishing, drive-by download, a vulnerability (RCE, XSS, LFI), a remote service (default or weak password, brute force, vulnerability), a lost device, or human error.
+13. RA24. Send a communication to the internal security teams, the affected clients, and any internal teams needed for remediation or counselling.
+14. Go to Contain / Eradicate.
 
 ### RA1. Verify
-<details open>
-<summary>Expand/Colapse</summary>
 
-In conjonction with a senior member of the SOC  
+In conjunction with a senior member of the SOC
 - Double check previous data
 - Rule out False Positive
 
-</details>
-
 ### RA2. Identify type of Ransom
-<details open>
-<summary>Expand/Colapse</summary>
 
 The first thing we need to do is understand which type of Ransom we are dealing with.
 - Is this a Ransomware?
-- Is this a DDoS related Ransom? 
-    - For now, we do not have a DDoS Playbook, so referer to the [Critical Playbook](../IRP-Critical/)
+- Is this a DDoS related Ransom?
+    - For now, we do not have a DDoS Playbook, so refer to the [Critical Playbook](../IRP-Critical/)
 
 If it's another type, you should follow the [Critical Playbook](../IRP-Critical/) and escalate to the SOC and/or Security management.
 
-</details>
-
 ### RA4. Assess if the Threat Actor is still in the Network
-<details open>
-<summary>Expand/Colapse</summary>
 
-Depending if the actor has succesfully encrypted the data or if they are still actively trying, the speed at which we must act is different.  
-If the actor is still in the network, the containment effort needs to be taken as fast as possible and the Contain & Eradicate actions will be intertwined with the Analysis. 
-
-</details>
+Depending if the actor has successfully encrypted the data or if they are still actively trying, the speed at which we must act is different.
+If the actor is still in the network, the containment effort needs to be taken as fast as possible and the Contain & Eradicate actions will be intertwined with the Analysis.
 
 ### RA6. Do We Have Backup?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If we have backups, we must make sure they are protected and not overriten. Here's some of the steps that needs to be taken:
+If we have backups, we must make sure they are protected and not overwritten. Here's some of the steps that needs to be taken:
 - Disable future backups
     - Disable backup Interface
     - Stop backup scheduling
 - Make an offline copy of the backup
 
-</details>
-
 ### RA8. Is the infected environment (AD) trusted by other environment?
-<details open>
-<summary>Expand/Colapse</summary>
 
-In order to provent the adversaries to reach other domains that could be linked, we need to 
+In order to provent the adversaries to reach other domains that could be linked, we need to
 - Disable any Trust from that domain to others
 - In some cases, we might need to disconnect the MPLS Link
     - This needs management approval (refer to the [Critical Playbook](../IRP-Critical/))
 
-</details>
-
-### RA10. Identify Threat Actor/Ransomware Familly
-<details open>
-<summary>Expand/Colapse</summary>
+### RA10. Identify Threat Actor/Ransomware Family
 
 Using the various artefacts, we need to identify who our adversary is. This will help
 - Know the TTP they typically use
-- Potentially indetify the Initial Access technique
+- Potentially identify the Initial Access technique
 - Understand how they move laterally
     - WMI
     - PSExec
@@ -268,21 +268,17 @@ Using the various artefacts, we need to identify who our adversary is. This will
     - This is increasingly less frequent
 - Which OS version are targeted
 
-Things that we can use to identify the adversary: 
+Things that we can use to identify the adversary:
 - Ransomware note
 - Malware payload
-- Encrypted file extentions
+- Encrypted file extensions
 - Email / Web portal
 - Bitcoin addresses
 - etc.
 
-</details>
-
 ### RA11. Identify Affected Systems Type
-<details open>
-<summary>Expand/Colapse</summary>
 
-In order to remediate properly and engage the right team(s) we need to understand which type of systems were affected: 
+In order to remediate properly and engage the right team(s) we need to understand which type of systems were affected:
 - Servers
     - OS version
     - Kernel
@@ -295,90 +291,57 @@ In order to remediate properly and engage the right team(s) we need to understan
 - Backups
 - Etc.
 
-</details>
-
 ### RA12. Do We Pay the Ransom?
-<details open>
-<summary>Expand/Colapse</summary>
 
-Depending on the state of the backups, the type of devices that was encrypted, we might need to pay the ransom.  
-**NOTE**: This decision must be taken by the Board (or the client(s)), but we are here to help advice.  
+Depending on the state of the backups, the type of devices that was encrypted, we might need to pay the ransom.
+**NOTE**: This decision must be taken by the Board (or the client(s)), but we are here to help advice.
 
 Here a some things think about if we decide to pay:
-- Will the insurer cover/reimbourse?
-- Most of threat actors are open to negociation and we should **always** negociate the price down
+- Will the insurer cover/reimburse?
+- Most of threat actors are open to negotiation and we should **always** negotiate the price down
 - We need to get Bitcoin on a trusted exchange
 
-</details>
-
-
 ### RA14. Was Data Exfiltrated?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If data was exfiltrated we need to refer to the the [Data Loss Playbook](../IRP-DataLoss/) 
-
-</details>
+If data was exfiltrated we need to refer to the the [Data Loss Playbook](../IRP-DataLoss/)
 
 ### RA15. Were All Endpoints and Data Identified?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If we have found new affected endpoints or data go to the next section. 
+If we have found new affected endpoints or data go to the next section.
 
 If we have identified all endpoints and data you can jump to [Do we need external help](README.md#ra18-external-help)
 - Update FW, IDS, etc. rules w/ IOCs
 - Search endpoints for IOCs w/ EDR
 
-</details>
-
 ### RA16. Update Scope
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update lists of
     - affected endpoints
     - affected Company Entities
     - affected clients
 
-</details>
-
 ### RA17. Scope Validation
-<details open>
-<summary>Expand/Colapse</summary>
 
-Have all the machines been identified? 
-If you find futher traces of phishing or new IOCs go back through this step.  
+Have all the machines been identified?
+If you find futher traces of phishing or new IOCs go back through this step.
 
-When you are done identifying all compromised:  
+When you are done identifying all compromised:
 - Hosts
 - Data
 
-You can continue to the next phase. 
-
-</details>
+You can continue to the next phase.
 
 ### RA18. External Help
-<details open>
-<summary>Expand/Colapse</summary>
 
-Does Company have all the knowledge and ressources to handle the crisis alone?
-
-</details>
+Does Company have all the knowledge and resources to handle the crisis alone?
 
 #### RA19. Technical Help
-<details open>
-<summary>Expand/Colapse</summary>
 
 The Incident Commander can reach out to a 3rd Party Incident Responder
 - xxxx@yyyy.com
-- 555-555-1212 
-
-</details>
+- 555-555-1212
 
 #### RA21. Legal Help
-<details open>
-<summary>Expand/Colapse</summary>
 
 If there are Legal implication such as
 - GDPR
@@ -390,13 +353,9 @@ The Incident Commander can reach out to a Breach Coach / Cyber Insurer
 - aaa@bbb.com
 - 555-555-1212
 
-</details>
-
 ### RA23. Root Cause Analysis
-<details open>
-<summary>Expand/Colapse</summary>
 
-Identify how this incident happened. 
+Identify how this incident happened.
 - Phishing Emails
 - Voice Phishing
 - Drive-by Download
@@ -410,135 +369,103 @@ Identify how this incident happened.
 - Lost Device
 - Human Error
 
-</details>
-
-### RA24. Send Communincation
-<details open>
-<summary>Expand/Colapse</summary>
+### RA24. Send Communication
 
 Contact any relevant of the following party
 - Internal Security Team
 - Affected Clients
-- Any internal teams needed for remediation or counselling 
-
-</details>
-</details>
-
+- Any internal teams needed for remediation or counselling
 
 ## 4. Contain / Eradicate
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Contain / Eradicate
 
-![Ransom Workflow](Workflows/Ransom-Workflow-Contain_Eradicate.png)
+1. RC1. Block system-to-system communication: local firewall, AV/EDR firewall, host containment, or shutting down the network interface.
+2. RC2. Stop backups, and check the status of snapshots.
+3. RC3. Power down systems that are not encrypted, if possible. Do not power down encrypted systems, because they might not restart.
+4. RC4. Disconnect all shared drives.
+5. RC5. Is there a malware infection?
+   - If yes: run the [Malware playbook](../IRP-Malware/README.md), then continue at RC6.
+   - Otherwise: go to RC6.
+6. RC6. Clean up Active Directory: change the krbtgt password twice and reset all privileged accounts.
+7. RC7. Monitor closely for lateral movement, privilege escalation and IOCs.
+8. RC8. Are all affected endpoints contained?
+   - If yes: go to Recover.
+   - Otherwise: go to RC9.
+9. RC9. Were new IOCs discovered?
+   - If yes: go back to Analyze.
+   - Otherwise: RC10. Update the scope, then go back to RC1.
 
-</details>
-
-### RC1. Block Systems to Systems Communincations
-<details open>
-<summary>Expand/Colapse</summary>
-The first things we need to do with ransomware is to block systems to systems communincation. We can do this using various methods such as: 
-- EDR containment fonction
+### RC1. Block Systems to Systems Communications
+The first things we need to do with ransomware is to block systems to systems communication. We can do this using various methods such as:
+- EDR containment function
 - Local Firewall
-    - This could be circonvented if the adversary is still on the system
+    - This could be circumvented if the adversary is still on the system
 - AV/EDR Firewall
 - Shutdown Network Interface
     - This mostly apply to VM
 - Disable the switch port on the router
-- Etc. 
-
-</details>
-
+- Etc.
 
 ### RC2. Stop Backups
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Check status of Snapshots
-</details>
 
 ### RC3. Powerdown NON Encrypted Systems
-<details open>
-<summary>Expand/Colapse</summary>
 
 - If possible powerdown the systems that are not encrypted
 - Do NOT powerdown encrypted systems as they might not restart
-</details>
 
 ### RC4. Disconnect Share Drives
-<details open>
-<summary>Expand/Colapse</summary>
 
 - All shared drive must be disconnected
-</details>
 
 ### RC5. Malware Infection
-<details open>
-<summary>Expand/Colapse</summary>
 
 - If there is a Malware infection run the [Malware Playbook](../IRP-Malware/README.md)
-</details>
 
 ### RC6. Active Directory Clean Up
-<details open>
-<summary>Expand/Colapse</summary>
 
 In most cases these actions should be sufficient:
-- Change kbrtgt Password twice
+- Change krbtgt Password twice
 - Reset All Privilege Accounts
 
-In cases where we beleive Domain Admin account(s) were compromised we have to do the following **before** the steps above: 
+In cases where we believe Domain Admin account(s) were compromised we have to do the following **before** the steps above:
 - Restore the AD from backup that predate the initial compromised
 - If no backup exists:
-    - Consider rebuiling the AD from scratch. 
+    - Consider rebuilding the AD from scratch.
     - Change how we protect sensitive Accounts
 
 The decision to rebuilt from strach should come from the higher management of the Global-Security Team or of the client's security team.
 
-</details>
-
 ### RC7. Monitor Closely
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Monitor for:
     - Lateral Movement
     - Privilege Escalation
     - IOCs
     - etc.
-</details>
 
 ### RC9. New IOC Discovered
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Go back to [Ransom Analyze](../IRP-Ransom/README.md#3-analyze)
 
-</details>
-
-</details>
-
-
 ## 5. Recover
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Recover
 
-![Ransom Workflow](Workflows/Ransom-Workflow-Recover.png)
-
-</details>
+1. RR1. Update defenses: lift containment, update the proxy and firewall, reconnect shared drives, re-enable backup links, enable network interfaces, and update the AV/EDR engine, policies and definitions.
+2. RR2. Change all passwords: change the krbtgt password and reset all privileged accounts.
+3. RR3. Remove temporary remote access: VPN, jump box and Citrix.
+4. RR4. Rebuild systems: install the OS from clean media, and upgrade the OS if you can.
+5. RR5. Restore data from a clean backup.
+6. RR6. Have all affected endpoints been identified?
+   - If yes: go to Post Incident.
+   - Otherwise: go back to RR1.
 
 ### RR1. Update Defenses
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine which of the following actions need to be performed:  
+Determine which of the following actions need to be performed:
 - Lift Containment
 - Proxy Block
 - Firewall Rules
@@ -550,105 +477,75 @@ Determine which of the following actions need to be performed:
     - Policies
     - Definitions
 
-</details>
-
-
 ### RR2. Change All Passwords
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Change krbtgt Password
-- Reset All Priviledge Accounts
-
-</details>
+- Reset All Privilege Accounts
 
 ### RR3. Remove
-<details open>
-<summary>Expand/Colapse</summary>
 
 - VPN
 - Jumpbox
 - Citrix
 
-</details>
-
 ### RR4. Rebuild Systems
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Install OS from Clean Media
 - Can we upgrade OS?
 
-</details>
-
 ### RR5. Restore Data
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Use a clean backup
 
-</details>
-
-
-</details>
-
 ## 6. Post Incident
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Post Incident
 
-![Ransom Workflow](Workflows/Ransom-Workflow-Post_Incident.png)
-
-</details>
+1. RP1. Incident review: what worked and what didn't.
+2. RP2. Update policies and procedures:
+   - Documentation: policies, playbooks, runbooks and procedures.
+   - Detection rules: SIEM, AV/EDR and other security tools.
+3. RP3. Review the defensive posture. Schedule a review of newly added rules in 6 months, and check whether AV/EDR custom signatures and IPS signatures are still needed.
+4. RP4. Update or upgrade defenses: antivirus (signatures, engine), EDR (malware behavior), anti-spam and anti-phishing.
+5. RP5. Build new detections: SIEM rules and tickets.
+6. RP6. Modify base images: review the hardening process, include patches in OS images, and upgrade and patch apps.
+7. RP7. Was the incident caused by a person?
+   - If yes: RP8. Run user awareness training, then go to RP9.
+   - Otherwise: go to RP9.
+8. RP9. Calculate the cost of the incident.
+9. Stop.
 
 ### RP1. Incident Review
-<details open>
-<summary>Expand/Colapse</summary>
 
 - What worked
 - What didn't work
 
-</details>
-
 ### RP2. Update Mode of Operations
-<details open>
-<summary>Expand/Colapse</summary>
 
-Update the following documents as requiered:  
+Update the following documents as required:
 - Policies
 - Processes
 - Procedures
 - Playbooks
 - Runbooks
 
-Update Detetion Rules in:  
+Update Detection Rules in:
 - SIEM
 - Anti-Spam
 - Malware Gataway
 - EDR
 - Other security solution
 
-</details>
-
 ### RP3. Review Defensive Posture
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Schedule review of newly introduced rules in6 months
-- Are the following still applicatble
+- Are the following still applicable
     - Firewall Rules
     - Proxy Rules for C2
     - AV / EDR custom Signatures
     - IPS Signatures
 
-</details>
-
 ### RP4. Update & Upgrade Defenses
-<details open>
-<summary>Expand/Colapse</summary>
 
 Various security solutions might need to be updated or upgraded to prevent a similar incident from occuring again.
 
@@ -657,42 +554,30 @@ Here are a few items to consider:
     - Signatures
     - Engine
 - EDR
-    - Behaviour (TTP)
+    - Behavior (TTP)
     - Custom Detection
-- Anti-Spam 
+- Anti-Spam
     - Filter
 - Anti-Phishing
 
-</details>
-
 ### RP5. Build New Detection
-<details open>
-<summary>Expand/Colapse</summary>
 
 If the incident was detected late in the Kill Chain, we need to try to improve our detection to catch a similar incident earlier.
 
-We could for instance: 
+We could for instance:
 - Create SIEM rules
 - Generate SNOW tickets
-- Create Miro Plays 
-- etc. 
+- Create Miro Plays
+- etc.
 
-</details>
+### RP6. Modify Base Images
 
-### RP6. Modifify Base Images
-<details open>
-<summary>Expand/Colapse</summary>
-
-If the Ransom was caused by a lack of hardening or sufficient patch level: 
+If the Ransom was caused by a lack of hardening or sufficient patch level:
 - Review hardening processes
 - Include critical patches in base Images
-- etc. 
-
-</details>
+- etc.
 
 ### RP7. User Awareness Training
-<details open>
-<summary>Expand/Colapse</summary>
 
 If the incident was caused by a human error
 - Create / Select new mandatory training
@@ -700,29 +585,21 @@ If the incident was caused by a human error
     - From Youtube video
     - Built by internal teams
 
-</details>
-
 ### RP9. Calculate Incident's Cost
-<details open>
-<summary>Expand/Colapse</summary>
 
 Calculate the incident's Cost
 - Time Spent
 - Ransom paid
 - Downtime
-- Fines / Penalities
-- etc. 
-
-</details>
-
-</details>
+- Fines / Penalties
+- etc.
 
 # References
 
-This Playbook was built using the following references:  
-https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570  
-https://www.gov.scot/publications/cyber-resilience-incident-management/  
-https://github.com/certsocietegenerale/IRM/tree/master/EN  
-https://www.incidentresponse.com/playbooks/  
-https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/  
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf  
+This Playbook was built using the following references:
+https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570
+https://www.gov.scot/publications/cyber-resilience-incident-management/
+https://github.com/certsocietegenerale/IRM/tree/master/EN
+https://www.incidentresponse.com/playbooks/
+https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf

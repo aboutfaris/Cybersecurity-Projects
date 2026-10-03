@@ -1,24 +1,29 @@
 # Account Compromised Playbook
 
-[[_TOC_]]
+## Contents
+
+- [Scope](#scope)
+- [1. Preparation](#1-preparation)
+- [2. Detect](#2-detect)
+- [3. Analyze](#3-analyze)
+- [4. Contain / Eradicate](#4-contain--eradicate)
+- [5. Recover](#5-recover)
+- [6. Post Incident](#6-post-incident)
 
 ## Scope
-This Playbook covers the steps to take when accounts are compromised.  
-Of course, we also need to remediate the hosts where those accounts were used. 
+This Playbook covers the steps to take when accounts are compromised.
+Of course, we also need to remediate the hosts where those accounts were used.
 
 ## 1. Preparation
 
-<details>
-<summary>Expand/Colapse</summary>
-
-- Create and maintain a list of 
+- Create and maintain a list of
     - all domains owned by Company.
         - This can prevent you from taking actions against our own domains
-    - all people of can register domains
-- Create email templates 
-    - to notify all employees of ongoing phishing campaing against the organization 
+    - all people who can register domains
+- Create email templates
+    - to notify all employees of ongoing phishing campaign against the organization
     - to contact hosting companies for domain(s) take down
-    - to inform 3rd party to take actions against phishing on there infra (Microsoft, Fedex, Apple, etc.)
+    - to inform 3rd party to take actions against phishing on their infrastructure (Microsoft, Fedex, Apple, etc.)
 - Ensure that:
     - Mail anti-malware/anti-spam/anti-phish solutions are in place.
     - Users know how to report phish
@@ -28,26 +33,26 @@ Of course, we also need to remediate the hosts where those accounts were used.
         - WMI
         - MSHTA
         - Etc.
-- Perform Firedrill to ensure all aspects of the Playbook are working
+- Perform fire drill to ensure all aspects of the Playbook are working
     - After publication
     - At least once a year
-    - Test/Validate: 
+    - Test/Validate:
         - [Customer's Cards](Customers)
         - Internal Contact and Escalation Paths
-- Review threat intelligence for 
-    - threats to the organisation, 
-    - brands and the sector, 
-    - common patterns 
+- Review threat intelligence for
+    - threats to the organization,
+    - brands and the sector,
+    - common patterns
     - newly developing risks and vulnerabilities
-- Ensure  appropriate  access  to  any  necessary  documentation  and  information, including out-of-hours access, for the following
+- Ensure appropriate access to all necessary documentation and information, including out-of-hours access, for the following
     - IR Playbooks
     - Network Architecture Diagram
     - Dataflow
 - Identify and obtain the services of a 3rd party Cyber Forensic provider.
-- Define Threat and Risk Indicators and Alerting pattern within the organisation’ssecurity informationand event management (SIEM) solution.
+- Define Threat and Risk Indicators and Alerting pattern within the organization's security information and event management (SIEM) solution.
 
 ### Train Employees
-- Conduct regular awareness campaigns to highlight information security risks faced by employees, including: 
+- Conduct regular awareness campaigns to highlight information security risks faced by employees, including:
     - Phishing attacks and malicious emails;
     - Ransomware;
     - Reporting a suspected cyber incident.
@@ -55,26 +60,26 @@ Of course, we also need to remediate the hosts where those accounts were used.
 ### Tool Access and Provisioning
 
 #### Tool1
-Please referer to [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](../Products/TOOL.md)
 
 #### Tool2
-Please referer to [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](../Products/TOOL.md)
 
 ### Assets List
-- A list of assets and owner should exists and be available for the following
+- A list of assets and owners should exist and be available for the following
     - Customers Assets
         - Owners
         - Contacts
-        - Pre authorized actions
-    - Company Assets (Including all filiale and business units)
-        - Onwers
+        - Preauthorized actions
+    - Company Assets (including all subsidiaries and business units)
+        - Owners
         - Contacts
         - Administrators
-        - Pre autorized actions
+        - Preauthorized actions
 - Type of assets inventory needed
     - Endpoints
     - Servers
-    - Network Equipements
+    - Network Equipment
     - Security Appliances
     - Network Ranges
         - Public
@@ -84,26 +89,34 @@ Please referer to [Tool2 Documentation](../Products/TOOL.md)
             - Partners
             - Clients
 
-</details>
-
 ## 2. Detect
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Detect
 
-![AccountCompromised Workflow](Workflows/AccountCompromised-Workflow-Detect.png)
-
-</details>
+1. AD1. Identify threat indicators from two kinds of input:
+   - Alerts: tickets, SIEM, AV/EDR alerts, reports (DNS, web proxy).
+   - Notifications: users, recipients, third parties, the ISP, the mail provider, or a computer that is slow or crashes unexpectedly.
+2. AD2. Identify risk factors:
+   - Common: credential theft, malware delivery, criminal activity (financial losses, blackmail or ransom).
+   - Company specific: reputation damage, financial losses (lost contract or renewal, lower bids to our clients, regulatory fines).
+3. AD3. Data collection. Record:
+   - Threat: Bitcoin address, email.
+   - File: hash, reputation, extension type, behavior.
+   - Domain: reputation, registrar, owner, IP, multi-stage or redirect, technologies (WordPress, Joomla, custom).
+   - IP: reputation, other domains hosted on it (vhosts).
+4. AD4. Triage:
+   - Determine impact: is it destroying things, is it spreading to other hosts, financial impact, BSoD, and so on.
+   - Determine scope: number of hosts that received the files (hash, name), tried to connect to the URLs, or have the registry keys, plus any other IOCs found.
+   - Send a communication.
+   - Determine whether it is a false positive.
+5. AD5. Is it a false positive?
+   - If yes: stop.
+   - Otherwise: go to Analyze.
 
 ### Identify Threat Indicators
-<details open>
-<summary>Expand/Colapse</summary>
 
 #### Alerts
-Alerts are be generated by differents systems owned by the Security/SOC team. The main sources for alerts are  
+Alerts are generated by different systems owned by the Security/SOC team. The main sources for alerts are
 - Tickets
 - SIEM
 - Anti-Virus / EDR
@@ -113,42 +126,34 @@ Alerts are be generated by differents systems owned by the Security/SOC team. Th
 - Errors from mail servers
 
 #### Notifications
-Notifications are comming from external sources usually via email, Teams or phone. The main sources for notifications are  
+Notifications come from external sources, usually by email, Teams or phone. The main sources for notifications are
 - Users (internal)
-- Recipents of emails (external)
+- Recipients of emails (external)
 - Third Parties
 - ISP
 - Mail Providers
 
-</details>
-
-### Indentify Risks Factors
-<details open>
-<summary>Expand/Colapse</summary>
+### Identify Risk Factors
 
 #### Common
 - Credential Theft
 - Malware Delivery
-- Criminal Activites
+- Criminal Activities
     - Blackmail / Ransom
 
 #### Company Specific
 - Financial Losses
-    - Lost of conctrat
+    - Lost contract
     - Contract not renewed
     - Lower bid to our clients
     - Fines
         - Regulation
 
-</details>
+### Data Collection
+This section describes the information that should be collected and documented about the incident
+There are a lot of resources to help you with that phase [here](../Tools/README.md)
 
-### Data Colletion
-This section describe the information that should be collected and documented about the incident  
-There is a lot of ressources to help you with that phase [here](../Tools/README.md)
-<details open>
-<summary>Expand/Colapse</summary>
-
-Domains  
+Domains
 - Reputation
 - Registrar
 - Owner
@@ -159,103 +164,102 @@ Domains
     - Joomla
     - Custom Page (credential phish)
 
-IP  
+IP
 - Reputation
 - Owner
-- Geo Localisation
+- Geo Location
 - Other domains on that IP
 
-</detials>
-
 ### Categorize
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine type of 
+Determine type of
 
-
-</details>
-
-### Triage 
-<details open>
-<summary>Expand/Colapse</summary>
+### Triage
 
 Determine
 - Impact
-    - Of 
+    - Of
     - Financial
     - Data loss
 - Scope (Nb of people)
 
-</details>
-</details>
-</details>
-
 ## 3. Analyze
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Analyze
 
-![AccountCompromised Workflow](Workflows/AccountCompromised-Workflow-Analyze.png)
-
-</details>
+1. AA1. Verify: double-check the data from Detect and rule out a false positive.
+2. AA2. List the affected credentials: collect the list of affected accounts.
+3. AA3. Level of access and privileges: access to customers, access to internal systems, access level (local admin, domain admin, local user, domain user), and account type (user, service account, API keys).
+4. AA4. Is this a critical incident?
+   - If yes: start the [Critical playbook](../IRP-Critical/README.md), then continue at AA5.
+   - Otherwise: go to AA5.
+5. AA5. Is the domain compromised?
+   - If yes: AA6. Disable trust with the infected domain. The infected domain must be cut off from every other environment. Then go to AA7.
+   - Otherwise: go to AA7.
+6. AA7. Is there a live threat actor?
+   - If yes: AA8. Monitor all systems closely. With a live actor, coordinate so that all of the actor's access is cut at the same time. Then go to AA9.
+   - Otherwise: go to AA9.
+7. AA9. Do we have backups?
+   - If yes: AA10. Make sure the backups are protected: disable future backups (disable the backup interface, stop backup scheduling) and make an offline copy. Then go to AA11.
+   - Otherwise: go to AA11.
+8. AA11. Log analysis: failed logins, successful logins, lateral movement.
+9. AA12. Were passwords reused?
+   - If yes: AA13. Update the scope, then go to AA14.
+   - Otherwise: go to AA14.
+10. AA14. Were TOTP secrets stored in the password manager?
+    - If yes: update the scope, then go to AA15.
+    - Otherwise: go to AA15.
+11. AA15. Is MFA compromised?
+    - If yes: update the scope, then go to AA16.
+    - Otherwise: go to AA16.
+12. AA16. Was data exfiltrated?
+    - If yes: start the [Data Loss playbook](../IRP-DataLoss/README.md), then continue at AA17.
+    - Otherwise: go to AA17.
+13. AA17. Have all affected accounts and domains been identified?
+    - If no: AA18. Update the lists of affected data, endpoints, company entities and clients. Then AA19. Scope validation: look for new signs of encrypted data, search the customers' environments, search endpoints for IOCs with EDR, and search firewall, proxy and DNS logs for IOCs. Go back to AA1.
+    - Otherwise: go to AA20.
+14. AA20. Do we need external help?
+    - If yes: AA21. Do we need technical help? If yes, AA22. Contact IR professional services. Then AA23. Do we need legal help? If yes, AA24. Contact the breach coach. Then go to AA25.
+    - Otherwise: go to AA25.
+15. AA25. Root cause analysis: phishing, vishing, a vulnerability (RCE, XSS, LFI), a remote service (default or weak password, brute force, vulnerability), or a public-facing service without MFA.
+16. AA26. Send a communication to the internal security teams, the affected clients, and any internal teams needed for remediation or counselling.
+17. Go to Contain / Eradicate.
 
 ### AA1. Verify
-<details open>
-<summary>Expand/Colapse</summary>
 
-In conjonction with a senior member of the SOC  
+In conjunction with a senior member of the SOC
 - Double check previous data
 - Rule out False Positive
 
-</details>
-
 ### AA2. List Compromised Credentials
-<details open>
-<summary>Expand/Colapse</summary>
 
-In the Compromised Assets TAB of the Event Log list:   
+In the Compromised Assets TAB of the Event Log list:
 - Compromised accounts
 - Compromised machines
 - Compromised domains
 
-</details>
+### AA3. Level of Access / Privileges
 
-### AA3. Level of Access / Priviledges
-<details open>
-<summary>Expand/Colapse</summary>
-
-In conjonction with a senior member of the SOC  
+In conjunction with a senior member of the SOC
 - Double check previous data
 - Rule out False Positive
 
-</details>
-
 ### Update Scope
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update lists of
     - affected endpoints
     - affected Company Entities
     - affected clients
 
-</details>
-
 ### Scope Validation
-<details open>
-<summary>Expand/Colapse</summary>
 
-Have all the machines been identified? 
-If you find futher traces of phishing or new IOCs go back through this step.  
+Have all the machines been identified?
+If you find futher traces of phishing or new IOCs go back through this step.
 
-When you are done identifying all compromised:  
+When you are done identifying all compromised:
 - Hosts
 
-And investigated all:  
+And investigated all:
 - URLs
 - Domains
 - IP
@@ -265,26 +269,25 @@ And investigated all:
 
 Go to the next phase <Contain/Eradicate>
 
-</details>
-
-</details>
-
-
 ## 4. Contain / Eradicate
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Contain / Eradicate
 
-![AccountCompromised Workflow](Workflows/AccountCompromised-Workflow-Contain_Eradicate.png)
-
-</details>
+1. AC1. Disable the accounts: domain, local and MFA.
+2. AC2. Reset passwords: domain, local, MFA, krbtgt and VPN.
+3. AC3. Power down systems that are not encrypted, if possible. Do not power down encrypted systems, because they might not restart.
+4. AC4. Restrict privileges: reduce the accounts' rights, remove them from admin groups, and remove any rights that allow taking over other accounts.
+5. AC5. Remove cached credentials from local machines.
+6. AC6. Contain endpoints: workstations, servers and network devices.
+7. AC7. Block network traffic by IP, ISP and geolocation.
+8. AC8. Are all affected endpoints contained?
+   - If yes: go to Recover.
+   - Otherwise: go to AC9.
+9. AC9. Were new IOCs discovered?
+   - If yes: go back to Analyze.
+   - Otherwise: AC10. Update the scope, then go back to AC1.
 
 ### Block
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update FW, Proxy, etc. rules
 - Blackhole DNS
@@ -293,93 +296,59 @@ Go to the next phase <Contain/Eradicate>
     - Web Filter Vendor
     - etc.
 
-</details>
-
 ### Validate User's Actions
-<details open>
-<summary>Expand/Colapse</summary>
-
-
-
-</details>
 
 ### Malware Infection?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If there was malicious attachments that were openned we need to assume the endpoint(s) was/were infected by a malware.  
-Please continue to the [Malware Playbook](../IRP-Malware/README.md)  
-
-</details>
-
+If there was malicious attachments that were openned we need to assume the endpoint(s) was/were infected by a malware.
+Please continue to the [Malware Playbook](../IRP-Malware/README.md)
 
 ### Close Monitoring
-<details open>
-<summary>Expand/Colapse</summary>
 
-- Monitor for 
+- Monitor for
     - Related incoming messages
     - Internet connections to IOC
     - New files that matches hashes identified
 
-</details>
-
-
 ### All Affected Endpoints Contained?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.  
-
-</details>
+If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.
 
 ### New IOC Discovered?
-<details open>
-<summary>Expand/Colapse</summary>
 
 If there was new IOC discovered, go back to the [Analyze Phase](README.md#3-analyze)
-</details>
-</details>
 
 ## 5. Recover
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Recover
 
-![AccountCompromised Workflow](Workflows/AccountCompromised-Workflow-Recover.png)
-
-</details>
+1. AR1. Update defenses: lift containment, and update the proxy and firewall. Re-enable backup links.
+2. AR2. Change all passwords: krbtgt, domain, local, MFA, VPN, SSH keys and API keys.
+3. AR3. Remove temporary remote access: VPN, jump box and Citrix.
+4. AR4. Rebuild systems: install the OS from clean media, and upgrade the OS if you can.
+5. AR5. Restore data from a clean backup.
+6. AR6. Audit internet-facing services for any service that does not require MFA.
+7. AR7. Have all affected endpoints been identified?
+   - If yes: go to Post Incident.
+   - Otherwise: go back to AR1.
 
 ### Update Defenses
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine which of the following rules needs to be removed and which needs to stay in the following list:  
+Determine which of the following rules needs to be removed and which needs to stay in the following list:
 - Firewall Rules
-- EDR 
+- EDR
     - ban hashes
     - ban domains
     - Containment
 - Proxy Block
 
-</details>
-
 ### All Affected Endpoints Recovered?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.  
-
-</details>
+If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.
 
 ### Validate Countermeasures
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine if legitimate elements are blocked by:  
+Determine if legitimate elements are blocked by:
 - Proxy
 - Firewall
 - EDR
@@ -387,78 +356,62 @@ Determine if legitimate elements are blocked by:
 If so, go back to [Update Defenses](README.md#update-defenses)
 Otherwise go to the next phase <Post Incident>
 
-</details>
-</details>
-
 ## 6. Post Incident
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Post Incident
 
-![AccountCompromised Workflow](Workflows/AccountCompromised-Workflow-Post_Incident.png)
-
-</details>
+1. AP1. Incident review: what worked and what didn't.
+2. AP2. Update policies and procedures:
+   - Documentation: policies, playbooks, runbooks and procedures.
+   - Detection rules: SIEM, AV/EDR and other security tools.
+3. AP3. Review the defensive posture. Schedule a review of newly added rules in 6 months, and check whether AV/EDR custom signatures and IPS signatures are still needed.
+4. AP4. Update or upgrade defenses: antivirus (signatures, engine), EDR (malware behavior), anti-spam and anti-phishing.
+5. AP5. Build new detections: SIEM rules and tickets.
+6. AP6. Modify base images: review the hardening process, include patches in OS images, and upgrade and patch apps.
+7. AP7. Was the incident caused by a person?
+   - If yes: AP8. Run user awareness training, then go to AP9.
+   - Otherwise: go to AP9.
+8. AP9. Calculate the cost of the incident.
+9. Stop.
 
 ### Incident Review
-<details open>
-<summary>Expand/Colapse</summary>
 
 - What worked
 - What didn't work
 
-</details>
-
 ### Update Mode of Operations
-<details open>
-<summary>Expand/Colapse</summary>
 
-Update the following documents as requiered:  
+Update the following documents as required:
 - Policies
 - Processes
 - Procedures
 - Playbooks
 - Runbooks
 
-Update Detetion Rules in:  
+Update Detection Rules in:
 - SIEM
 - Anti-Spam
 - Malware Gataway
 - EDR
 - Other security solution
 
-</details>
-
 ### Review Defensive Posture
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Schedule review of newly introduced rules in6 months
-- Are the following still applicatble
+- Are the following still applicable
     - Firewall Rules
     - Proxy Rules for C2
     - AV / EDR custom Signatures
     - IPS Signatures
 
-</details>
-
 ### User Awareness Training
-<details open>
-<summary>Expand/Colapse</summary>
-
-
-</details>
-
-</details>
 
 # References
 
-This Playbook was built using the following references:  
-https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570  
-https://www.gov.scot/publications/cyber-resilience-incident-management/  
-https://github.com/certsocietegenerale/IRM/tree/master/EN  
-https://www.incidentresponse.com/playbooks/  
-https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/  
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf  
+This Playbook was built using the following references:
+https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570
+https://www.gov.scot/publications/cyber-resilience-incident-management/
+https://github.com/certsocietegenerale/IRM/tree/master/EN
+https://www.incidentresponse.com/playbooks/
+https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
