@@ -2,12 +2,14 @@
 [[_TOC_]]
 
 # IR Playbooks
-This repository contains all the Incident Response Playbooks and Workflows of Company's SOC.
 
-Each folder contains a Playbook that is broken down into 6 section as per [NIST - 800.61 r2](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf)
+This repository contains Incident Response playbook and workflow templates for an example company's SOC, adapted from a published IR playbook template structure.
 
-## 1- Preparation
-This section should include the following informations
+Each folder contains a playbook broken down into 6 sections, per [NIST SP 800-61 r2](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf).
+
+## 1. Preparation
+
+This section should include the following information:
 - List of _ALL_ Assets
   - Servers
   - Endpoints (+critical ones)
@@ -26,8 +28,9 @@ This section should include the following informations
   - Table Top
   - Hands On
 
-## 2- Detection and Analysis
-This section should include the following informations
+## 2. Detection and Analysis
+
+This section should include the following information:
 - Gathering of Information
 - Analyzing the Data
 - Building Detections
@@ -44,8 +47,9 @@ This section should include the following informations
   - Command Line
   - etc.
   
-## 3- Containment, Eradication, and Recovery
-This section should include the following informations
+## 3. Containment, Eradication, and Recovery
+
+This section should include the following information:
 - Isolate Affected Systems
 - Patch Threat Entry Point
 - Predefine threshold
@@ -62,16 +66,19 @@ This section should include the following informations
 - Get Systems Operational
 - Rebuilt and Resume Service
 
-## 4- Post-Incident Activity
-- Lessons Learn
-- New Detection
-- New Hardening
-- New Patch Management
+## 4. Post-Incident Activity
+
+- Lessons learned
+- New detections
+- New hardening
+- New patch management
 - etc.
- 
-# Directory Structures
+
+# Directory Structure
+
 ## Customers
-This folder includes all the informations related to our customers such as
+
+This folder includes all information related to our customers, such as:
 
 - Contacts
   - Names
@@ -85,8 +92,8 @@ This folder includes all the informations related to our customers such as
 - Blackout / Brownout schedule
 
 ## Products
-This folder contains information about the various "commercial" products we use during an incident.
-For example:
+
+This folder contains information about the various commercial products we use during an incident, for example:
 - JIRA
 - Remedy 
 - Service-Now
@@ -104,10 +111,10 @@ For example:
 - Etc.
 
 ## IRP-*
-These are the individual folders containing the Playbooks themselves
-Within each directory there should be a PDF folder where a PDF version is available (and auto generated) for auditors and customers who requiere to see them
 
-# Create a new Playbook
+These are the individual folders containing the playbooks themselves. Within each directory there should be a PDF folder where an auto-generated PDF version is available for auditors and customers who need to see it.
+
+# Create a New Playbook
 
 ## Folder & Files
 To create a new Playbook:  
@@ -124,7 +131,7 @@ To create the Workflows
 - Save locally until you have completed all the tabs
 - Once all the tabs/phases are completed, upload a copy to your new `Workflows` folder
 - Use the `File -> Export as -> PNG` function of Draw.io to save each diagram phase separatly 
-    - Make sure you Unchecked `Include a copy of the diagram`
+    - Make sure you uncheck `Include a copy of the diagram`
     - Click `Export`
     - Save locally
 - Upload each .PNG file to your new `Workflows` folder
