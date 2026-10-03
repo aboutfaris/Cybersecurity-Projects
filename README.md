@@ -1,317 +1,153 @@
-![image](https://user-images.githubusercontent.com/109401839/230745596-57cee9bd-687c-427d-b0db-d1080df77f7e.png)
-
-# Azure Preparation
-
-### We will create our Subscription and Resources, then go over Failed Authentication and Log Observation, and finally
-Azure Active Directory Overview (Users, Groups, and Access Management)
-
-#### Environments and Technologies Used 
-
-- Microsoft Azure
-- SQL Server
-- Event Viewer
-
-### Operating Systems Used
-
-- VM Windows 10 PRO (21H2)
-
-## Resources & SQL Server Vulnerabilties
-
-<details close>
-
-<div>
-
-</summary>
-
-#### Actions and Observations<b>
-
-- Create Windows 10 Pro Virtual Machine
-- Name the Resource Group: RG-Cyber-Lab
-
-![gtxtw3z5](https://user-images.githubusercontent.com/109401839/230747447-40c9b360-38e2-4d8d-b4b2-7ea0bb12ae0f.png)
-
-- Name the Virtual Network. NAME IT “Lab-VNet”
-
-![hjl0rzkf](https://user-images.githubusercontent.com/109401839/230747449-be2118b3-a451-4d32-a756-d4082055ae31.png)
-
-- Now, double-check the VM settings and create! 
-
-![image](https://user-images.githubusercontent.com/109401839/230747537-211a32a7-9525-4572-a455-0a250278c604.png)
-
-- Configure Network Security Group (Layer 4 Firewall) to allow all traffic inbound
-
-- A mini firewall that will be configured for our virtual machine to allow all traffic in. We want to make this firewall look enticing to allow threat actors such as hackers, bots, and attackers to try to get into our virtual machine. 
-
-- In resource groups, we will go inside it, and we can see all the things associated with the VM being created. 
-- We will edit, the network security group, either by search or in the resource groups. 
-- Based on the traffic coming into the network we can see the priority categorised in Azzure based on the set rules/protocols. 
-- Create Inbound Security Rule, Any, Name it "DangerAllInBound" 
-
-![nsg danger inbound](https://user-images.githubusercontent.com/109401839/230748062-20cb8a7d-768c-4d8b-b548-dad98fdef095.png)
-
-- Now try to ping the IP Address of the VM in CMD...
-- Did it work? 
-
-![ping](https://i.imgur.com/ZnVQuDB.png)
-
-- No it didn't because we need to remote in and change the firewall setting within the VM as well. 
-
-- Remote Into the VM
-
-- Now remote in, on Windows 10 we will use  "Remote Desktop Connection" 
-
-![e](https://i.imgur.com/8RQ9xpu.png)
-
-- Turn off Windows Firewall
- 
-- Once you are logged in, search "wf.msc" in the start menu to execute the program "Windows Defender Firewall Advanced Security.
-- Click on "Windows Defender Firewall Properties" 
-- On each tab, turn off the "Firewall State" 
-- Ignore IPSEC Settings for now.
-
-![3](https://i.imgur.com/pBzKoId.png)
-
-- Now observe the changes in CMD: 
-
-![image](https://user-images.githubusercontent.com/109401839/230748490-8588cf7e-e3b4-4739-befd-f4695ba665ce.png)
-
-- Install SQL Server Evaluation
-
-- [Download here](https://www.microsoft.com/en-us/evalcenter/download-sql-server-2022)
-
-- Install .exe file, Download Media, ISO option, Open Folder, and Mount Media
-
-- It will show as a disk file under the "This PC" side panel: 
-
-![image](https://user-images.githubusercontent.com/109401839/230748771-4fd4e778-626d-4baa-8403-b1acf1389bdb.png)
-
-![image](https://user-images.githubusercontent.com/109401839/230748852-edba2194-ebb1-4e15-932f-243d6cce6fac.png)
-
-- Install SSMS (SQL Server Management Studio)
-
-![sql install](https://user-images.githubusercontent.com/109401839/230748997-ad8f84d1-9bf7-4125-b7e5-0cd2f490b62b.png)
-
-![mstsc_Kc9i9HCW3n](https://user-images.githubusercontent.com/109401839/230749050-cdeedde3-6773-48a1-852b-415ea114cfc6.png)
-
-![mstsc_sGtz3qU3M2](https://user-images.githubusercontent.com/109401839/230749062-0bd9eaeb-9c0d-43c2-93a5-c9641bf2285e.png)
-
-- Select "Mixed Mode", this is important because, with Windows Authentication Mode, we will only be able to log in with an online account, whereas, with a mixed mode, we can log in online and locally into the SQL Server.
-
-Default Username: `sa`
-Password: `<your-lab-password>` (set any password you like, just document it)
-
-- Add your current user, and enter your password. 
-
-- Now Finish Install! Now we can connect to our SQL Database.  
-
-- Next, we will download [Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
-
-![image](https://user-images.githubusercontent.com/109401839/230749437-dfc8f934-0360-4bc8-949f-a99371c0ba40.png)
-
-![image](https://user-images.githubusercontent.com/109401839/230749591-15fffab9-3651-418b-8694-bd763492a9fb.png)
-
-[Configure](https://learn.microsoft.com/en-us/sql/relational-databases/security/auditing/write-sql-server-audit-events-to-the-security-log?view=sql-server-ver16) the audit object access setting in Windows using audit-pol
-
-- Enable logging for SQL Server to be ported into Windows Event Viewer 
-
-- Open a command prompt with administrative permissions.
-
-- From the Start menu, navigate to Command Prompt, and then select Run as administrator.
-
-- If the User Account Control dialogue box opens, select Continue.
-
-- Execute the following statement to enable auditing from SQL Server.
-
-- Windows Command Prompt
-
-- Copy
-
-```audit-pol /set /subcategory: "application generated" /success:enable /failure:enable```
-
-- Close the command prompt window.
-
-![2](https://i.imgur.com/LCjKjIg.png)
-
-- Now RegEdit and explore:
-
- ```HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Security```
-
-![image](https://user-images.githubusercontent.com/109401839/230749756-e9139c85-9cd7-4756-a400-307b02a4c81a.png)
-
-- Restart SQL Management, Disconnect Connection, Reconnect, and Choose SQL Managements Authentication Method. 
-
-- Now, Intentionally enter the wrong username and password to do a failed login attempt. 
-
-![image](https://user-images.githubusercontent.com/109401839/230749821-c108d8bb-e77e-4826-9b93-0a6f2afde4f4.png)
-
-- Test SQL logging to make sure it’s working properly
-
-- Enter Event Viewer, Select Application, and View SQL Management Logs Entries: 
-
-![image](https://user-images.githubusercontent.com/109401839/230749908-b20fe934-00b7-498a-a8f6-1f9554e38aed.png)
-
-- Here we can see the failed login attempt and the reason. That concludes the first lab. 
-
-## Precursor to Security Operations (Failed Authentication and Log Observation)
-
-
-<details close>
-
----
-
-</summary>
-
-We will create a VM in the cloud that will be our target of the attack, and we will observe logs and see what they look like. 
-The ultimate goal of this lab is to differentiate between false negatives, false positives, true positives, and true negatives. 
-  
-<b>Actions and Observations<b>
-
-- We are creating an attack vm the goal is to have a different region so it looks like a threat is attacking our windows-VM. 
-
-![OUTSIDE](https://user-images.githubusercontent.com/112146207/230785143-b12ea9d9-8f3d-4fca-a73b-3d54374c3611.png)
-
-``` Now we have to name the VNet Lab-VNet-Attacker```
-
-![image](https://user-images.githubusercontent.com/112146207/230785775-a4c5d027-71cd-4341-8927-faa552ff0cd4.png)
-
-- First thing we will do is get the attack-VM public IP address. Then go to the remote desktop connection and enter your attack VM information. 
-
-![image](https://user-images.githubusercontent.com/112146207/230786468-787b9479-4b0b-42b4-beb0-f627f6c02125.png)
-
-- Get the windows-vm ```public IP address```` and go to RDP and from there go to the start menu and search remote desktop and enter the ``` IP address ```. 
-- We will now generate some failed RDP (remote desktop protocol) logs against the windows-vm from the attacker vm. 
-- We will attempt this 5 times with the wrong username and password.
-
-![image](https://user-images.githubusercontent.com/112146207/230787466-11cc67e0-4833-4a61-a7b3-f6d250abf75e.png)
-
-- We then go to event viewer and see all the failed login attempts
-
-![image](https://user-images.githubusercontent.com/112146207/230790854-d6bd81a6-4629-4a4d-ab39-681c7b013451.png)
-
-- After this, we will install SSMS within attack-VM and generate some failed MS SQL Auth logs against windows-VM.
-- Enter the wrong password 5 times
-
-![image](https://user-images.githubusercontent.com/112146207/230792205-ad1cf545-267b-43ea-9bf0-8ecb72dde3ef.png)
-
-- Log out of the attack VM, and now we are back into our computer. 
-- From our computer, we will RDP back into our windows-vm. 
-- We will inspect the failures and successes (Security log for RDP, Application log for SQL).
-- It's important to also take note of EventIDs, messaging, source IP Addresses etc...
-
-![uuu](https://user-images.githubusercontent.com/112146207/230796726-abf6a180-56d0-4428-9952-8eee097c8147.png)
-
-<div>
-
-<h3>Azure Active Directory Overview (Users, Groups, and Access Management)<h3>
-
-<details close>
-
----
-
-</summary>
-
-![Untitled](https://user-images.githubusercontent.com/109401839/230747442-f0a1831d-1cf0-4895-b335-372314cd5d51.png)
-
-<b>Actions and Observations<b>
-
-- Configure and observe tenant-level Global Reader
-1. Create a user in Active Directory named "globalreaderjohn", then select the auto-generate password option. The auto-generated password (`<auto-generated-password>` — it will be different for you) is shown below.
-
-![image](https://user-images.githubusercontent.com/109401839/230799438-00d3e9fe-4348-4052-9995-6d6895f6f283.png)
-
-![image](https://user-images.githubusercontent.com/109401839/230799569-fca3562d-15c4-4332-9e30-0e75432e7e96.png)
-
-- Assign Tenant-Level Global Reader
-
-![image](https://user-images.githubusercontent.com/109401839/230799619-da680846-c56a-479a-b215-ab5758f49b50.png)
-
-![msedge_Y3BrhP8v9T](https://user-images.githubusercontent.com/109401839/230799861-29ebd5fd-4b1d-445f-a9da-abfd1056a726.png)
-
-Be sure to copy your user's User Principal Name, for example `globalreaderjohn@<your-tenant>.onmicrosoft.com`
-
-- In a new browser/incognito, log in as globalreaderjohn and observe the result of being a Tenant Level “Global Reader”
-
- [Login to Azure](http://portal.azure.com/) 
-
-![msedge_HqzxFbf0iN](https://user-images.githubusercontent.com/109401839/230799958-e166ab3b-f43a-4ffc-9042-c836cf5c3ec2.png)
-
-Azure will prompt you to change your auto-generated password. Use any password you like, just be sure to remember it.
-
-Once you are logged into Azure, notice you can not see anything on your subscription page, however, you can view all available users. 
-
-Due to your role, as Global Reader. I can view users' overviews, however, I am not able to make changes or reset passwords. 
-
-![image](https://user-images.githubusercontent.com/109401839/230800090-ab7e025f-079f-41f5-a8f4-10cf7dbd5676.png)
-
-This is because we have given RBAC (Role-Based Access Control) and enforced the Least Privileges so John can only do his job, Read. 
-
-- Close browser/incognito when satisfied
-
-- Back in the main browser, create another user within AAD  (username: subreaderjane)
-
-- Configure and Observer Subscription Reader
-
-- Auto-generated password: `<auto-generated-password>`
-
-![msedge_JftbufmM3X](https://user-images.githubusercontent.com/109401839/230800294-58e9a6f0-984e-435a-8db1-41a5cbbd8523.png)
-
-- Assign Subscription-Level Reader 
-
-This may be called something different for you, for me ``` Azure subscription 1``` and you can find this under ```Subscriptions```. 
-
-Now, Enter the Access Control (IAM) and give Jane the deserved role. 
-
-![image](https://user-images.githubusercontent.com/109401839/230800962-a70cbdaf-c686-41ec-9313-f8dc9cb0fd9e.png)
-
-![msedge_UUzHPizmTA](https://user-images.githubusercontent.com/109401839/230800551-c809f8b7-975f-4a3b-8761-ef7e7c6fe5fb.png)
-
-- In a new browser/incognito, log in as subreaderjane and observe the result of being a Subscription Level “Global Reader”
-
-Again, you will be prompted to change your password and document it. 
-
-Go to resource groups and notice you can see the resources in there and even under subscriptions. 
-
-Let us try to delete a resource group now, we should not be able to do so... 
-
-![image](https://user-images.githubusercontent.com/109401839/230801715-c9537447-9f66-4f22-8d33-19eab3074bd2.png)
-
-Did it delete? YIKES.
-
-![image](https://user-images.githubusercontent.com/109401839/230801752-80f0c485-cf6b-40d5-ac6d-de5b9cedf301.png)
-
-It did not delete! Jane does not have the privileges to create or delete. Only a subscription-level reader. We can not change anything. 
-
-- Close browser/incognito when satisfied
-
-- Configure and Observe Resource Group Contributor (like an admin)
-
-- Back in the main browser, create another user within AAD  (username: rgcontributordave)
-
-Auto-generated password: `<auto-generated-password>`
-
-- Create a new resource group called “Permissions-Tester”
-
-- Assign Resource Group-level Contributor
-
-- For our resource group (RG-Cyber-Lab), assign Contributor Permissions
-
-![image](https://user-images.githubusercontent.com/109401839/230802793-5cd508ee-80f4-4ec5-a550-a9bcfee016b6.png)
-
-- In a new browser/incognito, log in as rgcontributordave and observe the result of being a Subscription Level Reader
- 
-![msedge_0h9H4b5cvQ](https://user-images.githubusercontent.com/109401839/230802957-c2564141-5e21-4f06-8566-70b1464c40ce.png)
-
-- Observe the result of being a Resource Group Level Contributor
-
-![image](https://user-images.githubusercontent.com/109401839/230803072-730eeeb8-3051-4173-9a19-44d513cddb56.png)
-
-Dave is now able to view the resource group and create further resources in the group such as Storage. 
- 
- ![image](https://user-images.githubusercontent.com/109401839/230803808-2d32b1ba-4312-4cc9-99a3-26d158587e0f.png)
-
-```Be sure  NOT to delete your resources``` we will continue with the same RG & VM. 
-
-That concludes the three-part labs series, *Welcome to Cybersecurity*, your journey starts here! 
-
-In the next set of [labs](https://github.com/aboutfaris/Logging-and-Monitoring), we will go over Logging and Monitoring.
-
+# Cloud SOC Prerequisites: Azure Setup, Failed Logins, and Access Control
+
+Set up the Azure lab that the rest of the Cloud SOC series builds on. You deploy a deliberately exposed Windows VM running SQL Server, generate failed RDP and SQL logins from a second "attacker" VM, read those events in Event Viewer, and then test Azure AD roles at the tenant, subscription, and resource group levels.
+
+Azure organizes everything as a hierarchy: an Azure AD tenant contains management groups, which contain subscriptions, which contain resource groups, which hold the actual resources (VMs, firewalls, SQL databases). Part 4 assigns roles at three of those levels.
+
+## What you'll use
+
+- Microsoft Azure: Virtual Machines, Network Security Groups (NSGs), Azure Active Directory (Entra ID), Access control (IAM)
+- Windows 10 Pro (21H2) VMs: `windows-vm` (target) and `attack-vm` (attacker)
+- SQL Server 2022 Evaluation and SQL Server Management Studio (SSMS)
+- Remote Desktop Connection, Command Prompt, Registry Editor, Event Viewer
+
+## Prerequisites
+
+- An Azure subscription (the free trial works).
+
+## Steps
+
+### Part 1: Build the target VM and SQL Server
+
+1. In the Azure portal, go to Virtual machines > Create. On the Basics tab set:
+   - Resource group: create `RG-Cyber-Lab`
+   - Virtual machine name: `windows-vm`
+   - Region: (US) East US 2
+   - Image: Windows 10 Pro, version 21H2 - x64 Gen2
+   - A local administrator username and password (for example `<your-username>` and `<your-lab-password>`; document both)
+2. On the Networking tab, create a new virtual network named `Lab-VNet` (default subnet `10.0.0.0/24`), keep the new public IP `windows-vm-ip`, NIC network security group Basic, and allow inbound RDP (3389).
+3. Click Review + create, then Create.
+   Expected result: validation passes and the summary shows `windows-vm` in `RG-Cyber-Lab`, East US 2, size Standard D2s v3 (2 vCPUs, 8 GiB), on `Lab-VNet`.
+4. Open Resource groups > `RG-Cyber-Lab` > `windows-vm-nsg` > Inbound security rules > Add. The goal is to make the VM look enticing to attackers, so this rule allows everything:
+   - Source: Any, Source port ranges: `*`
+   - Destination: Any, Service: Custom, Destination port ranges: `*`
+   - Protocol: Any, Action: Allow
+   - Priority: `290` (lower than the RDP rule at 300, so it is evaluated first)
+   - Name: `DANGERAnyInbound`
+5. From your own computer, ping the VM's public IP:
+
+   ```cmd
+   ping <windows-vm-public-ip>
+   ```
+
+   Expected result: four "Request timed out" lines and 100% loss. The NSG now allows the traffic, but the Windows firewall inside the VM still blocks ICMP.
+6. Open Remote Desktop Connection, enter `<windows-vm-public-ip>`, click Connect, and sign in with the VM credentials.
+7. Inside the VM, run `wf.msc` from the Start menu to open Windows Defender Firewall with Advanced Security.
+8. Click Windows Defender Firewall Properties. On the Domain Profile, Private Profile, and Public Profile tabs, set Firewall state to Off. Ignore IPsec Settings. Click OK.
+9. Ping the VM again from your computer. Use `-t` to keep pinging:
+
+   ```cmd
+   ping -t <windows-vm-public-ip>
+   ```
+
+   Expected result: replies come back with 0% loss.
+10. In the VM, download the [SQL Server 2022 evaluation](https://www.microsoft.com/en-us/evalcenter/download-sql-server-2022). Run the installer, choose Download Media, pick the ISO option, open the download folder, and mount the ISO.
+    Expected result: File Explorer shows a DVD drive named `SQLServer2022` containing `setup.exe`.
+11. Run `setup.exe`. In SQL Server Installation Center, choose Installation > New SQL Server standalone installation. On the Edition page, select Specify a free edition: Evaluation, then Next.
+12. On Feature Selection, check only Database Engine Services and keep the default directories.
+13. On Database Engine Configuration > Server Configuration, select Mixed Mode (SQL Server authentication and Windows authentication). Windows authentication mode only allows Windows accounts; Mixed Mode also allows SQL logins, which the attack VM will target.
+    - Default username: `sa`
+    - Password: `<your-lab-password>` (set any password you like, just document it)
+14. Click Add Current User, then finish the install.
+15. Back in Installation Center, choose Install SQL Server Management Tools and download [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms). Run the SSMS installer and click Install.
+    Expected result: SSMS installs and you can connect to `windows-vm` with Windows authentication.
+
+### Part 2: Send SQL Server logins to the Windows event log
+
+Follow Microsoft's guide to [write SQL Server audit events to the Security log](https://learn.microsoft.com/en-us/sql/relational-databases/security/auditing/write-sql-server-audit-events-to-the-security-log).
+
+16. In SSMS Object Explorer, right-click `windows-vm` > Properties > Security. Confirm SQL Server and Windows Authentication mode is selected, set Login auditing to Both failed and successful logins, and click OK.
+17. From the Start menu, right-click Command Prompt > Run as administrator (accept the User Account Control prompt), then run:
+
+    ```cmd
+    auditpol /set /subcategory:"application generated" /success:enable /failure:enable
+    ```
+
+    Expected result: "The command was successfully executed."
+18. Open Registry Editor (`regedit`) and go to:
+
+    ```text
+    HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\Security
+    ```
+
+19. Right-click the `Security` key > Permissions, select NETWORK SERVICE, allow Full Control, and click OK. This lets the SQL Server service write to the Security log.
+20. Restart SSMS (or disconnect and reconnect). In Connect to Server, choose SQL Server Authentication and enter a username and password that do not exist.
+    Expected result: "Login failed for user ... (Microsoft SQL Server, Error: 18456)".
+21. Open Event Viewer > Windows Logs > Application and find the newest MSSQLSERVER entry.
+    Expected result: Event ID 18456, Task Category Logon, Keywords Classic, Audit Failure, with the message "Login failed for user ... Reason: Could not find a login matching the name provided. [CLIENT: <local machine>]".
+
+### Part 3: Generate attacks from a second VM
+
+The aim is to see what real failed logins look like, so you can later tell true positives, false positives, true negatives, and false negatives apart.
+
+22. Create a second VM with Virtual machines > Create:
+    - Resource group: create `RG-Cyber-Lab-Attacker`
+    - Virtual machine name: `attack-vm`
+    - Region: a different region from `windows-vm` (for example (Africa) South Africa North), so the attacks come from far away
+    - Image: Windows 10 Pro, version 21H2 - x64 Gen2
+23. On the Networking tab, create a new virtual network named `Lab-VNet-Attacker` (default subnet `10.1.0.0/24`), keep the new public IP `attack-vm-ip`, and allow inbound RDP (3389). Review + create, then Create.
+24. Open `attack-vm` > Overview, copy its Public IP address (`<attack-vm-public-ip>`), and RDP into it from your computer.
+25. Inside `attack-vm`, open Remote Desktop Connection, enter `<windows-vm-public-ip>`, and try to sign in 5 times with a wrong username and password.
+26. Install SSMS on `attack-vm`. Connect to `<windows-vm-public-ip>` with SQL Server Authentication, user `sa`, and a wrong password, 5 times.
+    Expected result: each attempt fails with "Cannot connect to <windows-vm-public-ip>. Login failed for user ... Error: 18456".
+27. Sign out of `attack-vm`. From your own computer, RDP into `windows-vm` and open Event Viewer.
+28. In Windows Logs > Security, open the newest Audit Failure entries (RDP).
+    Expected result: Event ID 4625 (Logon) with Workstation Name `attack-vm`, Source Network Address `<attack-vm-public-ip>`, and authentication package NTLM.
+29. In Windows Logs > Application, open the newest MSSQLSERVER entries (SQL).
+    Expected result: Event ID 18456 with "Login failed for user 'sa'. Reason: Password did not match that for the login provided. [CLIENT: <attack-vm-public-ip>]". Note the Event IDs, messages, and source IPs; later labs alert on them.
+
+### Part 4: Azure AD users and role-based access control
+
+Use a new private (incognito) browser window for each test user so you stay signed in as the admin in your main window.
+
+Tenant-level Global Reader:
+
+30. In the main browser, go to Azure Active Directory > Users > New user > Create user. Set User name `globalreaderjohn`, Name `globalreaderjohn`, select Auto-generate password, and copy the initial password (`<auto-generated-password>`; yours will be different). Click Create.
+31. Open `globalreaderjohn` > Assigned roles > Add assignments. Search `reader`, check Global Reader, and click Add.
+    Expected result: the user's Overview shows Assigned roles: 1. Copy the User principal name, for example `globalreaderjohn@<your-tenant>.onmicrosoft.com`.
+32. In a private window, sign in to the [Azure portal](https://portal.azure.com/) as `globalreaderjohn`. Change the auto-generated password when prompted and remember the new one.
+33. Open Subscriptions, then Azure Active Directory > Users, and open another user.
+    Expected result: the subscription page is empty, but you can see every user. On a user's page, Edit properties and Delete are greyed out, and Reset password is not allowed. Global Reader reads tenant settings and nothing more, which is least privilege in practice.
+34. Close the private window.
+
+Subscription-level Reader:
+
+35. In the main browser, create another user: User name `subreaderjane`, Auto-generate password (`<auto-generated-password>`).
+36. Open Subscriptions > your subscription (for example `Azure subscription 1`) > Access control (IAM) > Add role assignment.
+37. Select the Reader role, then Members > Select members, pick `subreaderjane`, and click Review + assign.
+38. In a private window, sign in as `subreaderjane` and change the password when prompted.
+39. Go to Resource groups. You can see every resource group and the resources inside them. Open `RG-Cyber-Lab-Attacker` > Delete resource group, type the name to confirm, and click Delete.
+    Expected result: a "Delete resource group RG-Cyber-Lab-Attacker failed" notification with code AuthorizationFailed. Reader can view everything in the subscription but cannot create or delete anything.
+40. Close the private window.
+
+Resource group-level Contributor:
+
+41. In the main browser, create a third user: User name `rgcontributordave`, Auto-generate password (`<auto-generated-password>`).
+42. Create a new resource group named `PermissionsTester`.
+43. Open `PermissionsTester` > Access control (IAM) > Add role assignment. Select the Contributor role, then Members > Select members, pick `rgcontributordave`, and click Review + assign.
+44. In a private window, sign in as `rgcontributordave` and change the password when prompted. Open Resource groups.
+    Expected result: only `PermissionsTester` is listed.
+45. From the portal home, go to Azure services > Storage accounts > Create, and create a storage account in `PermissionsTester`.
+    Expected result: the deployment succeeds and the storage account Overview shows resource group `PermissionsTester`. Contributor can build inside its one resource group but cannot see the rest of the subscription.
+46. Close the private window.
+
+## What I learned
+
+- An NSG and the guest OS firewall are separate layers. Opening the NSG was not enough; ping only worked after the Windows firewall was turned off.
+- Failed RDP logins land in the Security log as Event ID 4625, and failed SQL logins land in the Application log as Event ID 18456, both with the attacker's source IP.
+- SQL Server only writes login failures to the Windows logs after login auditing, `auditpol`, and the EventLog registry permission are all configured.
+- Azure RBAC scope matters: Global Reader sees the whole tenant, a subscription Reader sees but cannot change resources, and a resource group Contributor can only work inside its own group.
+
+## Next steps / cleanup
+
+Do not delete `RG-Cyber-Lab`, `windows-vm`, or `attack-vm`. The next lab, [Logging and Monitoring](https://github.com/aboutfaris/Logging-and-Monitoring), uses the same resource groups and VMs.
