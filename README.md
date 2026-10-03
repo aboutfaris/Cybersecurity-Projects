@@ -1,6 +1,8 @@
 # Logging and Monitoring
 
-## Objectives for the next 7 Labs that will create our Logging and Monitoring System.
+## Objectives for the Next 7 Labs
+
+These labs build our logging and monitoring system.
 
 - Azure Logging at Different Layers (Tenant, Activity, Resource)
 - Geo IP Data Ingestion & Log Analytics & Microsoft Sentinel Setup
@@ -20,15 +22,12 @@
 
 - VM Windows 10 PRO (21H2)
 - VM Linux Ubuntu 20.12
-<details close>
 
-<div>
+### Lab 1: Geo IP Data Ingestion
 
-</summary>
+In this lab, we use two GeoIP files to help correlate IP addresses with where the attacks originated from.
 
-#### In this lab, we will use 2 GeoIP files which will help us correlate IP addresses to figure out where the attacks originated from. <b>
-
-> This will be interesting because in Event Viewer we only see IP addresses, but we have no clue where the attacks came from.``` 
+This is interesting because Event Viewer only shows IP addresses, not where the attacks came from.
 
 - We will first download Two IP files 
 
@@ -67,11 +66,15 @@
 
 ![image](https://user-images.githubusercontent.com/112146207/231033022-3a06ba97-7561-408a-9fb0-cd340e02744d.png)
 
-- Change the expiration date and click "generate SAS" then copy the Blob SAS URL and put it on your notes because we will use it later
+- Change the expiration date and click "generate SAS", then copy the Blob SAS URL and save it because we will use it later. The URL will look like this (storage account, path, and signature are placeholders):
 
-``` https://fin69.blob.core.windows.net/ipgeodata/GeoIP2-City-Blocks-IPv4.csv?sp=r&st=2023-04-20T08:21:40Z&se=2024-04-20T16:21:40Z&spr=https&sv=2021-12-02&sr=b&sig=RsJoMHzVf0j1UwvGVISb1hVOWnpoT%2BIo5roRwZJcQsM%3D```
+```
+https://<your-storage-account>.blob.core.windows.net/ipgeodata/GeoIP2-City-Blocks-IPv4.csv?sp=r&st=<start-time>&se=<expiry-time>&spr=https&sv=<api-version>&sr=b&sig=<signature>
+```
 
-```https://fin69.blob.core.windows.net/ipgeodata/GeoIP2-City-Locations-en.csv?sp=r&st=2023-04-20T08:22:54Z&se=2024-04-20T16:22:54Z&spr=https&sv=2021-12-02&sr=b&sig=usl0HXJnadp8mnD7TxrrFcTJ34T8qddjZY%2Fft63Q1js%3D```
+```
+https://<your-storage-account>.blob.core.windows.net/ipgeodata/GeoIP2-City-Locations-en.csv?sp=r&st=<start-time>&se=<expiry-time>&spr=https&sv=<api-version>&sr=b&sig=<signature>
+```
 
 - Just to explain why we are doing this, we are going to give this SAS URL to the Log repository which will read all this data in Sintenial and put it into its database. Look forward to that, shortly. 
 
