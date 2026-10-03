@@ -1,4 +1,4 @@
-﻿$serverName = "20.242.43.183" # Replace with the name of your SQL Server instance
+﻿$serverName = "<your-sql-server-ip>" # Replace with the IP or name of your SQL Server instance
 $databaseName = "master" # Replace with the name of your database
 $username = "cyber-lab-fake-user" # This is the username to attempt a login with (you can change this)
 $password = "__obvious_bad_password_to_generate_auth_failures__"
