@@ -1,7 +1,6 @@
-# Building a SOC + Honeynet in Azure (Live Traffic) Comprehensive Summary
+# Building a SOC and Honeynet in Azure (Live Traffic) — Summary
 
-![68747470733a2f2f692e696d6775722e636f6d2f5a5778653033652e6a7067](https://user-images.githubusercontent.com/109401839/236074219-a957c5f2-21e9-4501-9d9d-ed879e01558f.jpg)
-
+![Honeynet overview](https://user-images.githubusercontent.com/109401839/236074219-a957c5f2-21e9-4501-9d9d-ed879e01558f.jpg)
 
 ## Introduction
 
@@ -55,7 +54,7 @@ For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL t
 
 ![nsg-malicious-allowed-in](https://user-images.githubusercontent.com/109401839/235823325-6efbd17d-06e1-4003-957c-a9fbed4570bd.png)
 
-```All map queries returned no results due to no instances of malicious activity for the 24-hour period after hardening.```
+> All map queries returned no results due to no instances of malicious activity for the 24-hour period after hardening.
 
 The following table shows the metrics we measured in our insecure environment for 24 hours:
 <div>
