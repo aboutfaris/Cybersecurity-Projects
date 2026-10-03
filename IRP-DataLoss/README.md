@@ -1,23 +1,28 @@
 # Data Loss Playbook
 
-[[_TOC_]]
+## Contents
+
+- [Scope](#scope)
+- [1. Preparation](#1-preparation)
+- [2. Detect](#2-detect)
+- [3. Analyze](#3-analyze)
+- [4. Contain / Eradicate](#4-contain--eradicate)
+- [5. Recover](#5-recover)
+- [6. Post Incident](#6-post-incident)
 
 ## Scope
 This Playbook covers the steps to take in case of Data Loss / Data Breach.
 
 ## 1. Preparation
 
-<details>
-<summary>Expand/Colapse</summary>
-
-- Create and maintain a list of 
+- Create and maintain a list of
     - all domains owned by Company.
         - This can prevent you from taking actions against our own domains
-    - all people of can register domains
-- Create email template 
-    - to notify all employees of ongoing phishing campaing against the organization 
+    - all people who can register domains
+- Create email template
+    - to notify all employees of ongoing phishing campaign against the organization
     - to contact hosting companies for domain take down
-    - to inform 3rd party to take actions against phishing on there infra (Microsoft, Fedex, Apple, etc.)
+    - to inform 3rd party to take actions against phishing on their infrastructure (Microsoft, Fedex, Apple, etc.)
 - Ensure that:
     - Mail anti-malware/anti-spam/anti-phish solutions are in place.
     - Users know how to report phish
@@ -27,19 +32,26 @@ This Playbook covers the steps to take in case of Data Loss / Data Breach.
         - WMI
         - MSHTA
         - Etc.
-- Perform Firedrill to ensure all aspects of the Playbook are working
+- Perform fire drill to ensure all aspects of the Playbook are working
     - After publication
     - At least once a year
-    - Test/Validate: 
+    - Test/Validate:
         - [Customer's Cards](Customers)
         - Internal Contact and Escalation Paths
-- Review threat intelligence for 
-    - threats to the organisation, 
-    - brands and the sector, 
-    - common patterns 
+- Review threat intelligence for
+    - threats to the organization,
+    - brands and the sector,
+    - common patterns
     - newly developing risks and vulnerabilities
-- Ensure  appropriate  access  to  any  necessary  documentation  and  information, including out-of-hours access, for the following
-    - IR Playbgns to highlight information security risks faced by employees, including: 
+- Ensure appropriate access to all necessary documentation and information, including out-of-hours access, for the following
+    - IR Playbooks
+    - Network Architecture Diagram
+    - Dataflow
+- Identify and obtain the services of a third-party cyber forensics provider.
+- Define threat and risk indicators and alerting patterns in the organization's SIEM.
+
+### Train Employees
+- Run regular awareness campaigns to highlight the information security risks employees face, including:
     - Phishing attacks and malicious emails;
     - Ransomware;
     - Reporting a suspected cyber incident.
@@ -47,26 +59,26 @@ This Playbook covers the steps to take in case of Data Loss / Data Breach.
 ### Tool Access and Provisioning
 
 #### Tool1
-Please referer to [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](../Products/TOOL.md)
 
 #### Tool2
-Please referer to [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](../Products/TOOL.md)
 
 ### Assets List
-- A list of assets and owner should exists and be available for the following
+- A list of assets and owners should exist and be available for the following
     - Customers Assets
         - Owners
         - Contacts
-        - Pre authorized actions
-    - Company Assets (Including all filiale and business units)
+        - Preauthorized actions
+    - Company Assets (including all subsidiaries and business units)
         - Owners
         - Contacts
         - Administrators
-        - Pre autorized actions
+        - Preauthorized actions
 - Type of assets inventory needed
     - Endpoints
     - Servers
-    - Network Equipements
+    - Network Equipment
     - Security Appliances
     - Network Ranges
         - Public
@@ -76,26 +88,30 @@ Please referer to [Tool2 Documentation](../Products/TOOL.md)
             - Partners
             - Clients
 
-</details>
-
 ## 2. Detect
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Detect
 
-![Data Loss Workflow](Workflows/DataLoss-Workflow-Detect.png)
-
-</details>
+1. DD1. Identify threat indicators from two kinds of input:
+   - Alerts: tickets, SIEM, AV/EDR alerts, the Overwatch team, reports (DNS, web proxy).
+   - Notifications: admins, clients, third parties, the ISP.
+2. DD2. Identify risk factors:
+   - Common: device loss, credential theft, criminal activity (financial losses, blackmail or ransom).
+   - Company specific: reputation damage, financial losses (lost contract or renewal, lower bids to our clients, regulatory fines).
+3. DD3. Data collection. For the data involved, record whether it includes PII, who owns it (clients or the company), whether it is intellectual property, and its age (current or old).
+4. DD4. Categorize the type: cyber threat, insider threat, mail sent to the wrong destination, lost device, or printed documents.
+5. DD5. Is it ransomware?
+   - If yes: switch to the [Ransomware playbook](../IRP-Ransom/README.md).
+   - Otherwise: go to DD6.
+6. DD6. Triage: determine impact and scope, send a communication, and determine whether it is a false positive.
+7. DD7. Is it a false positive?
+   - If yes: stop.
+   - Otherwise: go to Analyze.
 
 ### DD1. Identify Threat Indicators
-<details open>
-<summary>Expand/Colapse</summary>
 
 #### Alerts
-Alerts are be generated by differents systems owned by the Security/SOC team. The main sources for alerts are  
+Alerts are generated by different systems owned by the Security/SOC team. The main sources for alerts are
 - Tickets
 - SIEM
 - Anti-Virus / EDR
@@ -104,58 +120,46 @@ Alerts are be generated by differents systems owned by the Security/SOC team. Th
     - Web Proxy
 
 #### Notifications
-Notifications are comming from external sources usually via email, Teams or phone. The main sources for notifications are  
+Notifications come from external sources, usually by email, Teams or phone. The main sources for notifications are
 - System Administrators
 - Clients
 - Third Parties
 - ISP
 
-</details>
-
-### DD2. Indentify Risks Factors
-<details open>
-<summary>Expand/Colapse</summary>
+### DD2. Identify Risk Factors
 
 #### Common
 - Credential Theft
 - Device Loss
     - Laptop
     - Phone
-- Criminal Activites
+- Criminal Activities
     - Blackmail / Ransom
 
 #### Company Specific
 - Reputation Damage
 - Financial Losses
-    - Lost of conctrat
+    - Lost contract
     - Contract not renewed
     - Lower bid to our clients
     - Fines
         - Regulation
 
-</details>
-
-### DD3. Data Colletion
-This section describe the information that should be collected and documented about the incident  
-There is a lot of ressources to help you with that phase [here](../Tools/README.md)
-<details open>
-<summary>Expand/Colapse</summary>
+### DD3. Data Collection
+This section describes the information that should be collected and documented about the incident
+There are a lot of resources to help you with that phase [here](../Tools/README.md)
 
 Type Data
-- Personally identifiable information (PII) 
+- Personally identifiable information (PII)
 - Intellectual Property
-- Age of the Data 
+- Age of the Data
     - Current
     - Old
 - Owner of the Data
     - Company
     - Clients
 
-</details>
-
 ### DD4. Categorize
-<details open>
-<summary>Expand/Colapse</summary>
 
 Determine type of Data Loss we are dealing with.
 - Cyber Threat
@@ -166,57 +170,55 @@ Determine type of Data Loss we are dealing with.
     - Phone
 - Printed Documents
 
-</details>
-
 ### DD5. Is it Ransomware ?
 
-If the Data Loss is caused by a Ransomware please refere to the ![Ransomware Playbook](../IRP-Ransomware/)  
+If the Data Loss is caused by a Ransomware see the [Ransomware playbook](../IRP-Ransom/README.md)
 
-### DD6. Triage 
-<details open>
-<summary>Expand/Colapse</summary>
+### DD6. Triage
 
 - Determine Impact
-- Determine Scope 
+- Determine Scope
     - Number of Documents / Records
     - Number of Clients
     - Number of Company Entities
     - Number of Individuals
-- Send Communincation
+- Send Communication
 - Determine if False Positive
 
-</details>
-</details>
-</details>
-
 ## 3. Analyze
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Analyze
 
-![Data Loss Workflow](Workflows/DataLoss-Workflow-Analyze.png)
-
-</details>
+1. DA1. Verify: double-check the data from Detect and rule out a false positive.
+2. DA2. Is this a critical incident?
+   - If yes: run the [Critical playbook](../IRP-Critical/README.md), then continue at DA3.
+   - Otherwise: go to DA3.
+3. DA3. Identify IOCs: files, processes, services and daemons, registry, startup folder, WMIC, users.
+4. DA4. Is malware involved?
+   - If yes: run the [Malware playbook](../IRP-Malware/README.md), then continue at DA5.
+   - Otherwise: go to DA5.
+5. DA5. Find out what was accessed: signs of lateral movement, firewall logs, netflows, number of hosts involved.
+6. DA6. Update the scope: the lists of affected data, endpoints, company entities and clients.
+7. DA7. Have all affected endpoints and data been identified?
+   - If no: DA8. Scope validation: look for new signs of data leakage, search the customers' environments, search endpoints for IOCs with EDR, and search firewall, proxy and DNS logs for IOCs. Go back to DA1.
+   - Otherwise: go to DA9.
+8. DA9. Do we need external help?
+   - If yes: DA10. Do we need technical help? If yes, DA11. Contact IR professional services. Then DA12. Do we need legal help? If yes, DA13. Contact the breach coach. Then go to DA14.
+   - Otherwise: go to DA14.
+9. DA14. Root cause analysis: phishing, vishing, drive-by download, a vulnerability (RCE, XSS, LFI), a remote service (default or weak password, brute force, vulnerability), a lost device, or human error.
+10. DA15. Send a communication to the internal security teams, the affected clients, and any internal teams needed for remediation or counselling.
+11. Go to Contain / Eradicate.
 
 ### DA1. Verify
-<details open>
-<summary>Expand/Colapse</summary>
 
-In conjonction with a senior member of the SOC  
+In conjunction with a senior member of the SOC
 - Double check previous data
 - Rule Out False Positive
-
-</details>
 
 ### DA2. Critical Incident
 If this incident is deemed **Major or Critical** by the senior analyst go to the [Critical Incident Playbook](../IRP-Critical/)
 
 ### DA3. Identify IOCs
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Data
     - All Files Lost
@@ -241,17 +243,13 @@ If this incident is deemed **Major or Critical** by the senior analyst go to the
     - [Talos Intelligence](../Tools/README.md#hybrid-analysis)
 - Disk forensics on recipient's endpoint
 
-</details>
-
 ### DA4. Malware
-If **Malware** was involve in the incident refer to the [Malware Playbook](../IRP-Malware/)  
+If **Malware** was involve in the incident refer to the [Malware Playbook](../IRP-Malware/)
 
 ### DA5. What Was Accessed
-<details open>
-<summary>Expand/Colapse</summary>
 
-Did the attack touched other systems?  
-Look for:  
+Did the attack touched other systems?
+Look for:
 - Signs of Lateral Movement
 - Review Firewall Logs
 - Review Netflows
@@ -259,34 +257,26 @@ Look for:
 - Number of Clients Affected
     - Perform the same research for all affected clients
 
-</details>
-
 ### DA6. Update Scope
-<details open>
-<summary>Expand/Colapse</summary>
 
-- Update lists of affeected
+- Update lists of affected
     - Data
     - Endpoints
     - Company Entities
     - Clients
 
-</details>
-
 ### DA8. Scope Validation
-<details open>
-<summary>Expand/Colapse</summary>
 
-Have all the machines and data been identified? 
-If you find futher traces of phishing or new IOCs go back to [Verify Step](README.md#verify).  
+Have all the machines and data been identified?
+If you find futher traces of phishing or new IOCs go back to [Verify Step](README.md#verify).
 
-When you are done identifying all :  
+When you are done identifying all :
 - Data that was Lost
 - Affected Endpoints
 - Affected Company Entities
 - Affected Customers
 
-And if applicable investigated all:  
+And if applicable investigated all:
 - URLs
 - Domains
 - IP
@@ -294,15 +284,13 @@ And if applicable investigated all:
 - Files
 - Hash
 
-You can proceed with the next steps.  
-
-</details>
+You can proceed with the next steps.
 
 ### DA9. External Help
-Does Company have all the knowledge and ressources to handle the crisis alone?
+Does Company have all the knowledge and resources to handle the crisis alone?
 
 #### DA11. Technical Help
-If the Incident Commander feels we need Technical help or ressources to handle the incident he can reach out to our Incident Response Partner.  
+If the Incident Commander feels we need Technical help or resources to handle the incident he can reach out to our Incident Response Partner.
 We have a retainer with the following company and we can reach them at : xxxx@yyy.com or 555-555-5555
 
 #### DA12. Legal Help
@@ -312,12 +300,9 @@ If there are Legal implication such as
 - Regulation
 - Laws
 
-
 ### DA14. Root Cause Analysis
-<details open>
-<summary>Expand/Colapse</summary>
 
-Identify how this incident happened. 
+Identify how this incident happened.
 - Phishing Emails
 - Voice Phishing
 - Drive-by Download
@@ -331,280 +316,213 @@ Identify how this incident happened.
 - Lost Device
 - Human Error
 
-</details>
-
-### DA15. Send Communincation
-<details open>
-<summary>Expand/Colapse</summary>
+### DA15. Send Communication
 
 Contact any relevant of the following party
 - Internal Security Team
 - Affected Clients
-- Any internal teams needed for remediation or counselling 
-
-</details>
-
-</details>
-
+- Any internal teams needed for remediation or counselling
 
 ## 4. Contain / Eradicate
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Contain / Eradicate
 
-![Data Loss Workflow](Workflows/DataLoss-Workflow-Contain_Eradicate.png)
-
-</details>
+1. DC1. Were credentials compromised?
+   - If yes: DC2. Rotate the passwords, then go to DC3.
+   - Otherwise: go to DC3.
+2. DC3. Was MFA compromised or lost?
+   - If yes: DC4. Revoke and replace the token, then go to DC5.
+   - Otherwise: go to DC5.
+3. DC5. Is customer data involved?
+   - If yes: DC6. Contact the customers, then go to DC7.
+   - Otherwise: go to DC7.
+4. DC7. Was data posted to the internet?
+   - If yes: DC8. Ask the site owner to remove the data, then go to DC9.
+   - Otherwise: go to DC9.
+5. DC9. Is it an insider threat?
+   - If yes: DC10. Inform HR and disable the accounts, then go to DC11.
+   - Otherwise: go to DC11.
+6. DC11. Does the attacker still have access?
+   - If yes: switch to the [Malware playbook](../IRP-Malware/README.md).
+   - Otherwise: go to DC12.
+7. DC12. Monitor closely for newly leaked information, new communication from the attackers, and people trying to give back devices or documents.
+8. DC13. Has all affected lost data been addressed?
+   - If yes: go to Recover.
+   - Otherwise: go to DC14.
+9. DC14. Was new lost data discovered?
+   - If yes: go back to Analyze.
+   - Otherwise: go back to DC1.
 
 ### DC1. Compromised Credentials
-<details open>
-<summary>Expand/Colapse</summary>
 
-If any credentials are suspected to have been accessed, stolen or used they will all need to be changed.  
-This applies to:  
+If any credentials are suspected to have been accessed, stolen or used they will all need to be changed.
+This applies to:
 - Local Passwords
 - Network Passwords
 - Remote Passwords
 - Etc.
 
-</details>
-
 ### DC3. Compromised or Lost MFA
-<details open>
-<summary>Expand/Colapse</summary>
 
-If any Multi Factor Authentication token/code were accessed, stolen or used they will all need to be 
+If any Multi Factor Authentication token/code were accessed, stolen or used they will all need to be
 - Revoke
-- Replace.  
-
-</details>
+- Replace.
 
 ### DC5. Customer Data
-<details open>
-<summary>Expand/Colapse</summary>
 
-If any if customer data was accessed or leaked we will need to send communication to all affected clients using the approved [Customer Communication Template]().  
-
-</details>
+If any if customer data was accessed or leaked we will need to send communication to all affected clients using the approved [Customer Communication Template]().
 
 ### DC7. Data Posted to the Internet
-<details open>
-<summary>Expand/Colapse</summary>
 
 If the site is controlled by an public company, we can ask them to remove the information. Usually writing at <abuse@company.com> is a good place to start.
 
-</details>
-
 ### DC9. Insider Threat
-<details open>
-<summary>Expand/Colapse</summary>
 
-If the information was intentionally leaked/sold by an employee, we need to:  
+If the information was intentionally leaked/sold by an employee, we need to:
 - Contact HR
 - Disable User Account
 - Disable any MFA token
 
-We will potentially need to send physical security to the employee's desk to seize his/her laptop and other devices. 
-
-</details>
+We will potentially need to send physical security to the employee's desk to seize his/her laptop and other devices.
 
 ### DC11. Attacker Still Have Access?
 
-If there is any sign of the attacker still being in the network, go to the [Malware Playbook](../IRP-Malware/README.md)  
-
+If there is any sign of the attacker still being in the network, go to the [Malware Playbook](../IRP-Malware/README.md)
 
 ### DC12. Close Monitoring
-<details open>
-<summary>Expand/Colapse</summary>
 
-- Monitor for 
+- Monitor for
     - New information leaked
     - New communication from Attackers
     - People trying to give back device(s)/document(s)
 
-</details>
-
-
 ### DC13. All Affected Data Lost Addressed?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected data have been addressed, you can go to the [Recover phase](README.md#5-recover), otherwise continue bellow.  
-
-</details>
+If all affected data have been addressed, you can go to the [Recover phase](README.md#5-recover), otherwise continue bellow.
 
 ### DC14. New Data Lost Discovered?
-<details open>
-<summary>Expand/Colapse</summary>
 
 If there was new leaked data/devices discovered, go back to the [Analyze Phase](README.md#3-analyze)
 
-</details>
-</details>
-
-
 ## 5. Recover
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Recover
 
-![Data Loss Workflow](Workflows/DataLoss-Workflow-Recover.png)
-
-</details>
+1. DR1. Rebuild systems in an isolated environment: install a supported OS, the security tools and up-to-date apps, then restore clean data.
+2. DR2. Run a vulnerability scan: external, and authenticated or agent-based if possible.
+3. DR3. Update defenses. Decide which of these can stay to prevent reinfection and which must be removed to restore functionality: EDR policies, firewall rules, proxy blocks, DNS sinkholes.
+4. DR4. Restore service: lift containment, move the host to the production VLAN, enable the switch port, and enable or create the virtual network interface.
+5. DR5. Have all affected endpoints been identified?
+   - If yes: go to Post Incident.
+   - Otherwise: DR6. Data collection: list the systems that haven't been restored, then go back to DR1.
 
 ### DR1. Rebuilt Systems
-<details open>
-<summary>Expand/Colapse</summary>
 
-In an isolated environment:  
-    - Install 
+In an isolated environment:
+    - Install
         - Supported OS
         - Security solutions
         - Up to date applications
     - Restore data (from a clean backup)
 
-</details>
-
 ### DR2. Vulnerability Scan
-<details open>
-<summary>Expand/Colapse</summary>
 
-Perform:  
+Perform:
 - External VA
 - If possible
     - Authenticated scan
     - Agent base scan
 
-</details>
-
 ### DR3. Update Defenses
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine which of the following rules needs to be removed and which needs to stay in the following list:  
+Determine which of the following rules needs to be removed and which needs to stay in the following list:
 - Firewall Rules
-- EDR 
+- EDR
     - Ban hashes
     - Ban domains
     - Containment
 - Proxy Block
 - DNS Sinkhole
-- Etc. 
-
-</details>
+- Etc.
 
 ### DR4. Restore Service
-<details open>
-<summary>Expand/Colapse</summary>
 
-Depending on the containment applied to the host, perform all the following that applies:  
+Depending on the containment applied to the host, perform all the following that applies:
 - Lift containment in EDR console
 - Move host to production VLAN
 - Enable switch port
 - Enable/Create virtual network interface
-- etc. 
-
-</details>
+- etc.
 
 ### DR5. All Affected Endpoints Restored?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected endpoints have been restored, you can go to the [Post Incident](README.md#6.-post-incident) phase, otherwise continue bellow.  
+If all affected endpoints have been restored, you can go to the [Post Incident](README.md#6.-post-incident) phase, otherwise continue bellow.
 - List systems that haven't been restored
 - Go to [README.md#rebuild-systems]
 
-</details>
-
-</details>
-
-
 ## 6. Post Incident
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Post Incident
 
-![Data Loss Workflow](Workflows/DataLoss-Workflow-Post_Incident.png)
-
-</details>
+1. DP1. Incident review: what worked and what didn't.
+2. DP2. Update how you operate:
+   - Documentation: policies, playbooks, runbooks and procedures.
+   - Detection rules: SIEM, AV/EDR and other security tools.
+3. DP3. Review the defensive posture. Schedule a review of newly added rules in 6 months, and check whether AV/EDR custom signatures and IPS signatures are still needed.
+4. DP4. Build new detections.
+5. DP5. Modify base images.
+6. DP6. Was the incident caused by a person?
+   - If yes: DP7. Run user awareness training, then go to DP8.
+   - Otherwise: go to DP8.
+7. DP8. Calculate the cost of the incident.
+8. Stop.
 
 ### DP1. Incident Review
-<details open>
-<summary>Expand/Colapse</summary>
 
 - What worked
 - What didn't work
 
-</details>
-
 ### DP2. Update Mode of Operations
-<details open>
-<summary>Expand/Colapse</summary>
 
-Update the following documents as requiered:  
+Update the following documents as required:
 - Policies
 - Processes
 - Procedures
 - Playbooks
 - Runbooks
 
-Update Detetion Rules in:  
+Update Detection Rules in:
 - SIEM
 - Anti-Spam
 - Malware Gataway
 - EDR
 - Other security solution
 
-</details>
-
 ### DP3. Review Defensive Posture
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Schedule review of newly introduced rules in6 months
-- Are the following still applicatble
+- Are the following still applicable
     - Firewall Rules
     - Proxy Rules for C2
     - AV / EDR custom Signatures
     - IPS Signatures
 
-</details>
-
 ### DP4. Build New Detection
-<details open>
-<summary>Expand/Colapse</summary>
 
 If the Data Loss was not caused by a lost device, we need to build new detections
 - Mail Service
 - Anti-Spam / Anti-Phish
 - ATT&CK Techniques
-- etc. 
+- etc.
 
-</details>
+### DP5. Modify Base Images
 
-### DP5. Modifify Base Images
-<details open>
-<summary>Expand/Colapse</summary>
-
-If the Data Loss was caused by a lack of hardening or sufficient patch level: 
+If the Data Loss was caused by a lack of hardening or sufficient patch level:
 - Review hardening processes
 - Include critical patches in base Images
-- etc. 
-
-</details>
+- etc.
 
 ### DP7. User Awareness Training
-<details open>
-<summary>Expand/Colapse</summary>
 
 If the incident was caused by a human error
 - Create / Select new mandatory training
@@ -612,29 +530,21 @@ If the incident was caused by a human error
     - From Youtube videos
     - Built by internal teams
 
-</details>
-
 ### DP8. Calculate Incident's Cost
-<details open>
-<summary>Expand/Colapse</summary>
 
 Calculate the incident's Cost
 - Time Spent
 - Ransom paid
 - Downtime
-- Fines / Penalities
-- etc. 
-
-</details>
-
-</details>
+- Fines / Penalties
+- etc.
 
 # References
 
-This Playbook was built using the following references:  
-https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570  
-https://www.gov.scot/publications/cyber-resilience-incident-management/  
-https://github.com/certsocietegenerale/IRM/tree/master/EN  
-https://www.incidentresponse.com/playbooks/  
-https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/  
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf  
+This Playbook was built using the following references:
+https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570
+https://www.gov.scot/publications/cyber-resilience-incident-management/
+https://github.com/certsocietegenerale/IRM/tree/master/EN
+https://www.incidentresponse.com/playbooks/
+https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf

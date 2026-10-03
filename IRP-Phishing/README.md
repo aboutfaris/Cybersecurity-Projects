@@ -1,23 +1,28 @@
 # Phishing Playbook
 
-[[_TOC_]]
+## Contents
+
+- [Scope](#scope)
+- [1. Preparation](#1-preparation)
+- [2. Detect](#2-detect)
+- [3. Analyze](#3-analyze)
+- [4. Contain / Eradicate](#4-contain--eradicate)
+- [5. Recover](#5-recover)
+- [6. Post Incident](#6-post-incident)
 
 ## Scope
 This Playbook covers
 
 ## 1. Preparation
 
-<details>
-<summary>Expand/Colapse</summary>
-
-- Create and maintain a list of 
+- Create and maintain a list of
     - all domains owned by Company.
         - This can prevent you from taking actions against our own domains
-    - all people of can register domains
-- Create email template 
-    - to notify all employees of ongoing phishing campaing against the organization 
+    - all people who can register domains
+- Create email template
+    - to notify all employees of ongoing phishing campaign against the organization
     - to contact hosting companies for domain take down
-    - to inform 3rd party to take actions against phishing on there infra (Microsoft, Fedex, Apple, etc.)
+    - to inform 3rd party to take actions against phishing on their infrastructure (Microsoft, Fedex, Apple, etc.)
 - Ensure that:
     - Mail anti-malware/anti-spam/anti-phish solutions are in place.
     - Users know how to report phish
@@ -27,19 +32,26 @@ This Playbook covers
         - WMI
         - MSHTA
         - Etc.
-- Perform Firedrill to ensure all aspects of the Playbook are working
+- Perform fire drill to ensure all aspects of the Playbook are working
     - After publication
     - At least once a year
-    - Test/Validate: 
+    - Test/Validate:
         - [Customer's Cards](Customers)
         - Internal Contact and Escalation Paths
-- Review threat intelligence for 
-    - threats to the organisation, 
-    - brands and the sector, 
-    - common patterns 
+- Review threat intelligence for
+    - threats to the organization,
+    - brands and the sector,
+    - common patterns
     - newly developing risks and vulnerabilities
-- Ensure  appropriate  access  to  any  necessary  documentation  and  information, including out-of-hours access, for the following
-    - IR Playbgns to highlight information security risks faced by employees, including: 
+- Ensure appropriate access to all necessary documentation and information, including out-of-hours access, for the following
+    - IR Playbooks
+    - Network Architecture Diagram
+    - Dataflow
+- Identify and obtain the services of a third-party cyber forensics provider.
+- Define threat and risk indicators and alerting patterns in the organization's SIEM.
+
+### Train Employees
+- Run regular awareness campaigns to highlight the information security risks employees face, including:
     - Phishing attacks and malicious emails;
     - Ransomware;
     - Reporting a suspected cyber incident.
@@ -47,26 +59,26 @@ This Playbook covers
 ### Tool Access and Provisioning
 
 #### Tool1
-Please referer to [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](../Products/TOOL.md)
 
 #### Tool2
-Please referer to [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](../Products/TOOL.md)
 
 ### Assets List
-- A list of assets and owner should exists and be available for the following
+- A list of assets and owners should exist and be available for the following
     - Customers Assets
         - Owners
         - Contacts
-        - Pre authorized actions
-    - Company Assets (Including all filiale and business units)
+        - Preauthorized actions
+    - Company Assets (including all subsidiaries and business units)
         - Owners
         - Contacts
         - Administrators
-        - Pre autorized actions
+        - Preauthorized actions
 - Type of assets inventory needed
     - Endpoints
     - Servers
-    - Network Equipements
+    - Network Equipment
     - Security Appliances
     - Network Ranges
         - Public
@@ -76,28 +88,35 @@ Please referer to [Tool2 Documentation](../Products/TOOL.md)
             - Partners
             - Clients
 
-</details>
-
 ## 2. Detect
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Detect
 
-![Phishing Workflow](Workflows/Phishing-Workflow-Detect.png)
-
-</details>
+1. PD1. Identify threat indicators from two kinds of input:
+   - Alerts: tickets, SIEM, AV/EDR alerts, reports (DNS, web proxy), errors from bounced messages.
+   - Notifications: users, recipients, third parties, the ISP, the mail provider.
+2. PD2. Identify risk factors:
+   - Common: credential theft, malware delivery, criminal activity (financial losses, blackmail or ransom).
+   - Company specific: reputation damage, financial losses (lost contract or renewal, regulatory fines).
+3. PD3. Data collection. Record:
+   - Domain: reputation, registrar, owner, IP, multi-stage or redirect, technologies (WordPress, Joomla, custom).
+   - IP: reputation, other domains hosted on it (vhosts).
+   - Any attached files.
+4. PD4. Categorize the type: phishing, spam, spear phishing, whaling, business email compromise (BEC), or Office 365 forwarding rules.
+5. PD5. Triage:
+   - Determine impact: the impact of this message type, and the financial impact.
+   - Determine scope: how many people received the message, opened the attachment or links, and submitted information.
+   - Determine whether it is a false positive.
+6. PD6. Is it a false positive?
+   - If yes: stop.
+   - Otherwise: go to Analyze.
 
 ### Identify Threat Indicators
-<details open>
-<summary>Expand/Colapse</summary>
 
 #### Alerts
-Alerts are be generated by differents systems owned by the Security/SOC team. The main sources for alerts are  
+Alerts are generated by different systems owned by the Security/SOC team. The main sources for alerts are
 - Tickets
-- SIEM 
+- SIEM
 - Anti-Virus / EDR
 - Reports
     - DNS
@@ -105,42 +124,34 @@ Alerts are be generated by differents systems owned by the Security/SOC team. Th
 - Errors from mail servers
 
 #### Notifications
-Notifications are comming from external sources usually via email, Teams or phone. The main sources for notifications are  
+Notifications come from external sources, usually by email, Teams or phone. The main sources for notifications are
 - Users (internal)
-- Recipents of emails (external)
+- Recipients of emails (external)
 - Third Parties
 - ISP
 - Mail Providers
 
-</details>
-
-### Indentify Risks Factors
-<details open>
-<summary>Expand/Colapse</summary>
+### Identify Risk Factors
 
 #### Common
 - Credential Theft
 - Malware Delivery
-- Criminal Activites
+- Criminal Activities
     - Blackmail / Ransom
 
 #### Company Specific
 - Financial Losses
-    - Lost of conctrat
+    - Lost contract
     - Contract not renewed
     - Lower bid to our clients
     - Fines
         - Regulation
 
-</details>
+### Data Collection
+This section describes the information that should be collected and documented about the incident
+There are a lot of resources to help you with that phase [here](../Tools/README.md)
 
-### Data Colletion
-This section describe the information that should be collected and documented about the incident  
-There is a lot of ressources to help you with that phase [here](../Tools/README.md)
-<details open>
-<summary>Expand/Colapse</summary>
-
-Domains  
+Domains
 - Reputation
 - Registrar
 - Owner
@@ -151,17 +162,13 @@ Domains
     - Joomla
     - Custom Page (credential phish)
 
-IP  
+IP
 - Reputation
 - Owner
-- Geo Localisation
+- Geo Location
 - Other domains on that IP
 
-</detials>
-
 ### Categorize
-<details open>
-<summary>Expand/Colapse</summary>
 
 Determine type of email
 - Phish
@@ -180,11 +187,7 @@ Determine type of email
 - BEC
 - O365 Forward Rules
 
-</details>
-
-### Triage 
-<details open>
-<summary>Expand/Colapse</summary>
+### Triage
 
 Determine
 - Impact
@@ -192,41 +195,41 @@ Determine
     - Financial
     - Data loss
 - Scope (Nb of people)
-    - Recieved the message
+    - Received the message
     - Opened the attachments
     - Clicked on the links
     - Submitted information
 
-</details>
-</details>
-</details>
-
 ## 3. Analyze
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Analyze
 
-![Phishing Workflow](Workflows/Phishing-Workflow-Analyze.png)
-
-</details>
+1. PA1. Verify: double-check the data from Detect and rule out false positives.
+2. PA2. Is this a critical incident?
+   - If yes: run the [Critical playbook](../IRP-Critical/README.md), then continue at PA3.
+   - Otherwise: go to PA3.
+3. PA3. Identify IOCs:
+   - Check file hashes against threat intel services (for example VirusTotal, Hybrid Analysis, ThreatGrid).
+   - Check links (VirusTotal, Hybrid Analysis).
+   - Review the email headers.
+   - Record the subject, attachments and sender address, plus any other addresses, domains and IPs.
+   - Search threat intel sources.
+   - Run disk forensics on the recipient's endpoint.
+4. PA4. Scan the enterprise: update the spam filter, update firewall and IDS rules with the IOCs, and search all mail folders and endpoints (with EDR) for the IOCs.
+5. PA5. Update the scope: the lists of affected recipient addresses, endpoints, legal entities and business units.
+6. PA6. Have all affected endpoints been identified?
+   - If no: PA7. Scope validation: search mailboxes and endpoints for the IOCs, then go back to PA1.
+   - Otherwise: go to PA8.
+7. PA8. Send communications to the internal security teams, the email team (on-premises or cloud) and the firewall team.
+8. Go to Contain / Eradicate.
 
 ### Verify
-<details open>
-<summary>Expand/Colapse</summary>
 
-In conjonction with a senior member of the SOC  
+In conjunction with a senior member of the SOC
 - Double check previous datsa
 - Rule out False Positive
 
-</details>
-
-
 ### Identify IOCs
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Validate hashes
     - [VirusTotal](../Tools/README.md#virus-total)
@@ -246,22 +249,14 @@ In conjonction with a senior member of the SOC
     - [Talos Intelligence](../Tools/README.md#hybrid-analysis)
 - Disk forensics on recipient's endpoint
 
-</details>
-
 ### Scan Enterprise
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update spam filter
 - Update FW, IDS, etc. rules w/ IOCs
 - Search all mail forders for IOCs
 - Search endpoints for IOCs w/ EDR
 
-</details>
-
 ### Update Scope
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update lists of
     - affected recipient addresses
@@ -269,32 +264,24 @@ In conjonction with a senior member of the SOC
     - affected enclaves
     - affected business units
 
-</details>
-
 ### Update Scope
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update lists of
     - affected recipient addresses
     - affected endpoints
     - affected enclaves
     - affected business units
-
-</details>
 
 ### Scope Validation
-<details open>
-<summary>Expand/Colapse</summary>
 
-Have all the machines been identified? 
-If you find futher traces of phishing or new IOCs go back through this step.  
+Have all the machines been identified?
+If you find futher traces of phishing or new IOCs go back through this step.
 
-When you are done identifying all compromised:  
+When you are done identifying all compromised:
 - Hosts
 - Mailboxes
 
-And investigated all:  
+And investigated all:
 - URLs
 - Domains
 - IP
@@ -304,26 +291,28 @@ And investigated all:
 
 Go to the next phase <Contain/Eradicate>
 
-</details>
-
-</details>
-
-
 ## 4. Contain / Eradicate
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Contain / Eradicate
 
-![Phishing Workflow](Workflows/Phishing-Workflow-Contain_Eradicate.png)
-
-</details>
+1. PC1. Block C2 and email traffic: update spam filters, update firewall and proxy rules, blackhole the DNS entries, and submit the links to partners.
+2. PC2. Check what the users did: were the emails read, were attachments opened, were links clicked?
+3. PC3. Did a malware infection occur?
+   - If yes: run the [Malware playbook](../IRP-Malware/README.md).
+   - Otherwise: go to PC4.
+4. PC4. Delete the emails:
+   - Delete them from users' inboxes with the spam tool or the email admin console.
+   - Delete downloaded attachments, using EDR, SIEM or similar tools to scan the enterprise.
+   - Delete the email from the mail servers (cloud and on-premises).
+5. PC5. Monitor closely for related incoming messages, internet connections to the IOCs, and new files that match the identified hashes.
+6. PC6. Are all affected endpoints contained?
+   - If yes: go to Recover.
+   - Otherwise: go to PC7.
+7. PC7. Were new IOCs discovered?
+   - If yes: go back to Analyze.
+   - Otherwise: go back to PC1.
 
 ### Block
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Update Spam Filters
 - Update FW, Proxy, etc. rules
@@ -333,30 +322,18 @@ Go to the next phase <Contain/Eradicate>
     - Web Filter Vendor
     - etc.
 
-</details>
-
 ### Validate User's Actions
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Have emails been read
 - Have attachments been opened
 - Have links been clicked
 
-</details>
-
 ### Malware Infection?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If there was malicious attachments that were openned we need to assume the endpoint(s) was/were infected by a malware.  
-Please continue to the [Malware Playbook](../IRP-Malware/README.md)  
-
-</details>
+If there was malicious attachments that were openned we need to assume the endpoint(s) was/were infected by a malware.
+Please continue to the [Malware Playbook](../IRP-Malware/README.md)
 
 ### Delete Emails
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Delete From Users' Inboxes
     - Spam Tool
@@ -365,77 +342,49 @@ Please continue to the [Malware Playbook](../IRP-Malware/README.md)
 - Delete Downloaded Attachments
     - EDR, SIEM, etc. to scan enterprise
 
-</details>
-
 ### Close Monitoring
-<details open>
-<summary>Expand/Colapse</summary>
 
-- Monitor for 
+- Monitor for
     - Related incoming messages
     - Internet connections to IOC
     - New files that matches hashes identified
 
-</details>
-
-
 ### All Affected Endpoints Contained?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.  
-
-</details>
+If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.
 
 ### New IOC Discovered?
-<details open>
-<summary>Expand/Colapse</summary>
 
 If there was new IOC discovered, go back to the [Analyze Phase](README.md#3-analyze)
-</details>
-</details>
 
 ## 5. Recover
-<details open>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Recover
 
-![Phishing Workflow](Workflows/Phishing-Workflow-Recover.png)
-
-</details>
+1. PR1. Update defenses. Decide which spam filter, firewall, EDR and other rules can stay to prevent infection and which must be removed to restore functionality.
+2. PR2. Have all affected endpoints been identified?
+   - If yes: go to Post Incident.
+   - Otherwise: PR3. Data collection: check whether spam filters are blocking legitimate email and whether the proxy or firewall is blocking legitimate sites. Then go back to PR1.
 
 ### Update Defenses
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine which of the following rules needs to be removed and which needs to stay in the following list:  
+Determine which of the following rules needs to be removed and which needs to stay in the following list:
 - Spam Filters
 - Firewall Rules
-- EDR 
+- EDR
     - ban hashes
     - ban domains
     - Containment
 - Proxy Block
 
-</details>
-
 ### All Affected Endpoints Recovered?
-<details open>
-<summary>Expand/Colapse</summary>
 
-If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.  
-
-</details>
+If all affected endpoints have been contained, you can go to the next phase, otherwise continue bellow.
 
 ### Validate Countermeasures
-<details open>
-<summary>Expand/Colapse</summary>
 
-Determine if legitimate elements are blocked by:  
-- Spam Filters 
+Determine if legitimate elements are blocked by:
+- Spam Filters
 - Proxy
 - Firewall
 - EDR
@@ -443,85 +392,65 @@ Determine if legitimate elements are blocked by:
 If so, go back to [Update Defenses](README.md#update-defenses)
 Otherwise go to the next phase <Post Incident>
 
-</details>
-</details>
-
 ## 6. Post Incident
-<details>
-<summary>Expand/Colapse</summary>
 
-### Workflow
-<details open>
-<summary>Expand/Colapse</summary>
+### Workflow: Post Incident
 
-![Phishing Workflow](Workflows/Phishing-Workflow-Post%20Incident.png)
-
-</details>
+1. PP1. Incident review: what worked and what didn't.
+2. PP2. Update policies and procedures:
+   - Documentation: policies, playbooks, runbooks and procedures.
+   - Detection rules: SIEM, anti-spam, malware gateway, EDR and other security tools.
+3. PP3. Review the defensive posture. Schedule a review of newly added rules in 6 months, and check whether these are still needed: spam filter rules, firewall and proxy rules for C2, AV/EDR custom signatures, IPS signatures.
+4. PP4. Run user awareness training.
+5. PP5. Calculate the cost of the incident.
+6. Stop.
 
 ### Incident Review
-<details open>
-<summary>Expand/Colapse</summary>
 
 - What worked
 - What didn't work
 
-</details>
-
 ### Update Mode of Operations
-<details open>
-<summary>Expand/Colapse</summary>
 
-Update the following documents as requiered:  
+Update the following documents as required:
 - Policies
 - Processes
 - Procedures
 - Playbooks
 - Runbooks
 
-Update Detetion Rules in:  
+Update Detection Rules in:
 - SIEM
 - Anti-Spam
 - Malware Gataway
 - EDR
 - Other security solution
 
-</details>
-
 ### Review Defensive Posture
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Schedule review of newly introduced rules in6 months
-- Are the following still applicatble
+- Are the following still applicable
     - Spam Filter Rules
     - Firewall Rules
     - Proxy Rules for C2
     - AV / EDR custom Signatures
     - IPS Signatures
 
-</details>
-
 ### User Awareness Training
-<details open>
-<summary>Expand/Colapse</summary>
 
 - Ensure that the user receives Phishing training
     - How to recognize Phish
     - How to report Phish
     - Danger of following links
     - Danger of opening attachments
-    - Danger of compliying with scammers requests
-
-</details>
-
-</details>
+    - Danger of complying with scammers requests
 
 # References
 
-This Playbook was built using the following references:  
-https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570  
-https://www.gov.scot/publications/cyber-resilience-incident-management/  
-https://github.com/certsocietegenerale/IRM/tree/master/EN  
-https://www.incidentresponse.com/playbooks/  
-https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/  
-https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf  
+This Playbook was built using the following references:
+https://www.dfir.training/index.php?option=com_jreviews&format=ajax&url=media/download&m=14tt1&1600804844570
+https://www.gov.scot/publications/cyber-resilience-incident-management/
+https://github.com/certsocietegenerale/IRM/tree/master/EN
+https://www.incidentresponse.com/playbooks/
+https://ayehu.com/cyber-security-incident-response-automation/top-5-cyber-security-incident-response-playbooks/
+https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf
