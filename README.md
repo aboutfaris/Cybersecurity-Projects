@@ -1,10 +1,8 @@
-# Securing The Cloud Configuration
+# Securing the Cloud Configuration
 
-## We are simply going to reduce the risks as much as possible by the following sections: 
+We reduce risk by working through the following sections.
 
-<div>
-
-### Objectives: 
+### Objectives
 
 - Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations
 
@@ -23,10 +21,9 @@
 - VM Windows 10 PRO (21H2)
 - VM Linux Ubuntu 20.12
 
-After 24 Hours of Configuring NSG: 
-<div>
+### After 24 Hours of Configuring NSG
 
-Previous lab, we did some basic lockdowns and have a secure score of 54% and here are the results 24 hours later. 
+In the previous lab, we did some basic lockdowns and reached a secure score of 54%. Here are the results 24 hours later.
 
 ![Linux SSH Auth](https://user-images.githubusercontent.com/109401839/235417071-d99a0c53-6d99-47f9-8203-e3a1bdd427f8.png)
 
@@ -44,64 +41,52 @@ Previous lab, we did some basic lockdowns and have a secure score of 54% and her
 | SecurityIncident         | 185 (-16.67%)
 | AzureNetworkAnalytics_CL | 68 (-94.96%)
 
-We still have a major problem with  Malicious NSG Inbound Flow. Now we will increase our hardening methodology and observe the changes in 24 hours. 
+We still have a major problem with malicious NSG inbound flow. Now we will increase our hardening methodology and observe the changes over the next 24 hours.
 
-#### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations 
-<details close>
+### Regulatory Compliance (NIST 800-53, PCI DSS, CIS) and MDC Recommendations
 
-<div>
+Reminder: check your subscription's cost analysis.
 
-</summary>
+#### Actions and Observations
 
-Reminder: Check your Subscription’s Cost Analysis
-
-### Actions and Observations<b>
-
-- Overview Currently 
+- Overview, currently:
 
 ![vivaldi_ILnTZamtya](https://user-images.githubusercontent.com/109401839/235340696-8d247dcd-e45f-4e6c-ba90-a6f1d4257766.png)
 
-Click on Recommendations. 
-Ideally we want to get to 100%. 
+Click on Recommendations. Ideally, we want to get to 100%.
 
 ![vivaldi_sKRdqBEO7l](https://user-images.githubusercontent.com/109401839/235340928-3ad8b009-b1e7-46cd-920c-1b168c094904.png)
 
-Currently, I am at 54%, apply each remediation steps according to Azure and get your score up. 
+Currently, I am at 54%. Apply each remediation step according to Azure and get your score up.
 
-I will start with the DDos Protection and I wont show everything. However, take your time with this and Azure redirects you to everything. 
+I'll start with DDoS Protection, and I won't show every step. Take your time with this; Azure redirects you to each remediation.
 
 ![vivaldi_GYcRzsJZK3](https://user-images.githubusercontent.com/109401839/235341029-feb752ee-2793-4a72-b2d0-99c710a27413.png)
 
 ![vivaldi_bLyC34Yftz](https://user-images.githubusercontent.com/109401839/235341064-6f41ab48-2787-4e66-8cdf-c00ad7941996.png)
 
-In the next lab, we will go over the important Recommendations to secure our environment. Another project will show case getting the score to near 100 or at 100%. The question I will pose for that project is, "Having a 100% secure lab the best security measure?".
+In the next lab, we will go over the important recommendations to secure our environment. A later project will show how to get the score closer to 100%. The question I will pose for that project is: "Is a 100% secure score the best security measure?"
 
-Now, let enter the final phase of the Cloud SOC Projects. 
+Now let's move into the final phase of the Cloud SOC projects.
 
-### Azure Private Link & Firewall for Resources
-<details close>
-
-<div>
-
-</summary>
+### Azure Private Link and Firewall for Resources
 
 ![image](https://user-images.githubusercontent.com/109401839/235408787-7acc45e8-904f-4bfb-b4ec-7c6668f4453f.png)
 
-### Goals for this lab:
+#### Goals for this lab
 
-- Inspect MDC Regulatory Compliance (Available and Implemented)
-- NIST 800-53 (Ref)
-- We will Implement SC-7
+- Inspect MDC Regulatory Compliance (available and implemented)
+- NIST 800-53 (reference)
+- Implement SC-7
 
-1. Configure Azure Private Link and Firewall for your Azure Key Vault Instance.
-> Ensure you use the same region and VNet the rest of your VMs are located. 
+1. Configure Azure Private Link and Firewall for your Azure Key Vault instance.
+   Ensure you use the same region and VNet as the rest of your VMs.
 
-![vivaldi_9kA8hVnhML](https://user-images.githubusercontent.com/109401839/235410803-679cf671-0110-41fd-b8be-973f7ccfd1ef.png)
+   ![vivaldi_9kA8hVnhML](https://user-images.githubusercontent.com/109401839/235410803-679cf671-0110-41fd-b8be-973f7ccfd1ef.png)
 
-1a. In the Firewalls, we will disable public access. 
-> Allow trusted Miscrosoft services to bypass this firewall. 
+1a. In the firewall settings, disable public access and allow trusted Microsoft services to bypass this firewall.
 
-``` When you enable the Key Vault Firewall, you'll be given an option to 'Allow Trusted Microsoft Services to bypass this firewall.' The trusted services list does not cover every single Azure service. For example, Azure DevOps isn't on the trusted services list. This does not imply that services that do not appear on the trusted services list are not trusted or are insecure. The trusted services list encompasses services where Microsoft controls all of the code that runs on the service. Since users can write custom code in Azure services such as Azure DevOps, Microsoft does not provide the option to create a blanket approval for the service. Furthermore, just because a service appears on the trusted service list, doesn't mean it is allowed for all scenarios.```
+> When you enable the Key Vault firewall, you'll be given an option to "Allow Trusted Microsoft Services to bypass this firewall." The trusted services list does not cover every Azure service; for example, Azure DevOps is not on the list. This does not mean services outside the list are untrusted or insecure. The trusted services list covers services where Microsoft controls all of the code that runs on the service. Since users can write custom code in services such as Azure DevOps, Microsoft does not provide a blanket approval for them. Appearing on the trusted services list also does not mean a service is allowed for every scenario.
 
 1b. Configure Private EndPoint Connections
 
