@@ -561,7 +561,7 @@ let GetIPRelatedAlerts = (v_IP_Address: string) {
     | where entity['Type'] == 'ip' and entity['Address'] =~ v_IP_Address
     | project-away entity
 };
-GetIPRelatedAlerts(@'110.167.169.106')
+GetIPRelatedAlerts(@'198.51.100.23')
 ```
 
 - Now Determine the legitimacy of the incident, True Postive or False Positive, etc. 
@@ -597,7 +597,7 @@ SecurityEvent
 We can further specify by using the IP Address of the attacker. 
 
 ```
-| where ipaddress == "110.167.169.106"
+| where ipaddress == "198.51.100.23"
 ```
 
 and remove: 
