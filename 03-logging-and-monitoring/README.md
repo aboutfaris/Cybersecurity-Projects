@@ -13,7 +13,7 @@ The finished design has Azure AD, a SQL database, two VMs behind NSGs, Blob Stor
 
 ## Prerequisites
 
-- The resource group `RG-Cyber-Lab` with `windows-vm` and its virtual network (`Lab-VNet`), plus `attack-vm` in `RG-Cyber-Lab-Attacker`, from the [Cloud SOC prerequisites lab](https://github.com/aboutfaris/Cloud-SOC-PreReq).
+- The resource group `RG-Cyber-Lab` with `windows-vm` and its virtual network (`Lab-VNet`), plus `attack-vm` in `RG-Cyber-Lab-Attacker`, from the [Cloud SOC prerequisites lab](../02-cloud-soc-prerequisites/).
 - The two GeoIP2 city CSV files from the course materials: `GeoIP2-City-Blocks-IPv4.csv` (about 496 MB) and `GeoIP2-City-Locations-en.csv` (about 12 MB).
 
 ## Steps
@@ -219,7 +219,7 @@ Event logs only show IP addresses. The GeoIP watchlists let you map each IP to a
 66. Open the key vault > Diagnostic settings > Add diagnostic setting. Name it `akv-logs`, check audit and allLogs plus AllMetrics, send to `LAW-Cyber-Lab-05`, and save.
 67. Open the key vault > Secrets > Generate/Import. Set Upload options Manual, Name `Tenant-Global-Admin-Password`, a made-up secret value, Enabled Yes, and create it.
 68. Read the secret in the portal a few times to generate Key Vault logs.
-69. Wait a few minutes, then query the storage and Key Vault logs in `LAW-Cyber-Lab-05` > Logs. The [KQL queries file](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/KQL-Queries) has ready-made queries.
+69. Wait a few minutes, then query the storage and Key Vault logs in `LAW-Cyber-Lab-05` > Logs. The [KQL queries file](../01-cloud-soc-project-summary/KQL-Queries) has ready-made queries.
 
 ## What I learned
 
@@ -230,5 +230,5 @@ Event logs only show IP addresses. The GeoIP watchlists let you map each IP to a
 
 ## Next steps / cleanup
 
-- Continue with [Microsoft Sentinel SIEM](https://github.com/aboutfaris/Microsoft-Sentinel-SIEM) to build workbooks and analytics rules on top of these logs.
+- Continue with [Microsoft Sentinel SIEM](../04-microsoft-sentinel-siem/) to build workbooks and analytics rules on top of these logs.
 - If you stop here, delete the lab resource groups to avoid charges. Defender plans and Sentinel bill per resource after their trials end.

@@ -1,4 +1,4 @@
-# Cloud SOC Prerequisites: Azure Setup, Failed Logins, and Access Control
+# Cloud SOC Pre-requisites
 
 Set up the Azure lab that the rest of the Cloud SOC series builds on. You deploy a deliberately exposed Windows VM running SQL Server, generate failed RDP and SQL logins from a second "attacker" VM, read those events in Event Viewer, and then test Azure AD roles at the tenant, subscription, and resource group levels.
 
@@ -150,4 +150,4 @@ Resource group-level Contributor:
 
 ## Next steps / cleanup
 
-Do not delete `RG-Cyber-Lab`, `windows-vm`, or `attack-vm`. The next lab, [Logging and Monitoring](https://github.com/aboutfaris/Logging-and-Monitoring), uses the same resource groups and VMs.
+Do not delete `RG-Cyber-Lab`, `windows-vm`, or `attack-vm`. The next lab, [Logging and Monitoring](../03-logging-and-monitoring/), uses the same resource groups and VMs.

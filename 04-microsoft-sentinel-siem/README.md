@@ -1,4 +1,4 @@
-# Microsoft Sentinel (SIEM)
+# Microsoft Sentinel SIEM
 
 Turn the lab's Log Analytics workspace into a working SOC: build attack maps, write and import detection rules, generate attack traffic, then work four real incidents end to end using the NIST 800-61 lifecycle.
 
@@ -8,7 +8,7 @@ Turn the lab's Log Analytics workspace into a working SOC: build attack maps, wr
 - Log Analytics workspace (KQL)
 - Windows 10 Pro VM (`windows-vm`), Ubuntu VM (`linux-vm`), and a separate `attack-vm`
 - PowerShell with the Az module, Visual Studio Code
-- Files from [Cloud-SOC-Project-Directory](https://github.com/aboutfaris/Cloud-SOC-Project-Directory): workbook JSON, analytics rules JSON, attack scripts, KQL cheat sheet
+- Files from [Summary of Cloud SOC Project](../01-cloud-soc-project-summary/): workbook JSON, analytics rules JSON, attack scripts, KQL cheat sheet
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ You will build 4 workbooks, each a world map of one kind of malicious traffic. P
 
 1. Go to Microsoft Sentinel > Workbooks and select Add workbook.
 2. Select Edit, then remove the pre-included text and query items.
-3. Select Add > Add query, open Advanced Editor, and paste the contents of [linux-ssh-auth-fail.json](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Sentinel-Maps%28JSON%29/linux-ssh-auth-fail.json).
+3. Select Add > Add query, open Advanced Editor, and paste the contents of [linux-ssh-auth-fail.json](../01-cloud-soc-project-summary/Sentinel-Maps%28JSON%29/linux-ssh-auth-fail.json).
 4. Select Done Editing and run the query.
 
    Expected result: a world map of Linux SSH authentication failures. Your bubbles will differ from mine because they reflect whoever attacked your VMs.
@@ -32,9 +32,9 @@ You will build 4 workbooks, each a world map of one kind of malicious traffic. P
 5. Optional: open Edit > Map Settings to tune the map. The JSON already sets Location info to Latitude/Longitude, Coloring type to Heatmap with a Green to Red palette, and the metric label to `friendly_location`. I kept the defaults.
 6. Select Save, title it `Linux SSH Auth Failure`, and save it to your lab resource group and region.
 7. Repeat steps 1 to 6 for the other three maps:
-   - [MS SQL authentication failures](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Sentinel-Maps%28JSON%29/mssql-auth-fail.json)
-   - [NSG malicious flows allowed in](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Sentinel-Maps%28JSON%29/nsg-malicious-allowed-in.json)
-   - [Windows RDP and SMB authentication failures](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Sentinel-Maps%28JSON%29/windows-rdp-auth-fail.json)
+   - [MS SQL authentication failures](../01-cloud-soc-project-summary/Sentinel-Maps%28JSON%29/mssql-auth-fail.json)
+   - [NSG malicious flows allowed in](../01-cloud-soc-project-summary/Sentinel-Maps%28JSON%29/nsg-malicious-allowed-in.json)
+   - [Windows RDP and SMB authentication failures](../01-cloud-soc-project-summary/Sentinel-Maps%28JSON%29/windows-rdp-auth-fail.json)
 
    Expected result: the SQL map is dominated by sources in Russia and the Netherlands, the NSG map shows dozens of sources on every continent, and the RDP map shows a few large clusters (in my run: Los Angeles, Jakarta, Giza).
 
@@ -99,7 +99,7 @@ Troubleshooting, if a map is still empty 24 hours after you created the resource
     Expected result: a graph linking the incident to `windows-vm` and each attacker IP.
 
 20. Delete the test rule and its incident. If no incident appeared, RDP into `windows-vm` and fail the login 10 or more times.
-21. Download [Sentinel-Analytics-Rules(KQL Alert Queries).json](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Sentinel-Analytics-Rules/Sentinel-Analytics-Rules%28KQL%20Alert%20Queries%29.json) and import it from Sentinel > Analytics > Import.
+21. Download [Sentinel-Analytics-Rules(KQL Alert Queries).json](../01-cloud-soc-project-summary/Sentinel-Analytics-Rules/Sentinel-Analytics-Rules%28KQL%20Alert%20Queries%29.json) and import it from Sentinel > Analytics > Import.
 
     Expected result: 13 active rules (7 High, 6 Medium): the built-in Fusion "Advanced Multistage Attack Detection" plus 12 custom rules:
     - CUSTOM: Brute Force ATTEMPT and SUCCESS for Windows, Linux Syslog, and Azure Active Directory
@@ -152,10 +152,10 @@ Expected result before you start: Sentinel > Incidents already shows dozens of o
 
 28. Answer `Y` to install the NuGet provider, then `A` (Yes to All) to trust the PSGallery repository.
 29. Download the 4 scripts from the Attack-Scripts folder into one folder on the VM (for example `Downloads\Attack Scripts`):
-    - [AAD-Brute-Force-Success-Simulator.ps1](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Attack-Scripts/AAD-Brute-Force-Success-Simulator.ps1)
-    - [Key-Vault-Secret-Reader.ps1](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Attack-Scripts/Key-Vault-Secret-Reader.ps1)
-    - [Malware-Generator-EICAR.ps1](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Attack-Scripts/Malware-Generator-EICAR.ps1)
-    - [SQL-Brute-Force-Simulator.ps1](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/Attack-Scripts/SQL-Brute-Force-Simulator.ps1)
+    - [AAD-Brute-Force-Success-Simulator.ps1](../01-cloud-soc-project-summary/Attack-Scripts/AAD-Brute-Force-Success-Simulator.ps1)
+    - [Key-Vault-Secret-Reader.ps1](../01-cloud-soc-project-summary/Attack-Scripts/Key-Vault-Secret-Reader.ps1)
+    - [Malware-Generator-EICAR.ps1](../01-cloud-soc-project-summary/Attack-Scripts/Malware-Generator-EICAR.ps1)
+    - [SQL-Brute-Force-Simulator.ps1](../01-cloud-soc-project-summary/Attack-Scripts/SQL-Brute-Force-Simulator.ps1)
 
 30. Open the folder in VS Code, choose "Yes, I trust the authors", and install the PowerShell extension if prompted.
 
@@ -347,7 +347,7 @@ Take notes as you go. Each incident follows the NIST 800-61 lifecycle: Preparati
 
     Expected result: a list of High Brute Force SUCCESS and Medium Brute Force ATTEMPT alerts for that IP (37 rows in my run).
 
-50. Check whether the "success" is real. This is the rule's own query, from the [KQL cheat sheet](https://github.com/aboutfaris/Cloud-SOC-Project-Directory/blob/HEAD/KQL-Queries):
+50. Check whether the "success" is real. This is the rule's own query, from the [KQL cheat sheet](../01-cloud-soc-project-summary/KQL-Queries):
 
     ```kusto
     // Brute Force Success Windows

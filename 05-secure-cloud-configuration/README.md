@@ -1,4 +1,4 @@
-# Securing the Cloud Configuration
+# Secure Cloud Configuration
 
 Lock down the Cloud SOC lab and measure the result. You work through Microsoft Defender for Cloud recommendations, put Azure Key Vault and the storage account behind Private Link with public access disabled, attach an NSG to the subnet to satisfy NIST 800-53 SC-7 (Boundary Protection), and then compare 24 hours of attack data before and after.
 
@@ -130,4 +130,4 @@ If the VM lookup returns a public IP instead:
 
 - Check Cost Management > Cost analysis. In my run the subscription reached about $136 for April 2023, and Azure DDoS Protection was the largest single line (about $63), ahead of Storage and Virtual Machines. Disable DDoS Protection and remove its plan when you finish.
 - Delete `RG-Cyber-Lab` and `RG-Cyber-Lab-Attacker` when you no longer need the lab.
-- For a recap of the whole series, see [Cloud SOC Final](https://github.com/aboutfaris/Cloud-SOC-Final).
+- For a recap of the whole series, see [Summary of Cloud SOC Project: final results](../01-cloud-soc-project-summary/#final-results-and-metrics).
