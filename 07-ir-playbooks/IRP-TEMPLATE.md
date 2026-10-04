@@ -36,7 +36,7 @@ This Playbook covers
     - After publication
     - At least once a year
     - Test/Validate:
-        - [Customer's Cards](Customers)
+        - [Customer's Cards](../Customers/)
         - Internal Contact and Escalation Paths
 - Review threat intelligence for
     - threats to the organization,
@@ -192,7 +192,7 @@ In conjunction with a senior member of the SOC
 
 - Validate hashes
     - [VirusTotal](../Tools/README.md#virus-total)
-    - [Hybrid Analysis](Tools/README.md#hybrid-analysis)
+    - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)
 - Validate links
     - [VirusTotal](../Tools/README.md#virus-total)
     - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)

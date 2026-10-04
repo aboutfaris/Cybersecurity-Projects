@@ -37,7 +37,7 @@ It was built to be run in parallele with the [Malware Playbook](../IRP-Malware/)
     - After publication
     - At least once a year
     - Test/Validate:
-        - [Customer's Cards](Customers)
+        - [Customer's Cards](../Customers/)
         - Internal Contact and Escalation Paths
 - Review threat intelligence for
     - threats to the organization,

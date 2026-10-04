@@ -37,7 +37,7 @@ Of course, we also need to remediate the hosts where those accounts were used.
     - After publication
     - At least once a year
     - Test/Validate:
-        - [Customer's Cards](Customers)
+        - [Customer's Cards](../Customers/)
         - Internal Contact and Escalation Paths
 - Review threat intelligence for
     - threats to the organization,
