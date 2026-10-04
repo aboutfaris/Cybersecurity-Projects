@@ -10,10 +10,10 @@ where no official icon exists, and no company branding.
 Every group is labeled with the repo folder it comes from (02 to 07), so a reader
 can map the picture to the guides.
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams     (official Azure icons)
-              brew install librsvg                              (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Set up once:  python3 -m venv /tmp/diagram_venv
+              /tmp/diagram_venv/bin/pip install diagrams     (official Azure icons)
+              brew install librsvg                            (rsvg-convert)
+Run:          /tmp/diagram_venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -32,7 +32,7 @@ FONT = "Helvetica Neue, Helvetica, Arial, sans-serif"
 INK, TEXT2, LINE, GROUP, BADGE, RULE, ACCENT = (
     "#232F3E", "#545B64", "#3F4752", "#7D8998", "#146EB4", "#E3E6EA", "#8C4FFF")
 ICON, HALF = 52, 26
-ZOOM = 1  # PNG width = W * ZOOM; keeps the image near GitHub README width
+ZOOM = 2  # PNG width = W * ZOOM; rendered at 2x for sharpness, GitHub scales it to fit
 KINDS = {  # stroke, width, dash, arrowhead marker, legend label
     "service": (LINE, 1.6, None, "ah", "Log or data flow in Azure"),
     "external": (LINE, 1.6, "6 5", "ah", "Attack traffic"),
