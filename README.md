@@ -19,3 +19,10 @@ The diagram shows how the sections fit together: attackers hit the exposed Azure
 ## How to use
 
 Start with [Summary of Cloud SOC Project](01-cloud-soc-project-summary/) for the big picture, then work sections 02 to 05 in order, since each Cloud SOC lab builds on the previous one. Sections 06 and 07 stand on their own. Each folder's README is a step-by-step guide with expected results, and each folder keeps the commit history of the repo it came from.
+
+## License
+
+Code and scripts in this repository are licensed under the MIT License (see [LICENSE](LICENSE)). Written guides and diagrams are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Third-party material keeps its original license and is excluded from both:
+
+- `07-ir-playbooks/` is adapted from a third-party IR playbook template; it keeps its existing attribution and the original template's license.
+- `01-cloud-soc-project-summary/Top 300 Azure Sentinel Used Cases KQL (Kusto Query Language).pdf` is a third-party reference document.
