@@ -2,6 +2,10 @@
 
 Follow-along cybersecurity projects: build and harden a cloud SOC and honeynet in Azure with Microsoft Sentinel, harden and scan a Windows 11 desktop, and work from a library of incident response playbooks.
 
+![Cybersecurity architecture](assets/architecture.png)
+
+The diagram shows how the sections fit together: attackers hit the exposed Azure lab, logs flow into Log Analytics and Microsoft Sentinel, incidents are worked with the IR playbooks, and hardening shuts the attacks out, with each box labeled by its folder number.
+
 | Section | What you'll build | Folder |
 | --- | --- | --- |
 | Summary of Cloud SOC Project | Series overview, shared Sentinel files and attack scripts, and the before and after hardening metrics | [01-cloud-soc-project-summary](01-cloud-soc-project-summary/) |
