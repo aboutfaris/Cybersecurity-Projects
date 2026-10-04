@@ -1,59 +1,76 @@
-# Cloud SOC Projects
+# Building a SOC and Honeynet in Azure (Live Traffic): Series Recap
 
-Build a small cloud SOC in Azure: deliberately exposed VMs, Azure AD, SQL, and Key Vault send their logs to a Log Analytics workspace, and Microsoft Sentinel turns those logs into attack maps, alerts, and incidents. This repo is the series index and holds the shared files the labs use.
+This is the wrap-up of a five-lab series. I built a small honeynet in Azure, sent its logs to a Log Analytics workspace, used Microsoft Sentinel to build attack maps, alerts, and incidents, then measured attack metrics for 24 hours before and 24 hours after hardening the environment.
+
+In the finished design, attackers on the internet reach Azure AD, a SQL database, and two VMs behind NSGs. Those resources, plus Blob Storage, Key Vault, and the Activity Log, all send logs to one Log Analytics workspace. Sentinel reads that workspace and turns it into maps, incidents, and alerts.
 
 ## What you'll use
 
-- An Azure subscription (watch Cost Analysis; several labs run resources for 24 hours or more)
-- Microsoft Sentinel, Log Analytics, Microsoft Defender for Cloud
-- Windows and Linux VMs, Azure SQL, Azure Key Vault, Network Security Groups
-- The workbook, analytics rule, KQL, and PowerShell files in this repo
+- Azure Virtual Network (VNet) and Network Security Groups (NSGs)
+- Virtual machines: 2 Windows, 1 Linux
+- Log Analytics workspace and Microsoft Sentinel
+- Azure Key Vault and an Azure Storage account
+- Microsoft Defender for Cloud
+- KQL with GeoIP watchlists for the attack maps
+
+## Prerequisites
+
+- An Azure subscription (the free trial credit covers the labs if you clean up afterwards).
+- The five lab repos below, done in order.
 
 ## Steps
 
-Do the labs in order. Each one builds on the previous one.
+### Part 1: Follow the labs in order
 
-1. Set up the prerequisites: VMs, SQL, failed authentication, and Active Directory. Follow [Cloud-SOC-PreReq](https://github.com/aboutfaris/Cloud-SOC-PreReq).
-2. Turn on logging and monitoring so every resource sends logs to the workspace. Follow [Logging-and-Monitoring](https://github.com/aboutfaris/Logging-and-Monitoring).
-3. Build the Sentinel maps and rules, generate attack traffic, and work the incidents. Follow [Microsoft-Sentinel-SIEM](https://github.com/aboutfaris/Microsoft-Sentinel-SIEM).
-4. Harden the environment and measure the same 24-hour window again. Follow [Secure-Cloud-Configuration](https://github.com/aboutfaris/Secure-Cloud-Configuration).
-5. Compare the before and after metrics. Read [Cloud-SOC-Final](https://github.com/aboutfaris/Cloud-SOC-Final).
+1. Build the VMs, network, and attack VM: [Cloud-SOC-PreReq](https://github.com/aboutfaris/Cloud-SOC-PreReq).
+2. Send tenant, subscription, and resource logs into the workspace and load the GeoIP watchlists: [Logging-and-Monitoring](https://github.com/aboutfaris/Logging-and-Monitoring).
+3. Build the Sentinel attack-map workbooks, analytics rules, and incidents: [Microsoft-Sentinel-SIEM](https://github.com/aboutfaris/Microsoft-Sentinel-SIEM).
+4. Harden the environment with NSG lockdown, private endpoints, and firewalls: [Secure-Cloud-Configuration](https://github.com/aboutfaris/Secure-Cloud-Configuration).
+5. Use the saved workbook JSON, analytics rules, and KQL queries: [Cloud-SOC-Project-Directory](https://github.com/aboutfaris/Cloud-SOC-Project-Directory).
 
-## Results: before and after hardening
+### Part 2: Measure the insecure environment for 24 hours
 
-Each stage shows the same 4 workbooks with Time Range set to Last 24 hours.
+6. Leave everything exposed. Both VMs have wide-open NSGs and wide-open host firewalls, and the storage account and key vault have public endpoints. No private endpoints are in use.
+7. Open each Sentinel workbook with Time Range Last 24 hours and Visualization Map. Each one joins its log table with the `geo_ipv4` and `geo_ipv4_cities` watchlists through `ipv4_lookup` to place each source IP on the map.
+   Expected result (Linux SSH Auth Failure, `Syslog` where Facility is `auth` and the message starts with `Failed password for`): clusters in the US, Europe, Russia, and East and Southeast Asia. Top sources were North Bergen (US) 34, Moscow 32, Singapore 31, Nuremberg 31, and Tappahannock (US) 31.
+   Expected result (SQL Server authentication failures, `Event` where EventLog is `Application` and EventID is `18456`; the workbook was titled "MySQL Authentication Failures"): Russia 4.17K, Netherlands 2.12K, Meppel (Netherlands) 2.11K, Moscow 1.51K, St Petersburg 89, United States 3.
+   Expected result (nsg-malicious-allowed-in, `AzureNetworkAnalytics_CL` where FlowType_s is `MaliciousFlow`): points across North America, Europe, Russia, and Asia. Top sources were Ukraine 185, Moscow 164, Panama 148, Tappahannock (US) 123, and China 117.
+   Expected result (Windows RDP and SMB Authentication Failure, `SecurityEvent` where EventID is `4625`): Ukraine 4.5K, Panama 3K, Toronto 989, Ipoh (Malaysia) 613, Nizhniy Novgorod (Russia) 522.
+8. Record the 24-hour counts for each table.
+   Expected result:
 
-### Before securing
+   | Metric | Count |
+   | --- | --- |
+   | SecurityEvent | 39046 |
+   | Syslog | 782 |
+   | SecurityAlert | 1 |
+   | SecurityIncident | 222 |
+   | AzureNetworkAnalytics_CL | 1350 |
 
-- Expected result (Linux SSH auth failures): sources across the US, Europe, Russia, and East and Southeast Asia, about 20 to 34 failures per top city (North Bergen 34, Moscow 32, Singapore 31).
-- Expected result (MySQL auth failures): heavy brute force from Russia (4.17K) and the Netherlands (2.12K, plus 2.11K from Meppel), with only a few from the US.
-- Expected result (Windows RDP and SMB auth failures): thousands of failures, led by Ukraine (4.5K), Panama (3K), and Toronto (989).
-- Expected result (NSG malicious flows allowed in): dozens of sources on every continent, led by Ukraine (185), Moscow (164), and Panama (148).
+### Part 3: Harden and measure again for 24 hours
 
-### After locking down the NSGs
+9. Lock down the NSGs to block all inbound traffic except your admin workstation.
+10. Put the storage account and key vault behind their built-in firewalls and private endpoints inside the VNet subnet.
+11. Re-run every workbook over the next 24 hours.
+    Expected result: all four workbooks (Linux SSH, SQL Server, nsg-malicious-allowed-in, Windows RDP and SMB) show "The query returned no results."
+12. Record the counts again for the window from 2023-03-18 15:37 to 2023-03-19 15:37.
+    Expected result:
 
-- Expected result (Linux SSH auth failures): the query returns no results.
-- Expected result (MySQL auth failures): the query returns no results.
-- Expected result (Windows RDP and SMB auth failures): the query returns no results.
-- Expected result (NSG malicious flows allowed in): still populated worldwide in this 24-hour window, led by London (125), China (98), and the United States (94).
-
-### After hardening the systems
-
-- Expected result (Linux SSH auth failures): the query returns no results.
-- Expected result (MySQL auth failures): the query returns no results.
-- Expected result (Windows RDP and SMB auth failures): the query returns no results.
-- Expected result (NSG malicious flows allowed in): the legend lists a single source (Tromso, Norway: 1 flow), although the map still draws older bubbles.
-
-## Repository contents
-
-- `Attack-Scripts/`: PowerShell scripts that simulate brute force and malware activity against the lab (Azure AD, SQL, Key Vault, EICAR test file).
-- `Sentinel-Maps(JSON)/` and `Sentinel-Analytics-Rules/`: Sentinel workbook map definitions and the analytics rule export used in the labs.
-- `KQL-Queries`: saved Kusto queries used during investigation.
-- `Top 300 Azure Sentinel Used Cases KQL (Kusto Query Language).pdf`: reference sheet of Sentinel KQL use cases.
-- The before and after workbook screenshots are described in the Results section above. The original image files remain in the git history.
+    | Metric | Count |
+    | --- | --- |
+    | SecurityEvent | 0 (-100%) |
+    | Syslog | 0 (-100%) |
+    | SecurityAlert | 0 (-100%) |
+    | SecurityIncident | 0 (-100%) |
+    | AzureNetworkAnalytics_CL | 0 (-100%) |
 
 ## What I learned
 
-- How the pieces of a cloud SOC connect: resources send logs to Log Analytics, and Sentinel turns them into maps, alerts, and incidents.
-- That internet-exposed VMs and databases draw thousands of brute force attempts within a day.
-- That restricting NSGs is the change that clears the authentication-failure maps. The NSG flow map shows how much traffic still reaches the network edge.
+- Internet-exposed VMs draw thousands of brute-force attempts within a day, from all over the world.
+- Closing NSGs and moving PaaS services behind private endpoints and firewalls dropped every measured metric to zero for the next 24 hours.
+- GeoIP watchlists plus `ipv4_lookup` turn raw IPs in logs into attack maps that are easy to read.
+- With real users on the network, some events and alerts would still appear after hardening, so zero here reflects an idle lab rather than a production baseline.
+
+## Next steps / cleanup
+
+- Delete the lab resource groups when you finish to stop charges from VMs, Defender plans, and Sentinel.
