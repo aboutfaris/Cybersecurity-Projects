@@ -1,4 +1,4 @@
-# IR Playbooks
+# IR-Playbooks
 
 This repository contains Incident Response playbook and workflow templates for an example company's SOC, adapted from a published IR playbook template structure.
 
