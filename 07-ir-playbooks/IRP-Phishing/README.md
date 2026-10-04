@@ -59,10 +59,10 @@ This Playbook covers
 ### Tool Access and Provisioning
 
 #### Tool1
-See [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](../Products/README.md)
 
 #### Tool2
-See [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](../Products/README.md)
 
 ### Assets List
 - A list of assets and owners should exist and be available for the following

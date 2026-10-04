@@ -36,7 +36,7 @@ This Playbook covers
     - After publication
     - At least once a year
     - Test/Validate:
-        - [Customer's Cards](../Customers/)
+        - [Customer's Cards](Customers/)
         - Internal Contact and Escalation Paths
 - Review threat intelligence for
     - threats to the organization,
@@ -59,10 +59,10 @@ This Playbook covers
 ### Tool Access and Provisioning
 
 #### Tool1
-See [Tool1 Documentation](../Products/TOOL.md)
+See [Tool1 Documentation](Products/README.md)
 
 #### Tool2
-See [Tool2 Documentation](../Products/TOOL.md)
+See [Tool2 Documentation](Products/README.md)
 
 ### Assets List
 - A list of assets and owners should exist and be available for the following
@@ -138,7 +138,7 @@ Notifications come from external sources, usually by email, Teams or phone. The 
 
 ### Data Collection
 This section describes the information that should be collected and documented about the incident
-There are a lot of resources to help you with that phase [here](../Tools/README.md)
+There are a lot of resources to help you with that phase [here](Tools/README.md)
 
 Domains
 - Reputation
@@ -191,20 +191,20 @@ In conjunction with a senior member of the SOC
 ### Identify IOCs
 
 - Validate hashes
-    - [VirusTotal](../Tools/README.md#virus-total)
-    - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)
+    - [VirusTotal](Tools/README.md#virus-total)
+    - [Hybrid Analysis](Tools/README.md#hybrid-analysis)
 - Validate links
-    - [VirusTotal](../Tools/README.md#virus-total)
-    - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)
-    - [URLScan](../Tools/README.md#urlscan)
+    - [VirusTotal](Tools/README.md#virus-total)
+    - [Hybrid Analysis](Tools/README.md#hybrid-analysis)
+    - [URLScan](Tools/README.md#urlscan)
 - ID other addresses, domains, IPs
-    - [VirusTotal](../Tools/README.md#virus-total)
-    - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)
-    - [Talos Intelligence](../Tools/README.md#hybrid-analysis)
+    - [VirusTotal](Tools/README.md#virus-total)
+    - [Hybrid Analysis](Tools/README.md#hybrid-analysis)
+    - [Talos Intelligence](Tools/README.md#hybrid-analysis)
 - Search Threat Intel sources
-    - [VirusTotal](../Tools/README.md#virus-total)
-    - [Hybrid Analysis](../Tools/README.md#hybrid-analysis)
-    - [Talos Intelligence](../Tools/README.md#hybrid-analysis)
+    - [VirusTotal](Tools/README.md#virus-total)
+    - [Hybrid Analysis](Tools/README.md#hybrid-analysis)
+    - [Talos Intelligence](Tools/README.md#hybrid-analysis)
 - Disk forensics on recipient's endpoint
 
 ### Scan Enterprise
@@ -263,7 +263,7 @@ Write this phase as numbered steps. Give each step an ID (for example -NAME-C1) 
 ### Malware Infection?
 
 If there was malicious attachments that were openned we need to assume the endpoint(s) was/were infected by a malware.
-Please continue to the [Malware Playbook](../IRP-Malware/README.md)
+Please continue to the [Malware Playbook](IRP-Malware/README.md)
 
 ### Close Monitoring
 
