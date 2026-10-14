@@ -304,9 +304,9 @@ node("internet", "glyph:globe", XL, C3, "Internet", "SSH probes")
 node("storage", AZ + "storage/storage-accounts.png", SL[0][0], A1, "Storage account",
      "GeoIP CSVs, blob logs")
 node("kv", AZ + "security/key-vaults.png", SL[0][2], B1, "Key Vault", "secret reads")
-node("aad", AZ + "identity/azure-active-directory.png", SL[0][0], A2, "Azure AD", "P2, sign-ins")
-node("activity", AZ + "monitor/activity-log.png", SL[0][0], B2, "Activity Log", "subscription")
-node("attackvm", AZ + "compute/vm-windows.png", SL[0][0], B3, "attack-vm",
+node("activity", AZ + "monitor/activity-log.png", SL[0][0], A2, "Activity Log", "subscription")
+node("aad", AZ + "identity/azure-active-directory.png", SL[0][0], B2, "Azure AD", "P2, sign-ins")
+node("attackvm", AZ + "compute/vm-windows.png", SL[0][1], B3, "attack-vm",
      "RG-Cyber-Lab-Attacker")
 node("winvm", AZ + "compute/vm-windows.png", SL[0][2], A3, "windows-vm", "security, application")
 node("linvm", AZ + "compute/vm-linux.png", SL[0][2], C3, "linux-vm", "Syslog auth")
@@ -332,9 +332,8 @@ link("storage", "b", "diagr", "b", via=[(SL[0][0], 415), (SL[1][0], 415)])
 link("kv", "r", "diagr", "l")
 link("diagr", "t", "law", "t", via=[(SL[1][0], 260), (XB, 260)], end=(XB, LT))
 link("defender", "r", "law", "t", via=[(XA, B1)], end=(XA, LT))
-link("aad", "r", "diagt", "l")
-link("activity", "r", "diagt", "l", via=[(SL[1][0], B2), (SL[1][0], A2 + 14)],
-     end=(SL[1][1] - HALF - 5, A2 + 14))
+link("activity", "r", "diagt", "l")
+link("aad", "r", "diagt", "b", via=[(SL[1][1], B2)])
 link("diagt", "r", "law", "l")
 link("winvm", "r", "dcr", "l")
 link("linvm", "r", "dcr", "b", via=[(SL[1][1], C3)])
@@ -343,30 +342,31 @@ link("nsg", "r", "flow", "l")
 link("flow", "r", "law", "b", via=[(XB, D3)], end=(XB, LB))
 link("law", "r", "sentinel", "l")
 link("watch", "b", "sentinel", "t")
-link("attackvm", "t", "winvm", "l", "external", via=[(SL[0][0], A3)])
+link("attackvm", "t", "winvm", "l", "external", via=[(SL[0][1], A3)])
 link("attackvm", "r", "linvm", "t", "external", via=[(SL[0][2], B3)])
-link("attackvm", "l", "aad", "l", "external", via=[(177, B3), (177, A2)])
+XG, YG = 362, 735                                     # clear of the group title; row gutter
+link("attackvm", "l", "aad", "b", "external", via=[(XG, B3), (XG, YG), (SL[0][0], YG)])
 link("internet", "r", "linvm", "l", "external")
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
 text(1101, A1 - 8, "SAS URLs", LBL, 400, TEXT2, "middle", halo=True)
-text(702, B1 - 8, "vault logs", LBL, 400, TEXT2, "middle", halo=True)
+text(594, B1 - 8, "logs", LBL, 400, TEXT2, "middle", halo=True)
 text(330, 407, "blob logs", LBL, 400, TEXT2, "middle", halo=True)
-text(465, A2 - 8, "sign-in, audit logs", LBL, 400, TEXT2, "middle", halo=True)
-text(500, B2 - 8, "activity", LBL, 400, TEXT2, "middle", halo=True)
+text(465, B2 - 8, "sign-in, audit logs", LBL, 400, TEXT2, "middle", halo=True)
+text(500, A2 - 8, "activity", LBL, 400, TEXT2, "middle", halo=True)
 text(746, A3 - 8, "security, application events", LBL, 400, TEXT2, "middle", halo=True)
 text(746, C3 - 8, "auth Syslog", LBL, 400, TEXT2, "middle", halo=True)
 text(746, D3 - 8, "flows", LBL, 400, TEXT2, "middle", halo=True)
-text(391, A3 - 8, "SQL, RDP", LBL, 400, TEXT2, "middle", halo=True)
-text(420, B3 - 8, "SSH", LBL, 400, TEXT2, "middle", halo=True)
+text(450, A3 - 8, "SQL, RDP", LBL, 400, TEXT2, "middle", halo=True)
+text(486, B3 - 8, "SSH", LBL, 400, TEXT2, "middle", halo=True)
 text(390, C3 - 8, "SSH probes", LBL, 400, TEXT2, "middle", halo=True)
 
 draw_nodes()
 
 # ---------------- EDIT: step badges (x, y, number), in a gutter beside their line ----------------
 for cx, cy, n in [(638, 195, 1), (638, A3 + 30, 2), (638, D3 + 30, 3), (638, 580, 4),
-                  (1101, 365, 5), (420, 850, 6), (1398, A2 - 40, 7)]:
+                  (1101, 365, 5), (318, 830, 6), (1398, A2 - 40, 7)]:
     badge(cx, cy, n)
 
 # ---------------- EDIT: legend, one short sentence per badge ----------------
