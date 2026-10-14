@@ -7,10 +7,10 @@ lines with no crossings, numbered steps with a plain-English legend). Every help
 layout check is the same; only the EDIT blocks (line kinds, canvas text, grid, groups,
 nodes, lines, badges, legend) are scoped to this section's README.
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams==0.25.1   (official Azure icons)
-              brew install librsvg                                  (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Set up once:  python3 -m venv .venv
+              .venv/bin/pip install diagrams==0.25.1   (official Azure icons)
+              brew install librsvg                     (rsvg-convert)
+Run:          .venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -38,20 +38,20 @@ KINDS = {  # stroke, width, dash, arrowhead marker, legend label
 }
 
 # ---------------- EDIT: canvas text ----------------
-W, H = 1600, 1405
+W, H = 1600, 1450
 TITLE = "03 Logging and Monitoring | Every Log into One Workspace"
 SUBTITLE = ("Tenant, subscription, and resource logs reach the LAW-Cyber-Lab-05 workspace through "
             "diagnostic settings, data collection rules, flow logs, and Defender export.")
 CLOUD, REGION = "Microsoft Azure", "lab subscription, East US 2"
 TILE = "azure"
-FOOTER_LEFT, FOOTER_RIGHT = "340 Collective", "October 2026"
 
 # ---------------- EDIT: grid ----------------
-AX0, AX1, AY0, AY1 = 165, 1575, 110, 1120            # cloud boundary
+AX0, AX1, AY0, AY1 = 165, 1575, 110, 1205            # cloud boundary
 COLS = [(190, 623), (653, 1086), (1116, 1549)]        # group columns
 SL = [[round(x0 + (x1 - x0) * f) for f in (0.2, 0.5, 0.8)] for x0, x1 in COLS]  # icon slots
-R0, R1, R2, RT = (150, 440), (470, 720), (750, 1095), (150, 1095)   # rows (RT = tall)
-A1, B1, A2, B2, A3, B3, C3 = 225, 335, 525, 635, 815, 915, 1015   # icon lanes (center y)
+R0, R1, R2, RT = (150, 440), (470, 720), (750, 1180), (150, 1180)   # rows (RT = tall)
+A1, B1, A2, B2 = 225, 335, 525, 635                   # icon lanes (center y), rows 1 and 2
+A3, B3, C3, D3 = 800, 900, 1000, 1100                 # icon lanes, row 3
 XL = 85                                               # external column
 
 out, icons, SEGS, BADGES = [], [], [], []
@@ -291,7 +291,7 @@ add(f'<text x="{AX0+38}" y="{AY0+22}" font-family="{FONT}" font-size="14.5" '
 for (x0, x1), (y0, y1), title in [
     (COLS[0], R0, "Resource logs: Storage, Key Vault"),
     (COLS[0], R1, "Tenant and subscription logs"),
-    (COLS[0], R2, "Resource logs: VMs and NSGs"),
+    (COLS[0], R2, "Lab VMs and NSGs"),
     (COLS[1], RT, "Collection settings"),
     (COLS[2], RT, "Workspace and Sentinel"),
 ]:
@@ -300,66 +300,73 @@ for (x0, x1), (y0, y1), title in [
 # ---------------- EDIT: nodes ----------------
 AZ = "azure/"
 DIAG = AZ + "monitor/diagnostics-settings.png"
-node("attackers", "glyph:globe", XL, A3, "Attackers", "internet, attack-vm")
+node("internet", "glyph:globe", XL, C3, "Internet", "SSH probes")
 node("storage", AZ + "storage/storage-accounts.png", SL[0][0], A1, "Storage account",
      "GeoIP CSVs, blob logs")
 node("kv", AZ + "security/key-vaults.png", SL[0][2], B1, "Key Vault", "secret reads")
 node("aad", AZ + "identity/azure-active-directory.png", SL[0][0], A2, "Azure AD", "P2, sign-ins")
 node("activity", AZ + "monitor/activity-log.png", SL[0][0], B2, "Activity Log", "subscription")
-node("winvm", AZ + "compute/vm-windows.png", SL[0][0], A3, "windows-vm", "security, application")
-node("linvm", AZ + "compute/vm-linux.png", SL[0][0], B3, "linux-vm", "Syslog auth")
-node("nsg", AZ + "network/network-security-groups-classic.png", SL[0][2], C3, "VM NSGs",
+node("attackvm", AZ + "compute/vm-windows.png", SL[0][0], B3, "attack-vm",
+     "RG-Cyber-Lab-Attacker")
+node("winvm", AZ + "compute/vm-windows.png", SL[0][2], A3, "windows-vm", "security, application")
+node("linvm", AZ + "compute/vm-linux.png", SL[0][2], C3, "linux-vm", "Syslog auth")
+node("nsg", AZ + "network/network-security-groups-classic.png", SL[0][2], D3, "VM NSGs",
      "open to all inbound")
 node("diagr", DIAG, SL[1][0], B1, "Diagnostic settings", "Storage, Key Vault")
 node("defender", AZ + "security/microsoft-defender-for-cloud.png", SL[1][2], B1,
      "Defender for Cloud", "continuous export")
 node("diagt", DIAG, SL[1][1], A2, "Diagnostic settings", "Azure AD, Activity Log")
 node("dcr", AZ + "monitor/monitor.png", SL[1][1], A3, "Data collection rules", "Azure Monitor Agent")
-node("flow", AZ + "network/network-watcher.png", SL[1][1], C3, "NSG flow logs", "Traffic Analytics")
+node("flow", AZ + "network/network-watcher.png", SL[1][1], D3, "NSG flow logs", "Traffic Analytics")
 node("law", AZ + "monitor/log-analytics-workspaces.png", SL[2][1], A2, "LAW-Cyber-Lab-05",
      "Log Analytics, KQL")
 node("sentinel", AZ + "security/sentinel.png", SL[2][2], A2, "Microsoft Sentinel", "on the workspace")
 node("watch", "glyph:table", SL[2][2], A1, "GeoIP watchlists", "geo_ipv4, cities")
 
 # ---------------- EDIT: connections ----------------
-LX = SL[2][1] - HALF - 5                              # x of the workspace's left port
+LT = A2 - HALF - 5                                    # y of the workspace's top port
+LB = A2 + HALF + 36 + 5                               # y of the workspace's bottom port
+XA, XB = SL[2][1] - 22, SL[2][1] + 22                 # two entry columns on top and bottom
 link("storage", "r", "watch", "l")
 link("storage", "b", "diagr", "b", via=[(SL[0][0], 415), (SL[1][0], 415)])
 link("kv", "r", "diagr", "l")
-link("diagr", "t", "law", "t", via=[(SL[1][0], 260), (SL[2][1], 260)])
-link("defender", "r", "law", "l", via=[(1203, B1), (1203, A2 - 14)], end=(LX, A2 - 14))
+link("diagr", "t", "law", "t", via=[(SL[1][0], 260), (XB, 260)], end=(XB, LT))
+link("defender", "r", "law", "t", via=[(XA, B1)], end=(XA, LT))
 link("aad", "r", "diagt", "l")
 link("activity", "r", "diagt", "l", via=[(SL[1][0], B2), (SL[1][0], A2 + 14)],
      end=(SL[1][1] - HALF - 5, A2 + 14))
 link("diagt", "r", "law", "l")
 link("winvm", "r", "dcr", "l")
-link("linvm", "r", "dcr", "b", via=[(SL[1][1], B3)])
-link("dcr", "r", "law", "l", via=[(1203, A3), (1203, A2 + 14)], end=(LX, A2 + 14))
+link("linvm", "r", "dcr", "b", via=[(SL[1][1], C3)])
+link("dcr", "r", "law", "b", via=[(XA, A3)], end=(XA, LB))
 link("nsg", "r", "flow", "l")
-link("flow", "r", "law", "b", via=[(SL[2][1], C3)])
+link("flow", "r", "law", "b", via=[(XB, D3)], end=(XB, LB))
 link("law", "r", "sentinel", "l")
 link("watch", "b", "sentinel", "t")
-link("attackers", "r", "winvm", "l", "external")
-link("attackers", "b", "linvm", "l", "external", via=[(XL, B3)])
-link("attackers", "t", "aad", "l", "external", via=[(XL, A2)])
+link("attackvm", "t", "winvm", "l", "external", via=[(SL[0][0], A3)])
+link("attackvm", "r", "linvm", "t", "external", via=[(SL[0][2], B3)])
+link("attackvm", "l", "aad", "l", "external", via=[(177, B3), (177, A2)])
+link("internet", "r", "linvm", "l", "external")
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
 text(1101, A1 - 8, "SAS URLs", LBL, 400, TEXT2, "middle", halo=True)
-text(638, B1 - 8, "vault logs", LBL, 400, TEXT2, "middle", halo=True)
-text(460, 407, "blob logs", LBL, 400, TEXT2, "middle", halo=True)
-text(573, A2 - 8, "sign-in, audit logs", LBL, 400, TEXT2, "middle", halo=True)
+text(702, B1 - 8, "vault logs", LBL, 400, TEXT2, "middle", halo=True)
+text(330, 407, "blob logs", LBL, 400, TEXT2, "middle", halo=True)
+text(465, A2 - 8, "sign-in, audit logs", LBL, 400, TEXT2, "middle", halo=True)
 text(500, B2 - 8, "activity", LBL, 400, TEXT2, "middle", halo=True)
-text(573, A3 - 8, "security, application events", LBL, 400, TEXT2, "middle", halo=True)
-text(573, B3 - 8, "auth Syslog", LBL, 400, TEXT2, "middle", halo=True)
-text(720, C3 - 8, "flows", LBL, 400, TEXT2, "middle", halo=True)
-text(XL + 6, A2 - 8, "AAD brute force", LBL, 400, TEXT2, "start", halo=True)
+text(746, A3 - 8, "security, application events", LBL, 400, TEXT2, "middle", halo=True)
+text(746, C3 - 8, "auth Syslog", LBL, 400, TEXT2, "middle", halo=True)
+text(746, D3 - 8, "flows", LBL, 400, TEXT2, "middle", halo=True)
+text(391, A3 - 8, "SQL, RDP", LBL, 400, TEXT2, "middle", halo=True)
+text(420, B3 - 8, "SSH", LBL, 400, TEXT2, "middle", halo=True)
+text(390, C3 - 8, "SSH probes", LBL, 400, TEXT2, "middle", halo=True)
 
 draw_nodes()
 
 # ---------------- EDIT: step badges (x, y, number), in a gutter beside their line ----------------
-for cx, cy, n in [(638, 195, 1), (638, A3 + 30, 2), (638, C3 + 30, 3), (638, 580, 4),
-                  (1101, 400, 5), (120, 700, 6), (1398, A2 - 40, 7)]:
+for cx, cy, n in [(638, 195, 1), (638, A3 + 30, 2), (638, D3 + 30, 3), (638, 580, 4),
+                  (1101, 365, 5), (420, 850, 6), (1398, A2 - 40, 7)]:
     badge(cx, cy, n)
 
 # ---------------- EDIT: legend, one short sentence per badge ----------------
@@ -370,7 +377,7 @@ STEPS = [
     "Part 3: NSG flow logs with Traffic Analytics send network flows to the workspace.",
     "Parts 6 to 8: diagnostic settings send Azure AD, Activity Log, Storage, and Key Vault logs.",
     "Part 2: Defender for Cloud exports alerts, recommendations, and secure score.",
-    "Parts 5 and 6: attack-vm and the internet fail SQL, RDP, SSH, and Azure AD logins.",
+    "Parts 5 and 6: attack-vm fails SQL, RDP, SSH, and Azure AD logins; the internet probes SSH.",
     "Part 1: Microsoft Sentinel runs on the one workspace, where KQL queries find each event.",
 ]
 
@@ -393,14 +400,8 @@ for k, (color, width, dash, marker, label) in KINDS.items():
         f'{da} marker-end="url(#{marker})"/>')
     text(lx + 62, KEY_Y + 4.5, label, 12.5, 400, TEXT2, "start")
     lx += 62 + est_w(label, 12.5) + 48
-
-# footer: hairline, name left, month and year right
-RULE_Y = KEY_Y + 30
-add(f'<path d="M 40,{RULE_Y} L {W-40},{RULE_Y}" stroke="{RULE}" stroke-width="1"/>')
-text(40, RULE_Y + 24, FOOTER_LEFT, 13, 700, INK, "start")
-text(W - 40, RULE_Y + 24, FOOTER_RIGHT, 13, 400, TEXT2, "end")
 add("</svg>")
-assert RULE_Y + 40 <= H, "canvas too short for the legend and footer: raise H"
+assert KEY_Y + 30 <= H, "canvas too short for the legend: raise H"
 
 
 # ---------------- checks ----------------

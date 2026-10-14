@@ -7,10 +7,10 @@ lines with no crossings, numbered steps with a plain-English legend). Every help
 layout check is the same; only the EDIT blocks (line kinds, canvas text, grid, groups,
 nodes, lines, badges, legend) are scoped to this section's README.
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams==0.25.1   (official Azure icons)
+Set up once:  python3 -m venv .venv
+              .venv/bin/pip install diagrams==0.25.1   (official Azure icons)
               brew install librsvg                                  (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Run:          .venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -38,13 +38,12 @@ KINDS = {  # stroke, width, dash, arrowhead marker, legend label
 }
 
 # ---------------- EDIT: canvas text ----------------
-W, H = 1600, 1270
+W, H = 1600, 1230
 TITLE = "04 Microsoft Sentinel SIEM | Maps, Rules, and Incidents"
 SUBTITLE = ("Attack traffic lands in the workspace, Sentinel draws attack maps and raises incidents "
             "from KQL rules, and each incident is worked with NIST 800-61.")
 CLOUD, REGION = "Microsoft Azure", "lab subscription, East US 2"
 TILE = "azure"
-FOOTER_LEFT, FOOTER_RIGHT = "340 Collective", "October 2026"
 
 # ---------------- EDIT: grid ----------------
 AX0, AX1, AY0, AY1 = 165, 1575, 110, 985             # cloud boundary
@@ -290,7 +289,7 @@ add(f'<text x="{AX0+38}" y="{AY0+22}" font-family="{FONT}" font-size="14.5" '
 # ---------------- EDIT: groups ----------------
 for (x0, x1), (y0, y1), title in [
     (COLS[0], R0, "Internet-facing VMs"),
-    (COLS[0], R1, "Identity and secrets"),
+    (COLS[0], R1, "Identity, secrets, and attack-vm"),
     (COLS[0], R2, "Containment (Part 5)"),
     (COLS[1], RT, "Log Analytics workspace"),
     (COLS[2], RT, "Microsoft Sentinel"),
@@ -302,12 +301,12 @@ for (x0, x1), (y0, y1), title in [
 AZ = "azure/"
 NSG = AZ + "network/network-security-groups-classic.png"
 node("attackers", "glyph:globe", XL, A1, "Attackers", "internet")
-node("attackvm", "glyph:script", XL, A2, "attack-vm", "PowerShell scripts")
+node("attackvm", AZ + "compute/vm-windows.png", SL[0][0], A2, "attack-vm", "PowerShell scripts")
 node("nsg", NSG, SL[0][0], A1, "VM NSGs", "allow all inbound")
 node("winvm", AZ + "compute/vm-windows.png", SL[0][1], A1, "windows-vm", "RDP, SQL Server")
 node("linvm", AZ + "compute/vm-linux.png", SL[0][1], B1, "linux-vm", "SSH")
-node("aad", AZ + "identity/azure-active-directory.png", SL[0][1], A2, "Azure AD", "sign-ins, roles")
-node("kv", AZ + "security/key-vaults.png", SL[0][1], B2, "Key Vault", "secret reads")
+node("aad", AZ + "identity/azure-active-directory.png", SL[0][2], A2, "Azure AD", "sign-ins, roles")
+node("kv", AZ + "security/key-vaults.png", SL[0][2], B2, "Key Vault", "secret reads")
 node("lockdown", NSG, SL[0][1], A3, "NSG lockdown", "your /32 only")
 node("law", AZ + "monitor/log-analytics-workspaces.png", SL[1][1], B1, "Log Analytics", "KQL tables")
 node("sentinel", AZ + "security/sentinel.png", SL[2][0], B1, "Microsoft Sentinel", "SIEM")
@@ -324,7 +323,7 @@ link("attackers", "r", "nsg", "l", "external")
 link("nsg", "r", "winvm", "l", "external")
 link("nsg", "b", "linvm", "l", "external", via=[(SL[0][0], B1)])
 link("attackvm", "r", "aad", "l", "external")
-link("attackvm", "b", "kv", "l", "external", via=[(XL, B2)])
+link("attackvm", "b", "kv", "l", "external", via=[(SL[0][0], B2)])
 link("winvm", "r", "law", "t", via=[(SL[1][1], A1)])
 link("linvm", "r", "law", "l")
 link("aad", "r", "law", "l", via=[(800, A2), (800, B1 + 14)], end=(LX, B1 + 14))
@@ -340,10 +339,10 @@ link("nist", "l", "lockdown", "r", "business")
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
-text(650, A1 - 8, "SecurityEvent, Event", LBL, 400, TEXT2, "middle", halo=True)
-text(620, B1 - 8, "Syslog", LBL, 400, TEXT2, "middle", halo=True)
-text(600, A2 - 8, "SigninLogs, AuditLogs", LBL, 400, TEXT2, "middle", halo=True)
-text(620, B2 - 8, "AzureDiagnostics", LBL, 400, TEXT2, "middle", halo=True)
+text(530, A1 - 8, "SecurityEvent, Event", LBL, 400, TEXT2, "middle", halo=True)
+text(530, B1 - 8, "Syslog", LBL, 400, TEXT2, "middle", halo=True)
+text(726, A2 - 8, "SigninLogs, AuditLogs", LBL, 400, TEXT2, "middle", halo=True)
+text(760, B2 - 8, "AzureDiagnostics", LBL, 400, TEXT2, "middle", halo=True)
 text(1036, B1 - 8, "Sentinel reads", LBL, 400, TEXT2, "middle", halo=True)
 text(1333, A1 - 8, "GeoIP join", LBL, 400, TEXT2, "middle", halo=True)
 text(1333, B1 - 8, "scheduled KQL", LBL, 400, TEXT2, "middle", halo=True)
@@ -353,7 +352,7 @@ text(1000, A3 - 8, "lock each NSG to your /32", LBL, 400, TEXT2, "middle", halo=
 draw_nodes()
 
 # ---------------- EDIT: step badges (x, y, number), in a gutter beside their line ----------------
-for cx, cy, n in [(205, 200, 1), (205, 600, 2), (638, 455, 3), (1101, 200, 4), (1530, 455, 5),
+for cx, cy, n in [(205, 200, 1), (390, 597, 2), (638, 455, 3), (1333, 255, 4), (1530, 455, 5),
                   (1530, 830, 6), (870, A3 + 30, 7)]:
     badge(cx, cy, n)
 
@@ -388,14 +387,8 @@ for k, (color, width, dash, marker, label) in KINDS.items():
         f'{da} marker-end="url(#{marker})"/>')
     text(lx + 62, KEY_Y + 4.5, label, 12.5, 400, TEXT2, "start")
     lx += 62 + est_w(label, 12.5) + 48
-
-# footer: hairline, name left, month and year right
-RULE_Y = KEY_Y + 30
-add(f'<path d="M 40,{RULE_Y} L {W-40},{RULE_Y}" stroke="{RULE}" stroke-width="1"/>')
-text(40, RULE_Y + 24, FOOTER_LEFT, 13, 700, INK, "start")
-text(W - 40, RULE_Y + 24, FOOTER_RIGHT, 13, 400, TEXT2, "end")
 add("</svg>")
-assert RULE_Y + 40 <= H, "canvas too short for the legend and footer: raise H"
+assert KEY_Y + 30 <= H, "canvas too short for the legend: raise H"
 
 
 # ---------------- checks ----------------

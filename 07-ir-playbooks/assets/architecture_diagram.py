@@ -9,10 +9,10 @@ badges, legend) are scoped to this section's README. The playbooks are documents
 cloud services, so the one boundary is the playbook set and every part is drawn as a
 stroke-only outline glyph (no official icon fits).
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams==0.25.1
+Set up once:  python3 -m venv .venv
+              .venv/bin/pip install diagrams==0.25.1
               brew install librsvg                                  (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Run:          .venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -40,13 +40,12 @@ KINDS = {  # stroke, width, dash, arrowhead marker, legend label
 }
 
 # ---------------- EDIT: canvas text ----------------
-W, H = 1600, 1040
+W, H = 1600, 1000
 TITLE = "07 IR-Playbooks | The NIST SP 800-61 Incident Response Lifecycle"
 SUBTITLE = ("Every playbook follows the same four phases, with written workflows, a template for "
             "new incident types, and shared customer and tool notes.")
 CLOUD, REGION = "IR-Playbooks", "an example company's SOC, NIST SP 800-61 r2"
 TILE = "book"
-FOOTER_LEFT, FOOTER_RIGHT = "340 Collective", "October 2026"
 
 # ---------------- EDIT: grid ----------------
 AX0, AX1, AY0, AY1 = 165, 1575, 110, 785             # playbook set boundary
@@ -301,7 +300,7 @@ for (x0, x1), (y0, y1), title in [
 
 # ---------------- EDIT: nodes ----------------
 node("inv", "glyph:table", SL[0][0], A1, "Asset inventory", "servers, endpoints, apps")
-node("base", "glyph:chart", SL[0][2], B1, "Baselines", "thresholds, comms plan")
+node("base", "glyph:chart", SL[0][1], B1, "Baselines", "thresholds, comms plan")
 node("gather", "glyph:scan", SL[1][0], A1, "Gather and analyze", "root cause, scope")
 node("ioc", "glyph:doc", SL[1][2], A1, "IOCs and IOAs", "TTPs, IPs, hashes")
 node("isolate", "glyph:isolate", SL[2][0], A1, "Isolate and patch", "affected systems")
@@ -319,7 +318,7 @@ link("gather", "r", "ioc", "l")
 link("ioc", "r", "isolate", "l", "business")
 link("isolate", "r", "rebuild", "l")
 link("rebuild", "b", "lessons", "t", "business")
-link("playbooks", "t", "base", "b")
+link("playbooks", "t", "prep", "b", end=(SL[0][2], R0[1] + 4))  # into the Preparation group
 link("template", "r", "playbooks", "l")
 link("playbooks", "b", "workflows", "t")
 link("tools", "t", "gather", "b", via=[(SL[1][1], 400), (SL[1][0], 400)])
@@ -327,7 +326,7 @@ link("customers", "r", "isolate", "b", via=[(1101, A2), (1101, 400), (SL[2][0], 
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
-text(SL[0][2] + 8, 458, "part of preparation", LBL, 400, TEXT2, "start", halo=True)
+text(SL[0][2] - 8, 458, "part of preparation", LBL, 400, TEXT2, "end", halo=True)
 text(407, A2 - 8, "copy, rename", LBL, 400, TEXT2, "middle", halo=True)
 text(SL[1][1] + 8, 458, "analysis", LBL, 400, TEXT2, "start", halo=True)
 text(1109, 458, "approved actions", LBL, 400, TEXT2, "start", halo=True)
@@ -369,14 +368,8 @@ for k, (color, width, dash, marker, label) in KINDS.items():
         f'{da} marker-end="url(#{marker})"/>')
     text(lx + 62, KEY_Y + 4.5, label, 12.5, 400, TEXT2, "start")
     lx += 62 + est_w(label, 12.5) + 48
-
-# footer: hairline, name left, month and year right
-RULE_Y = KEY_Y + 30
-add(f'<path d="M 40,{RULE_Y} L {W-40},{RULE_Y}" stroke="{RULE}" stroke-width="1"/>')
-text(40, RULE_Y + 24, FOOTER_LEFT, 13, 700, INK, "start")
-text(W - 40, RULE_Y + 24, FOOTER_RIGHT, 13, 400, TEXT2, "end")
 add("</svg>")
-assert RULE_Y + 40 <= H, "canvas too short for the legend and footer: raise H"
+assert KEY_Y + 30 <= H, "canvas too short for the legend: raise H"
 
 
 # ---------------- checks ----------------

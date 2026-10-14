@@ -7,10 +7,10 @@ lines with no crossings, numbered steps with a plain-English legend). Every help
 layout check is the same; only the EDIT blocks (line kinds, canvas text, grid, groups,
 nodes, lines, badges, legend) are scoped to this section's README.
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams==0.25.1   (official Azure icons)
+Set up once:  python3 -m venv .venv
+              .venv/bin/pip install diagrams==0.25.1   (official Azure icons)
               brew install librsvg                                  (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Run:          .venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -38,13 +38,12 @@ KINDS = {  # stroke, width, dash, arrowhead marker, legend label
 }
 
 # ---------------- EDIT: canvas text ----------------
-W, H = 1600, 1060
+W, H = 1600, 1020
 TITLE = "02 Cloud SOC Pre-requisites | Exposed VM, Failed Logins, and Azure RBAC"
 SUBTITLE = ("A wide-open Windows VM with SQL Server takes failed logins from a second VM, and "
             "Azure AD roles are tested at tenant, subscription, and resource group scope.")
 CLOUD, REGION = "Microsoft Azure", "lab subscription, East US 2 and a second region"
 TILE = "azure"
-FOOTER_LEFT, FOOTER_RIGHT = "340 Collective", "October 2026"
 
 # ---------------- EDIT: grid ----------------
 AX0, AX1, AY0, AY1 = 165, 1575, 110, 805             # cloud boundary
@@ -300,13 +299,13 @@ for (x0, x1), (y0, y1), title in [
 
 # ---------------- EDIT: nodes ----------------
 AZ = "azure/"
-node("you", "glyph:person", XL, B1, "Your computer", "RDP and ping")
+node("you", "glyph:person", XL, 455, "Your computer", "RDP and ping")
 node("attackvm", AZ + "compute/vm-windows.png", SL[0][1], A1, "attack-vm", "Lab-VNet-Attacker")
 node("nsg", AZ + "network/network-security-groups-classic.png", SL[1][0], A1,
      "windows-vm-nsg", "allow any inbound")
 node("winvm", AZ + "compute/vm-windows.png", SL[1][2], A1, "windows-vm", "SQL Server, firewall off")
-node("seclog", "glyph:doc", SL[2][0], A1, "Security log", "Event ID 4625")
-node("applog", "glyph:doc", SL[2][0], B1, "Application log", "Event ID 18456")
+node("seclog", "glyph:doc", SL[2][1], A1, "Security log", "Event ID 4625")
+node("applog", "glyph:doc", SL[2][1], B1, "Application log", "Event ID 18456")
 node("viewer", "glyph:viewer", SL[2][2], A1, "Event Viewer", "on windows-vm")
 node("aad", AZ + "identity/azure-active-directory.png", SL[0][1], A2, "Azure AD", "tenant")
 node("sub", AZ + "general/subscriptions.png", SL[1][1], A2, "Subscription", "view only")
@@ -318,7 +317,7 @@ node("dave", AZ + "identity/users.png", SL[2][1], B2, "rgcontributordave", "one 
 
 # ---------------- EDIT: connections ----------------
 link("attackvm", "r", "nsg", "l", "external")
-link("you", "r", "nsg", "b", "external", via=[(SL[1][0], B1)])
+link("you", "r", "nsg", "b", "external", via=[(SL[1][0], 455)])
 link("nsg", "r", "winvm", "l")
 link("winvm", "r", "seclog", "l")
 link("winvm", "b", "applog", "l", via=[(SL[1][2], B1)])
@@ -333,13 +332,12 @@ link("dave", "t", "rg", "b", "business")
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
-text(573, A1 - 8, "failed RDP, SQL logins", LBL, 400, TEXT2, "middle", halo=True)
-text(300, B1 - 8, "RDP, ping", LBL, 400, TEXT2, "middle", halo=True)
+text(530, A1 - 8, "failed RDP, SQL logins", LBL, 400, TEXT2, "middle", halo=True)
 text(870, A1 - 8, "allowed in", LBL, 400, TEXT2, "middle", halo=True)
-text(1101, A1 - 8, "RDP failures", LBL, 400, TEXT2, "middle", halo=True)
-text(1101, B1 - 8, "SQL failures", LBL, 400, TEXT2, "middle", halo=True)
-text(638, A2 - 8, "contains", LBL, 400, TEXT2, "middle", halo=True)
-text(1101, A2 - 8, "contains", LBL, 400, TEXT2, "middle", halo=True)
+text(1209, A1 - 8, "RDP failures", LBL, 400, TEXT2, "middle", halo=True)
+text(1209, B1 - 8, "SQL failures", LBL, 400, TEXT2, "middle", halo=True)
+text(530, A2 - 8, "contains", LBL, 400, TEXT2, "middle", halo=True)
+text(1209, A2 - 8, "contains", LBL, 400, TEXT2, "middle", halo=True)
 text(1397, A2 - 8, "creates", LBL, 400, TEXT2, "middle", halo=True)
 text(SL[0][1] + 8, B2 - 44, "Global Reader", LBL, 400, TEXT2, "start", halo=True)
 text(SL[1][1] + 8, B2 - 44, "Reader", LBL, 400, TEXT2, "start", halo=True)
@@ -349,7 +347,7 @@ draw_nodes()
 
 # ---------------- EDIT: step badges (x, y, number), in a gutter beside their line ----------------
 for cx, cy, n in [(870, A1 + 30, 1), (573, A1 + 30, 2), (1101, 288, 3), (638, A2 + 30, 4),
-                  (1101, B2, 5)]:
+                  (839, 630, 5)]:
     badge(cx, cy, n)
 
 # ---------------- EDIT: legend, one short sentence per badge ----------------
@@ -357,7 +355,7 @@ LY = AY1 + 55
 STEPS = [
     "Part 1: windows-vm-nsg allows any inbound and the guest firewall is off; you RDP in and ping it.",
     "Part 3: attack-vm, in a second region, fails RDP and SQL logins against the public IP.",
-    "Part 2: failed RDP logins land in the Security log and failed SQL logins in the Application log.",
+    "Parts 2 and 3: failed RDP logins land in the Security log and failed SQL logins in the Application log.",
     "Part 4: the Azure AD tenant contains the subscription, which contains the resource groups.",
     "Part 4: one role per scope: Global Reader reads, Reader views, Contributor builds in one group.",
 ]
@@ -381,14 +379,8 @@ for k, (color, width, dash, marker, label) in KINDS.items():
         f'{da} marker-end="url(#{marker})"/>')
     text(lx + 62, KEY_Y + 4.5, label, 12.5, 400, TEXT2, "start")
     lx += 62 + est_w(label, 12.5) + 48
-
-# footer: hairline, name left, month and year right
-RULE_Y = KEY_Y + 30
-add(f'<path d="M 40,{RULE_Y} L {W-40},{RULE_Y}" stroke="{RULE}" stroke-width="1"/>')
-text(40, RULE_Y + 24, FOOTER_LEFT, 13, 700, INK, "start")
-text(W - 40, RULE_Y + 24, FOOTER_RIGHT, 13, 400, TEXT2, "end")
 add("</svg>")
-assert RULE_Y + 40 <= H, "canvas too short for the legend and footer: raise H"
+assert KEY_Y + 30 <= H, "canvas too short for the legend: raise H"
 
 
 # ---------------- checks ----------------

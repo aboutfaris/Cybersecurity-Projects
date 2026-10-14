@@ -7,10 +7,10 @@ lines with no crossings, numbered steps with a plain-English legend). Every help
 layout check is the same; only the EDIT blocks (line kinds, canvas text, grid, groups,
 nodes, lines, badges, legend) are scoped to this section's README.
 
-Set up once:  python3 -m venv /tmp/c340_diag_venv
-              /tmp/c340_diag_venv/bin/pip install diagrams==0.25.1   (official Azure icons)
+Set up once:  python3 -m venv .venv
+              .venv/bin/pip install diagrams==0.25.1   (official Azure icons)
               brew install librsvg                                  (rsvg-convert)
-Run:          /tmp/c340_diag_venv/bin/python architecture_diagram.py assets/architecture
+Run:          .venv/bin/python architecture_diagram.py assets/architecture
 It writes <out>.svg and <out>.png and must print "layout problems: none".
 """
 import base64
@@ -38,13 +38,12 @@ KINDS = {  # stroke, width, dash, arrowhead marker, legend label
 }
 
 # ---------------- EDIT: canvas text ----------------
-W, H = 1600, 1040
+W, H = 1600, 1030
 TITLE = "05 Secure Cloud Configuration | Private Endpoints and a Subnet NSG"
 SUBTITLE = ("Key Vault and Storage move behind private endpoints with public access off, an NSG "
             "guards the subnet, and 24 hours of data show the attacks stop.")
 CLOUD, REGION = "Microsoft Azure", "lab subscription, East US 2, Lab-VNet"
 TILE = "azure"
-FOOTER_LEFT, FOOTER_RIGHT = "340 Collective", "October 2026"
 
 # ---------------- EDIT: grid ----------------
 AX0, AX1, AY0, AY1 = 165, 1575, 110, 785             # cloud boundary
@@ -326,7 +325,7 @@ link("winvm", "r", "dns", "l")
 link("linvm", "r", "law", "l")
 link("peakv", "r", "kv", "l")
 link("epsa", "r", "sa", "l")
-link("you", "b", "sa", "b", "external", via=[(XL, 740), (SL[1][1], 740)])
+link("you", "b", "sa", "b", "external", via=[(XL, 815), (SL[1][1], 815)])
 link("kv", "r", "defender", "l")
 link("sa", "r", "defender", "b", via=[(SL[2][0], B2)])
 link("law", "r", "workbooks", "l")
@@ -334,24 +333,24 @@ link("workbooks", "b", "metrics", "t")
 
 # ---------------- EDIT: line labels (white halo keeps them readable over lines) ----------------
 LBL = 11.5
-text(180, A1 - 8, "filtered", LBL, 400, TEXT2, "middle", halo=True)
+text(218, A1 - 8, "filtered", LBL, 400, TEXT2, "middle", halo=True)
 text(700, A1 - 8, "nslookup", LBL, 400, TEXT2, "middle", halo=True)
 text(870, B1 - 8, "VM logs", LBL, 400, TEXT2, "middle", halo=True)
 text(700, A2 - 8, "Private Link", LBL, 400, TEXT2, "middle", halo=True)
 text(700, B2 - 8, "Private Link", LBL, 400, TEXT2, "middle", halo=True)
-text(480, 732, "public name, no access", LBL, 400, TEXT2, "middle", halo=True)
+text(480, 807, "public name, no access", LBL, 400, TEXT2, "middle", halo=True)
 text(1036, A2 - 8, "SC-7 checks", LBL, 400, TEXT2, "middle", halo=True)
 text(1333, B1 - 8, "4 maps", LBL, 400, TEXT2, "middle", halo=True)
 
 draw_nodes()
 
 # ---------------- EDIT: step badges (x, y, number), in a gutter beside their line ----------------
-for cx, cy, n in [(205, 270, 1), (638, A2 + 30, 2), (700, A1 + 30, 3), (205, 600, 4),
+for cx, cy, n in [(205, 270, 1), (638, A2 + 30, 2), (700, A1 + 30, 3), (113, 700, 4),
                   (1101, A2 + 30, 5), (1530, 455, 6)]:
     badge(cx, cy, n)
 
 # ---------------- EDIT: legend, one short sentence per badge ----------------
-LY = AY1 + 55
+LY = AY1 + 85
 STEPS = [
     "Part 5: NSG-Subnet on the default subnet filters inbound traffic to both VMs.",
     "Part 3: PE-AKV and EP-SA give Key Vault and Storage private addresses in Lab-VNet.",
@@ -380,14 +379,8 @@ for k, (color, width, dash, marker, label) in KINDS.items():
         f'{da} marker-end="url(#{marker})"/>')
     text(lx + 62, KEY_Y + 4.5, label, 12.5, 400, TEXT2, "start")
     lx += 62 + est_w(label, 12.5) + 48
-
-# footer: hairline, name left, month and year right
-RULE_Y = KEY_Y + 30
-add(f'<path d="M 40,{RULE_Y} L {W-40},{RULE_Y}" stroke="{RULE}" stroke-width="1"/>')
-text(40, RULE_Y + 24, FOOTER_LEFT, 13, 700, INK, "start")
-text(W - 40, RULE_Y + 24, FOOTER_RIGHT, 13, 400, TEXT2, "end")
 add("</svg>")
-assert RULE_Y + 40 <= H, "canvas too short for the legend and footer: raise H"
+assert KEY_Y + 30 <= H, "canvas too short for the legend: raise H"
 
 
 # ---------------- checks ----------------
