@@ -2,6 +2,10 @@
 
 Build the logging layer of an Azure cloud SOC. You load GeoIP data into Microsoft Sentinel, then send logs from Azure AD (tenant), the Activity Log (subscription), and VMs, NSGs, Blob Storage, and Key Vault (resources) into one Log Analytics workspace, and query them with KQL.
 
+![Logging and Monitoring architecture](assets/architecture.png)
+
+The diagram shows every tenant, subscription, and resource log reaching the LAW-Cyber-Lab-05 workspace through diagnostic settings, data collection rules, NSG flow logs, and Defender export, with the GeoIP watchlists loaded into Sentinel.
+
 The finished design has Azure AD, a SQL database, two VMs behind NSGs, Blob Storage, Key Vault, and the Activity Log all feeding a single Log Analytics workspace that Sentinel reads from.
 
 ## What you'll use

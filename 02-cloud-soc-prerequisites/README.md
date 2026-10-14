@@ -2,6 +2,10 @@
 
 Set up the Azure lab that the rest of the Cloud SOC series builds on. You deploy a deliberately exposed Windows VM running SQL Server, generate failed RDP and SQL logins from a second "attacker" VM, read those events in Event Viewer, and then test Azure AD roles at the tenant, subscription, and resource group levels.
 
+![Cloud SOC Pre-requisites architecture](assets/architecture.png)
+
+The diagram shows the exposed windows-vm taking failed RDP and SQL logins from attack-vm, where those failures land in the Windows event logs, and the three Azure AD role scopes tested in Part 4.
+
 Azure organizes everything as a hierarchy: an Azure AD tenant contains management groups, which contain subscriptions, which contain resource groups, which hold the actual resources (VMs, firewalls, SQL databases). Part 4 assigns roles at three of those levels.
 
 ## What you'll use
