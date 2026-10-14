@@ -2,6 +2,10 @@
 
 This repository contains Incident Response playbook and workflow templates for an example company's SOC, adapted from a published IR playbook template structure.
 
+![IR-Playbooks architecture](assets/architecture.png)
+
+The diagram shows the four NIST SP 800-61 phases every playbook follows, and how the playbook folders, the template, and the supporting folders feed into them.
+
 Each playbook follows the incident response life cycle in [NIST SP 800-61 r2](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf), and each phase has a written workflow you can follow step by step.
 
 ## Contents

@@ -2,6 +2,10 @@
 
 Build a small cloud SOC and honeynet in Azure: deliberately exposed VMs, Azure AD, SQL, and Key Vault send their logs to a Log Analytics workspace, and Microsoft Sentinel turns those logs into attack maps, alerts, and incidents. You measure attacks for 24 hours, harden the environment, then measure the same 24-hour window again.
 
+![Cybersecurity architecture](../assets/architecture.png)
+
+The repo-level diagram shows how this summary ties the labs together: attackers hit the exposed Azure lab, logs flow into Log Analytics and Microsoft Sentinel, and hardening shuts the attacks out.
+
 This section is the series overview and the final results. It also holds the shared files the labs use (attack scripts, Sentinel workbook maps, analytics rules, and KQL queries).
 
 In the finished design, attackers on the internet reach Azure AD, a SQL database, and two VMs behind NSGs. Those resources, plus Blob Storage, Key Vault, and the Activity Log, all send logs to one Log Analytics workspace. Sentinel reads that workspace and turns it into maps, incidents, and alerts.

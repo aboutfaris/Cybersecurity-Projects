@@ -2,6 +2,10 @@
 
 Turn the lab's Log Analytics workspace into a working SOC: build attack maps, write and import detection rules, generate attack traffic, then work four real incidents end to end using the NIST 800-61 lifecycle.
 
+![Microsoft Sentinel SIEM architecture](assets/architecture.png)
+
+The diagram shows attack traffic landing in the workspace, Sentinel turning it into attack-map workbooks and rule-based incidents, and each incident worked through NIST 800-61 to an NSG lockdown.
+
 ## What you'll use
 
 - Microsoft Azure, Microsoft Sentinel, Microsoft Defender for Cloud
