@@ -2,6 +2,10 @@
 
 Lock down the Cloud SOC lab and measure the result. You work through Microsoft Defender for Cloud recommendations, put Azure Key Vault and the storage account behind Private Link with public access disabled, attach an NSG to the subnet to satisfy NIST 800-53 SC-7 (Boundary Protection), and then compare 24 hours of attack data before and after.
 
+![Secure Cloud Configuration architecture](assets/architecture.png)
+
+The diagram shows the hardened lab: NSG-Subnet on the default subnet, Key Vault and Storage reachable only through private endpoints and private DNS, and Defender for Cloud and the workbooks measuring the result.
+
 Private Link gives a PaaS service a private IP inside your own virtual network, so traffic to it never crosses the public internet.
 
 ## What you'll use
